@@ -40,7 +40,7 @@ const QuickReplyContainer = () => {
   const [createQuickReply, { isLoading: isCreating }] = useCreateQuickReplyMutation();
   const [updateQuickReply, { isLoading: isUpdating }] = useUpdateQuickReplyMutation();
   const [deleteQuickReply, { isLoading: isDeleting }] = useDeleteQuickReplyMutation();
-  const [toggleFavorite, { isLoading: isToggling }] = useToggleFavoriteQuickReplyMutation();
+  const [toggleFavorite] = useToggleFavoriteQuickReplyMutation();
 
   const handleSearch = (value: string) => {
     setInputValue(value);
@@ -143,6 +143,7 @@ const QuickReplyContainer = () => {
         selectedIds={selectedIds}
         onSelectionChange={setSelectedIds}
         onSortChange={handleSortChange}
+        searchTerm={searchTerm}
       />
 
       <QuickReplyModal

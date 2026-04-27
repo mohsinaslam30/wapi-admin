@@ -32,10 +32,26 @@ const TestimonialContainer = () => {
   const [sortBy, setSortBy] = useState("created_at");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
+  const [columns, setColumns] = useState([
+    { id: "user_name", label: t("testimonial_labels_name"), isVisible: true },
+    { id: "description", label: t("testimonial_labels_testimonial"), isVisible: true },
+    { id: "rating", label: t("testimonial_labels_rating"), isVisible: true },
+    { id: "status", label: t("common_status"), isVisible: true },
+    { id: "created_at", label: t("common_created_at"), isVisible: true },
+  ]);
+
   const handleSortChange = (key: string, order: "asc" | "desc") => {
     setSortBy(key);
     setSortOrder(order);
     setPage(1);
+  };
+
+  const handleColumnToggle = (columnId: string) => {
+    setColumns((prev) =>
+      prev.map((col) =>
+        col.id === columnId ? { ...col, isVisible: !col.isVisible } : col
+      )
+    );
   };
 
   const { data, isLoading, isFetching, refetch } = useGetAllTestimonialsQuery({
@@ -139,6 +155,7 @@ const TestimonialContainer = () => {
   };
 
   const testimonials = data?.data.testimonials || [];
+  const isFilterActive = Object.values(filters).some((v) => !!v);
 
   return (
     <div>
@@ -148,6 +165,8 @@ const TestimonialContainer = () => {
         onSearch={handleSearch}
         searchTerm={inputValue}
         isLoading={isFetching}
+        columns={columns}
+        onColumnToggle={handleColumnToggle}
         selectedCount={selectedIds.length}
         onBulkDelete={() => setIsBulkDeleteModalOpen(true)}
       />
@@ -174,6 +193,9 @@ const TestimonialContainer = () => {
         onSelectionChange={setSelectedIds}
         selectedIds={selectedIds}
         onSortChange={handleSortChange}
+        columns={columns}
+        searchTerm={searchTerm}
+        isFilterActive={isFilterActive}
       />
 
       <ConfirmModal

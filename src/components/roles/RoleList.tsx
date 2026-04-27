@@ -26,9 +26,10 @@ interface RoleListProps {
   selectedIds: string[];
   onSortChange: (sortBy: string, sortOrder: "asc" | "desc") => void;
   visibleColumns?: string[];
+  searchTerm?: string;
 }
 
-const RoleList = ({ roles, onDelete, onBulkDelete, onToggleStatus, isLoading, total, page, totalPages, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange, visibleColumns }: RoleListProps) => {
+const RoleList = ({ roles, onDelete, onBulkDelete, onToggleStatus, isLoading, total, page, totalPages, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange, visibleColumns, searchTerm }: RoleListProps) => {
   const router = useRouter();
   const { hasPermission } = usePermissions();
 
@@ -73,7 +74,7 @@ const RoleList = ({ roles, onDelete, onBulkDelete, onToggleStatus, isLoading, to
     </div>
   );
 
-  return <DataTable data={roles} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} onDelete={(item: Role) => onDelete(item._id)} deletePermission="delete.roles" actionPermissions={["update.roles"]} onBulkDelete={onBulkDelete} isLoading={isLoading} itemLabel="Roles" itemLabelSingular="Role" renderActions={renderActions} onSelectionChange={onSelectionChange} selectedIds={selectedIds} onSortChange={onSortChange} />;
+  return <DataTable data={roles} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} onDelete={(item: Role) => onDelete(item._id)} canDelete={(row: Role) => !row.system_reserved} deletePermission="delete.roles" actionPermissions={["update.roles"]} onBulkDelete={onBulkDelete} isLoading={isLoading} itemLabel="Roles" itemLabelSingular="Role" renderActions={renderActions} onSelectionChange={onSelectionChange} selectedIds={selectedIds} onSortChange={onSortChange} searchTerm={searchTerm} />;
 };
 
 export default RoleList;

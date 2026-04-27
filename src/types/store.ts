@@ -179,6 +179,10 @@ export interface PlanFeatures {
   teams?: number;
   forms?: number;
   whatsapp_calling?: number;
+  appointment_bookings?: number;
+  facebookAds_campaign?: number;
+  kanban_funnels?: number;
+  segments?: number;
 }
 
 export interface Plan {
@@ -413,6 +417,7 @@ export interface Subscription {
   updated_at: string;
   current_period_end: string;
   current_period_start: string;
+  duration?: number;
 }
 
 export interface GetSubscriptionsParams {
@@ -650,6 +655,9 @@ export interface UserSubscription {
   payment_method?: string;
   payment_status?: string;
   auto_renew?: boolean;
+  features?: Record<string, unknown>;
+  is_custom?: boolean;
+  duration?: number;
 }
 
 export interface UserPlan {

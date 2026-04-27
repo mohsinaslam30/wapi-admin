@@ -65,10 +65,10 @@ export const authApi = baseApi.enhanceEndpoints({ addTagTypes: ["User"] }).injec
     getPublicRoles: builder.query<{ success: boolean; data: PublicRole[] }, void>({
       query: () => "/auth/roles",
     }),
-    getMyPermissions: builder.query<{ success: boolean; data: PermissionGroup[] }, void>({
+    getMyPermissions: builder.query<{ success: boolean; data: PermissionGroup[] }, string | undefined>({
       query: () => "/auth/my-permissions",
     }),
-    getProfile: builder.query<ProfileResponse, void>({
+    getProfile: builder.query<ProfileResponse, string | undefined>({
       query: () => "/auth/profile",
       providesTags: ["User"],
     }),
@@ -100,6 +100,7 @@ export const {
   useGetPublicRolesQuery,
   useGetMyPermissionsQuery,
   useGetProfileQuery,
+  useLazyGetProfileQuery,
   useUpdateProfileMutation,
   useChangePasswordMutation
 } = authApi;

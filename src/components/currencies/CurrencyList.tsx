@@ -27,9 +27,10 @@ interface CurrencyListProps {
   selectedIds: string[];
   onSortChange: (sortBy: string, sortOrder: "asc" | "desc") => void;
   visibleColumns?: string[];
+  searchTerm?: string;
 }
 
-const CurrencyList = ({ currencies, onDelete, onBulkDelete, onToggleStatus, onToggleDefault, isLoading, total, page, totalPages, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange, visibleColumns }: CurrencyListProps) => {
+const CurrencyList = ({ currencies, onDelete, onBulkDelete, onToggleStatus, onToggleDefault, isLoading, total, page, totalPages, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange, visibleColumns, searchTerm }: CurrencyListProps) => {
   const router = useRouter();
   const { hasPermission } = usePermissions();
 
@@ -100,7 +101,7 @@ const CurrencyList = ({ currencies, onDelete, onBulkDelete, onToggleStatus, onTo
     </div>
   );
 
-  return <DataTable data={currencies} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} onDelete={(item: Currency) => onDelete(item._id)} deletePermission="delete.currencies" actionPermissions={["update.currencies"]} onBulkDelete={onBulkDelete} isLoading={isLoading} itemLabel="Currencies" itemLabelSingular="Currency" renderActions={renderActions} onSelectionChange={onSelectionChange} selectedIds={selectedIds} onSortChange={onSortChange} />;
+  return <DataTable data={currencies} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} onDelete={(item: Currency) => onDelete(item._id)} deletePermission="delete.currencies" actionPermissions={["update.currencies"]} onBulkDelete={onBulkDelete} isLoading={isLoading} itemLabel="Currencies" itemLabelSingular="Currency" renderActions={renderActions} onSelectionChange={onSelectionChange} selectedIds={selectedIds} onSortChange={onSortChange} searchTerm={searchTerm} />;
 };
 
 export default CurrencyList;

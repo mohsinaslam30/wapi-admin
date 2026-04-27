@@ -104,6 +104,7 @@ const AIModelsContainer = () => {
           onLimitChange={setLimit}
           onBulkDelete={handleBulkDelete}
           onSortChange={handleSortChange}
+          searchTerm={searchTerm}
         />
       </div>
     </div>

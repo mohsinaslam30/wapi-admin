@@ -27,9 +27,10 @@ interface AIModelsListProps {
   onPageChange?: (page: number) => void;
   onLimitChange?: (limit: number) => void;
   onSortChange?: (sortBy: string, sortOrder: "asc" | "desc") => void;
+  searchTerm?: string;
 }
 
-const AIModelsList = ({ models, isLoading, onDelete, onEdit, onToggleStatus, columns, selectedIds, onSelectionChange, onBulkDelete, page, limit, totalCount, totalPages, onPageChange, onLimitChange, onSortChange }: AIModelsListProps) => {
+const AIModelsList = ({ models, isLoading, onDelete, onEdit, onToggleStatus, columns, selectedIds, onSelectionChange, onBulkDelete, page, limit, totalCount, totalPages, onPageChange, onLimitChange, onSortChange, searchTerm }: AIModelsListProps) => {
   const { t } = useTranslation();
   const { hasPermission } = usePermissions();
 
@@ -141,6 +142,7 @@ const AIModelsList = ({ models, isLoading, onDelete, onEdit, onToggleStatus, col
         onPageChange={onPageChange}
         onLimitChange={onLimitChange}
         onSortChange={onSortChange}
+        searchTerm={searchTerm}
       />
     </div>
   );

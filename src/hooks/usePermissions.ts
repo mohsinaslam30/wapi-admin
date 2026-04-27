@@ -20,10 +20,10 @@ export const usePermissions = () => {
       if (!isAuthenticated) return false;
       if (!slug) return true;
 
-      if (user?.role === "super_admin") return true;
-
-      const perms = overridePermissions || flatPermissions;
-      return perms.includes(slug);
+      const perms = (overridePermissions || flatPermissions).map(p => p.replace(/\./g, "_"));
+      const normalizedSlug = slug.replace(/\./g, "_");
+      
+      return perms.includes(normalizedSlug);
     },
     [isAuthenticated, user?.role, flatPermissions]
   );

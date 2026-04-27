@@ -40,8 +40,8 @@ export const FormLivePreview = ({ templateType, headerText, messageBody, variabl
     <div className="w-full flex flex-col items-center max-w-sm mx-auto justify-center">
       <div className="w-full max-w-77.5 bg-neutral-900 rounded-[2.5rem] p-1 border border-neutral-800 shadow-2xl relative ring-1 ring-neutral-700/50">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-neutral-900 rounded-b-2xl z-20"></div>
-        <div className="w-full h-full bg-[#E5DDD5] rounded-[2.2rem] overflow-hidden flex flex-col min-h-150 max-h-150">
-          <div className="bg-[#075E54] p-4 pt-8 flex items-center gap-3 shrink-0">
+        <div className="w-full h-full bg-whatsapp-chat-bg rounded-[2.2rem] overflow-hidden flex flex-col min-h-150 max-h-150">
+          <div className="bg-whatsapp-header-bg p-4 pt-8 flex items-center gap-3 shrink-0">
             <ArrowLeft size={18} className="text-white" />
             <div className="w-8 h-8 rounded-full bg-emerald-800 flex items-center justify-center overflow-hidden">
               <ImageIcon size={16} className="text-emerald-200" />

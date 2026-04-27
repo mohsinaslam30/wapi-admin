@@ -11,7 +11,7 @@ import CommonHeader from "@/src/shared/CommonHeader";
 import ConfirmModal from "@/src/shared/ConfirmModal";
 import DataTable from "@/src/shared/DataTable";
 import { AdminTemplate } from "@/src/types/store";
-import { Edit, Edit2, LayoutTemplate } from "lucide-react";
+import { Edit, Edit2, LayoutTemplate, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,6 +21,7 @@ import Can from "../shared/Can";
 import { Button } from "@/src/elements/ui/button";
 import TemplateFilterModal from "./TemplateFilterModal";
 import { ROUTES } from "@/src/constants";
+import { format } from "date-fns";
 
 const CATEGORY_COLORS: Record<string, string> = {
   UTILITY: "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400",
@@ -48,6 +49,24 @@ const AdminTemplateContainer = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDeletingSingle, setIsDeletingSingle] = useState(false);
+
+  const [columnsVisibility, setColumnsVisibility] = useState([
+    { id: "template_name", label: t("templates_library_table_template_name"), isVisible: true },
+    { id: "message_body", label: t("templates_library_table_message_body"), isVisible: true },
+    { id: "sector", label: t("templates_library_table_sector"), isVisible: true },
+    { id: "template_category", label: t("templates_library_table_category"), isVisible: true },
+    { id: "category", label: t("templates_library_table_wa_category"), isVisible: true },
+    { id: "status", label: t("templates_library_table_status"), isVisible: true },
+    { id: "created_at", label: t("templates_library_table_created"), isVisible: true },
+  ]);
+
+  const handleColumnToggle = (columnId: string) => {
+    setColumnsVisibility((prev) =>
+      prev.map((col) =>
+        col.id === columnId ? { ...col, isVisible: !col.isVisible } : col
+      )
+    );
+  };
 
   const handleSortChange = (key: string, order: "asc" | "desc") => {
     setSortBy(key);
@@ -107,8 +126,9 @@ const AdminTemplateContainer = () => {
     setPage(1);
   };
 
-  const columns = [
+  const allColumns = [
     {
+      id: "template_name",
       header: t("templates_library_table_template_name"),
       className: "[@media(max-width:1920px)]:min-w-[390px]",
       sortable: true,
@@ -137,6 +157,7 @@ const AdminTemplateContainer = () => {
       ),
     },
     {
+      id: "message_body",
       header: t("templates_library_table_message_body"),
       className: "[@media(max-width:1920px)]:min-w-[389px]",
       sortable: true,
@@ -153,6 +174,7 @@ const AdminTemplateContainer = () => {
         ),
     },
     {
+      id: "sector",
       header: t("templates_library_table_sector"),
       className: "[@media(max-width:1920px)]:min-w-[170px]",
       sortable: true,
@@ -170,6 +192,7 @@ const AdminTemplateContainer = () => {
         ),
     },
     {
+      id: "template_category",
       header: t("templates_library_table_category"),
       className: "[@media(max-width:1920px)]:min-w-[205px]",
       sortable: true,
@@ -186,6 +209,7 @@ const AdminTemplateContainer = () => {
         ),
     },
     {
+      id: "category",
       header: t("templates_library_table_wa_category"),
       className: "[@media(max-width:1920px)]:min-w-[170px]",
       sortable: true,
@@ -199,6 +223,7 @@ const AdminTemplateContainer = () => {
       ),
     },
     {
+      id: "status",
       header: t("templates_library_table_status"),
       className: "[@media(max-width:1920px)]:min-w-[120px]",
       sortable: true,
@@ -213,23 +238,25 @@ const AdminTemplateContainer = () => {
       ),
     },
     {
+      id: "created_at",
       header: t("templates_library_table_created"),
-      className: "[@media(max-width:1920px)]:min-w-[130px]",
+      className: "[@media(max-width:1920px)]:min-w-[150px]",
       sortable: true,
       sortKey: "created_at",
       accessor: (template: AdminTemplate) => (
         <span className="text-xs text-slate-500 dark:text-gray-400">
           {template.created_at
-            ? new Date(template.created_at).toLocaleDateString("en-GB", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              })
+            ? format(new Date(template.created_at), "MMMM dd, yyyy")
             : "—"}
         </span>
       ),
     },
   ];
+
+  const columns = allColumns.filter((col) => {
+    const visibility = columnsVisibility.find((v) => v.id === col.id);
+    return visibility ? visibility.isVisible : true;
+  });
 
   return (
     <div>
@@ -244,7 +271,7 @@ const AdminTemplateContainer = () => {
         searchPlaceholder={t("templates_library_search_placeholder")}
         onAddClick={() => router.push(`${ROUTES.TemplatesLibrary}/create`)}
         addLabel={t("templates_library_create_label")}
-        addPermission="create.admin_templates"
+        addPermission="create.admin-template"
         isLoading={isLoading}
         selectedCount={selectedIds.length}
         onBulkDelete={
@@ -252,9 +279,11 @@ const AdminTemplateContainer = () => {
             ? () => setShowBulkDeleteModal(true)
             : undefined
         }
-        bulkDeletePermission="delete.admin_templates"
+        bulkDeletePermission="delete.admin-template"
         bulkActionLoading={isBulkDeleting}
         onFilter={() => setIsFilterModalOpen(true)}
+        columns={columnsVisibility}
+        onColumnToggle={handleColumnToggle}
       />
 
       <DataTable<AdminTemplate>
@@ -274,9 +303,11 @@ const AdminTemplateContainer = () => {
         onSelectionChange={setSelectedIds}
         emptyMessage={t("templates_library_no_templates")}
         onSortChange={handleSortChange}
+        searchTerm={search}
+        isFilterActive={Object.values(filters).some((v) => !!v)}
         renderActions={(template) => (
           <div className="flex items-center gap-2">
-            <Can permission="update.admin_templates">
+            <Can permission="update.admin-template">
               <Button
                 onClick={() =>
                   router.push(`${ROUTES.TemplatesLibrary}/${template._id}/edit`)
@@ -287,11 +318,19 @@ const AdminTemplateContainer = () => {
                 <Edit2 size={16} />
               </Button>
             </Can>
+            <Can permission="delete.admin-template">
+              <Button
+                onClick={() => setDeleteId(template._id)}
+                className="w-10 h-10 border-none text-red-600 hover:text-red-600 bg-white hover:bg-red-50 rounded-lg transition-all shadow-xs dark:bg-(--page-body-bg) dark:hover:bg-red-900/20"
+                title={t("templates_library_delete_tooltip")}
+              >
+                <Trash2 size={16} />
+              </Button>
+            </Can>
           </div>
         )}
-        onDelete={(item: AdminTemplate) => setDeleteId(item._id)}
-        deletePermission="delete.admin_templates"
-        actionPermissions={["update.admin_templates"]}
+        deletePermission="delete.admin-template"
+        actionPermissions={["update.admin-template", "delete.admin-template"]}
       />
 
       <ConfirmModal

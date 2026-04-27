@@ -7,7 +7,7 @@ const Loading = () => {
   const { data } = useAppSelector((state) => state.settings);
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-[#fafafa] dark:bg-[#011314] flex items-center justify-center font-sans overflow-hidden">
+    <div className="fixed inset-0 z-[9999] bg-light-loader-bg dark:bg-dark-body flex items-center justify-center font-sans overflow-hidden">
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}

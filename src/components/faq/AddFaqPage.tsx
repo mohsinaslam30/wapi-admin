@@ -117,29 +117,29 @@ const AddFaqPage = ({ id }: AddFaqPageProps) => {
   };
 
   return (
-    <div className="min-h-screen ">
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => router.back()}
-            className="rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar) transition-all"
-          >
-            <ArrowLeft size={20} />
-          </Button>
-          <div className="">
-            <h1 className="text-2xl font-bold text-(--text-green-primary) mb-2">
-              {isEditMode ? t("faq_edit_title") : t("faq_add_title")}
-            </h1>
-            <p className="text-gray-400 text-sm">
-              {isEditMode ? t("faq_edit_subtitle") : t("faq_add_subtitle")}
-            </p>
-          </div>
+    <div className="w-full pb-8">
+      {/* Header */}
+      <div className="sticky top-[100px] z-[50] -mx-4 pt-0! sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-light-body-bg dark:bg-(--dark-body) shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] py-4 mb-5 sm:mb-2 flex flex-col sm:flex-row sm:items-center gap-4 transition-all">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => router.back()}
+          className="w-10 h-10 rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar) transition-all"
+        >
+          <ArrowLeft size={20} />
+        </Button>
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold text-(--text-green-primary) mb-1">
+            {isEditMode ? t("faq_edit_title") : t("faq_add_title")}
+          </h1>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            {isEditMode ? t("faq_edit_subtitle") : t("faq_add_subtitle")}
+          </p>
         </div>
-        {/* Form Content */}
-        <div className="space-y-6">
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+        <div className="xl:col-span-8 space-y-6">
           {/* Question Card */}
           <div className="dark:bg-(--card-color) dark:border-(--card-border-color) dark:text-gray-100 bg-white rounded-lg shadow-sm border border-(--input-border-color) sm:p-6 p-4">
             <div className="flex items-center gap-2 mb-6">
@@ -201,60 +201,73 @@ const AddFaqPage = ({ id }: AddFaqPageProps) => {
               </div>
             </div>
           </div>
+        </div>
 
+        <div className="xl:col-span-4 space-y-6">
           {/* Status Card */}
-          <div className="dark:bg-(--card-color) dark:border-(--card-border-color) bg-white rounded-lg shadow-sm border border-gray-200 sm:p-6 p-4">
-            <div className="flex items-center justify-between py-2">
-              <div>
-                <Label
-                  htmlFor="status"
-                  className="dark:text-gray-200 text-sm font-semibold text-gray-900"
-                >
-                  {t("faq_publish_label")}
-                </Label>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {t("faq_publish_description")}
-                </p>
+          <div className="dark:bg-(--card-color) dark:border-(--card-border-color) bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="sm:px-6 px-4 py-4 border-b border-gray-100 dark:border-(--card-border-color)">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {t("common_settings")}
+              </h2>
+            </div>
+            <div className="sm:p-6 p-4 space-y-4">
+              <div className="flex items-center justify-between py-2">
+                <div>
+                  <Label
+                    htmlFor="status"
+                    className="dark:text-gray-200 text-sm font-semibold text-gray-900"
+                  >
+                    {t("faq_publish_label")}
+                  </Label>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                    {t("faq_publish_description")}
+                  </p>
+                </div>
+                <Switch
+                  id="status"
+                  checked={form.status}
+                  onCheckedChange={(value) =>
+                    setForm((prev) => ({ ...prev, status: value }))
+                  }
+                  className="data-[state=checked]:bg-(--text-green-primary)"
+                />
               </div>
-              <Switch
-                id="status"
-                checked={form.status}
-                onCheckedChange={(value) =>
-                  setForm((prev) => ({ ...prev, status: value }))
-                }
-                className="data-[state=checked]:bg-blue-500"
-              />
             </div>
           </div>
-
-          {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-4">
-            <Button
-              variant="outline"
-              onClick={handleCancel}
-              className="px-4.5 py-5 border-gray-300 dark:bg-(--card-color) dark:border-(--card-border-color) dark:text-amber-50 shadow-sm dark:hover:bg-(--dark-sidebar) text-gray-700 hover:bg-gray-50 font-medium"
-              disabled={isLoading}
-            >
-              {t("common_cancel")}
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              className="px-4.5 py-5 bg-(--text-green-primary) hover:bg-(--text-green-primary) text-white font-medium shadow-sm transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={
-                isLoading || !form.title || !form.description || isLoadingFaq
-              }
-            >
-              <Check className="w-4 h-4 mr-2" />
-              {isLoading
-                ? isEditMode
-                  ? t("common_updating")
-                  : t("common_creating")
-                : isEditMode
-                  ? t("faq_update_button")
-                  : t("faq_save_button")}
-            </Button>
-          </div>
         </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex items-center justify-end gap-3 mt-8 flex-wrap">
+        <Button
+          variant="outline"
+          onClick={handleCancel}
+          className="px-6 py-5 h-11 border-gray-300 dark:bg-(--card-color) dark:border-(--card-border-color) dark:text-gray-200 shadow-sm dark:hover:bg-(--dark-sidebar) text-gray-700 hover:bg-gray-50 font-medium"
+          disabled={isLoading}
+        >
+          {t("common_cancel")}
+        </Button>
+        <Button
+          onClick={handleSubmit}
+          className="px-6 py-5 h-11 bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white font-medium shadow-sm transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed gap-2"
+          disabled={
+            isLoading || !form.title || !form.description || isLoadingFaq
+          }
+        >
+          {isLoading ? (
+            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : (
+            <Check className="w-4 h-4" />
+          )}
+          {isLoading
+            ? isEditMode
+              ? t("common_updating")
+              : t("common_creating")
+            : isEditMode
+              ? t("faq_update_button")
+              : t("faq_save_button")}
+        </Button>
       </div>
     </div>
   );

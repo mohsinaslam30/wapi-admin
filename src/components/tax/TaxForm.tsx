@@ -132,87 +132,168 @@ const TaxForm = ({ id }: TaxFormProps) => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="w-full pb-8">
       {/* Header */}
-      <div className="mb-8 flex  items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar) transition-all">
+      <div className="sticky top-[100px] z-[50] -mx-4 pt-0! sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-light-body-bg dark:bg-(--dark-body) shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] py-4 mb-5 sm:mb-2 flex flex-col sm:flex-row sm:items-center gap-4 transition-all">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => router.back()}
+          className="w-10 h-10 rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar) transition-all"
+        >
           <ArrowLeft size={20} />
         </Button>
-        <div>
-          <h1 className="text-2xl font-bold text-(--text-green-primary) tracking-tight">{isEdit ? t("tax_edit_title") || "Edit Tax" : t("tax_add_new") || "Create New Tax"}</h1>
-          <p className="text-sm text-gray-400 mt-0.5">{isEdit ? t("tax_edit_subtitle") || "Update tax details and configuration." : t("tax_create_subtitle") || "Define a new tax rate and type."}</p>
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold text-(--text-green-primary) tracking-tight">
+            {isEdit ? t("tax_edit_title") || "Edit Tax" : t("tax_add_new") || "Create New Tax"}
+          </h1>
+          <p className="text-sm text-gray-400 mt-0.5 leading-relaxed">
+            {isEdit
+              ? t("tax_edit_subtitle") || "Update tax details and configuration."
+              : t("tax_create_subtitle") || "Define a new tax rate and type."}
+          </p>
         </div>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-6">
-        <div className="bg-white dark:bg-(--card-color) rounded-lg border border-[#f1f5f9] dark:border-(--card-border-color) shadow-sm p-4 sm:p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-            {/* Name */}
-            <div className="space-y-2 md:col-span-2 flex flex-col">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {t("tax_name_label") || "Tax Name"} <span className="text-red-500">*</span>
-              </label>
-              <input name="name" value={formData.name || ""} onChange={handleInputChange} placeholder="e.g. VAT, GST" className={`w-full px-4 h-12 bg-(--input-color) dark:bg-page-body border rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-(--text-green-primary)/20 transition-all outline-none ${errors.name ? "border-red-500" : "border-(--input-border-color) dark:border-(--card-border-color) focus:border-(--text-green-primary)"}`} />
-              {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
-            </div>
+      <form onSubmit={onSubmit}>
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+          {/* Main Content — 8 columns: Tax Details */}
+          <div className="xl:col-span-8">
+            <div className="bg-white dark:bg-(--card-color) rounded-lg border border-card-border-light dark:border-(--card-border-color) shadow-sm sm:p-6 p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                {/* Name */}
+                <div className="space-y-2 md:col-span-2 flex flex-col">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {t("tax_name_label") || "Tax Name"} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    name="name"
+                    value={formData.name || ""}
+                    onChange={handleInputChange}
+                    placeholder="e.g. VAT, GST"
+                    className={`w-full px-4 h-12 bg-(--input-color) dark:bg-page-body border rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-(--text-green-primary)/20 transition-all outline-none ${errors.name ? "border-red-500" : "border-(--input-border-color) dark:border-(--card-border-color) focus:border-(--text-green-primary)"}`}
+                  />
+                  {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
+                </div>
 
-            {/* Type */}
-            <div className="space-y-2 flex flex-col">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {t("tax_type_label") || "Tax Type"} <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <select name="type" value={formData.type || "percentage"} onChange={handleInputChange} className="w-full px-4 h-12 bg-(--input-color) dark:bg-page-body border border-(--input-border-color) dark:border-(--card-border-color) rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-(--text-green-primary)/20 transition-all outline-none appearance-none">
-                  <option value="percentage">Percentage (%)</option>
-                  <option value="fixed">Fixed Amount</option>
-                </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                {/* Type */}
+                <div className="space-y-2 flex flex-col">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {t("tax_type_label") || "Tax Type"} <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      name="type"
+                      value={formData.type || "percentage"}
+                      onChange={handleInputChange}
+                      className="w-full px-4 h-12 bg-(--input-color) dark:bg-page-body border border-(--input-border-color) dark:border-(--card-border-color) rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-(--text-green-primary)/20 transition-all outline-none appearance-none"
+                    >
+                      <option value="percentage">Percentage (%)</option>
+                      <option value="fixed">Fixed Amount</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Rate */}
+                <div className="space-y-2 flex flex-col">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {formData.type === "percentage"
+                      ? t("tax_rate_percentage_label") || "Tax Percentage"
+                      : t("tax_rate_fixed_label") || "Tax Amount"}{" "}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      name="rate"
+                      type="text"
+                      value={formData.rate ?? ""}
+                      onChange={handleInputChange}
+                      placeholder="0"
+                      className={`w-full px-4 h-12 bg-(--input-color) dark:bg-page-body border rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-(--text-green-primary)/20 transition-all outline-none ${errors.rate ? "border-red-500" : "border-(--input-border-color) dark:border-(--card-border-color) focus:border-(--text-green-primary)"}`}
+                    />
+                    {formData.type === "percentage" && (
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">%</span>
+                    )}
+                  </div>
+                  {errors.rate && <p className="text-xs text-red-500">{errors.rate}</p>}
+                </div>
+
+                {/* Description */}
+                <div className="space-y-2 md:col-span-2 flex flex-col">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {t("tax_description_label") || "Description"}
+                  </label>
+                  <textarea
+                    name="description"
+                    value={formData.description || ""}
+                    onChange={handleInputChange}
+                    rows={4}
+                    className="w-full px-4 py-3 bg-(--input-color) dark:bg-page-body border border-(--input-border-color) dark:border-(--card-border-color) rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-(--text-green-primary)/20 transition-all outline-none resize-none"
+                    placeholder={t("tax_description_placeholder") || "A brief description of this tax..."}
+                  />
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Rate */}
-            <div className="space-y-2 flex flex-col">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {formData.type === "percentage" ? t("tax_rate_percentage_label") || "Tax Percentage" : t("tax_rate_fixed_label") || "Tax Amount"} <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <input name="rate" type="text" value={formData.rate ?? ""} onChange={handleInputChange} placeholder="0" className={`w-full px-4 h-12 bg-(--input-color) dark:bg-page-body border rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-(--text-green-primary)/20 transition-all outline-none ${errors.rate ? "border-red-500" : "border-(--input-border-color) dark:border-(--card-border-color) focus:border-(--text-green-primary)"}`} />
-                {formData.type === "percentage" && <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">%</span>}
+          {/* Sidebar — 4 columns: Settings */}
+          <div className="xl:col-span-4 space-y-6">
+            <div className="dark:bg-(--card-color) dark:border-(--card-border-color) bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <div className="sm:px-6 px-4 py-4 border-b border-gray-100 dark:border-(--card-border-color)">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  {t("common_settings")}
+                </h2>
               </div>
-              {errors.rate && <p className="text-xs text-red-500">{errors.rate}</p>}
-            </div>
-
-            {/* Description */}
-            <div className="space-y-2 md:col-span-2 flex flex-col">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{t("tax_description_label") || "Description"}</label>
-              <textarea name="description" value={formData.description || ""} onChange={handleInputChange} rows={4} className="w-full px-4 py-3 bg-(--input-color) dark:bg-page-body border border-(--input-border-color) dark:border-(--card-border-color) rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-(--text-green-primary)/20 transition-all outline-none resize-none" placeholder={t("tax_description_placeholder") || "A brief description of this tax..."} />
-            </div>
-
-            {/* Status Switch */}
-            <div className="md:col-span-2 flex items-center justify-between p-4 bg-gray-50/30 dark:bg-page-body dark:border-none rounded-lg border border-dashed border-gray-200 dark:border-(--card-border-color)">
-              <div className="space-y-0.5">
-                <p className="text-sm font-bold text-gray-900 dark:text-gray-100">{t("tax_status_label") || "Active Status"}</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500">{t("tax_status_description") || "Enable or disable this tax across the platform."}</p>
+              <div className="sm:p-6 p-4 space-y-4">
+                <div className="flex items-center justify-between py-2">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-200">
+                      {t("tax_status_label") || "Active Status"}
+                    </p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                      {t("tax_status_description") || "Enable or disable this tax across the platform."}
+                    </p>
+                  </div>
+                  <Switch
+                    checked={!!formData.is_active}
+                    onCheckedChange={handleStatusChange}
+                    className="data-[state=checked]:bg-(--text-green-primary)"
+                  />
+                </div>
               </div>
-              <Switch checked={!!formData.is_active} onCheckedChange={handleStatusChange} className="data-[state=checked]:bg-(--text-green-primary)" />
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-6 border-t border-gray-100 dark:border-(--card-border-color) mt-4">
-          <Link href="/taxes" className="w-full sm:w-auto">
-            <Button variant="outline" type="button" className="w-full h-11 px-4.5 py-5 rounded-lg border-gray-300 dark:border-none text-gray-700 dark:text-gray-300 dark:bg-page-body dark:hover:bg-(--dark-sidebar) font-medium">
+        <div className="flex items-center justify-end flex-wrap gap-3 mt-8">
+          <Link href={ROUTES.Taxes}>
+            <Button
+              variant="outline"
+              type="button"
+              className="px-6 py-5 h-11 border-gray-300 dark:bg-(--card-color) dark:border-(--card-border-color) dark:text-gray-200 shadow-sm dark:hover:bg-(--dark-sidebar) text-gray-700 hover:bg-gray-50 font-medium rounded-lg"
+            >
               {t("common_cancel")}
             </Button>
           </Link>
-          <Button disabled={isCreating || isUpdating} className="w-full sm:w-auto h-11 px-4.5 py-5 rounded-lg bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white font-semibold shadow-md transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2">
-            {isCreating || isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            {isEdit ? (isUpdating ? t("common_updating") : t("tax_update_button") || "Update Tax") : isCreating ? t("common_creating") : t("tax_save_button") || "Create Tax"}
+          <Button
+            disabled={isCreating || isUpdating}
+            className="px-6 py-5 h-11 bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white font-semibold shadow-md transition-all active:scale-95 disabled:opacity-50 gap-2 rounded-lg"
+          >
+            {isCreating || isUpdating ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Save className="w-4 h-4" />
+            )}
+            {isEdit
+              ? isUpdating ? t("common_updating") : t("tax_update_button") || "Update Tax"
+              : isCreating ? t("common_creating") : t("tax_save_button") || "Create Tax"}
           </Button>
         </div>
       </form>

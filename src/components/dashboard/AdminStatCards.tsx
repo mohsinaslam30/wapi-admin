@@ -18,9 +18,12 @@ interface AdminStatCardsProps {
     activeAIModels: number;
     totalContactInquiries: number;
   };
+  showPlans?: boolean;
+  showSubscriptions?: boolean;
 }
 
-const AdminStatCards = ({ counts }: AdminStatCardsProps) => {
+const AdminStatCards = ({ counts, showPlans = true, showSubscriptions = true }: AdminStatCardsProps) => {
+  console.log("🚀 ~ AdminStatCards ~ counts:", counts)
   const settings = useAppSelector((state) => state.settings.data);
   const defaultSymbol = settings?.default_currency?.symbol || "$";
 
@@ -62,7 +65,7 @@ const AdminStatCards = ({ counts }: AdminStatCardsProps) => {
       icon: DollarSign,
       color: "emerald",
       description: "This month’s revenue",
-      trend: defaultSymbol + counts.revenue.today + " today",
+      trend: defaultSymbol + counts.revenue.today.toFixed(2) + " today",
       trendIcon: TrendingUp,
       trendColor: "text-emerald-500 bg-emerald-500/10",
     },
@@ -86,7 +89,11 @@ const AdminStatCards = ({ counts }: AdminStatCardsProps) => {
       trendIcon: TrendingDown,
       trendColor: "text-amber-500 bg-amber-500/10",
     },
-  ];
+  ].filter((stat) => {
+    if (stat.label === "Available Plans" && !showPlans) return false;
+    if ((stat.label === "Active Subscriptions" || stat.label === "Revenue This Month") && !showSubscriptions) return false;
+    return true;
+  });
 
   const getColorClasses = (color: string) => {
     switch (color) {

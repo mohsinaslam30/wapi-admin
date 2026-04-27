@@ -86,6 +86,7 @@ export interface CKEditorComponentProps {
 }
 
 export interface ColumnDef<T> {
+  id?: string;
   header: string;
   accessorKey?: keyof T;
   cell?: (item: T) => ReactNode;
@@ -120,6 +121,8 @@ export interface DataTableProps<T> {
   // State
   isLoading?: boolean;
   emptyMessage?: string;
+  searchTerm?: string;
+  isFilterActive?: boolean;
 
   // ID accessor
   getRowId?: (item: T) => string;

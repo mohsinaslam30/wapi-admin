@@ -1,7 +1,7 @@
 export const numericFeatures = [
   { id: "contacts", label: "Contacts (0 = unlimited)", placeholder: "0 for unlimited" },
   { id: "template_bots", label: "Template Bots", placeholder: "0" },
-  // { id: "message_bots", label: "Message Bots", placeholder: "0" },
+  { id: "message_bots", label: "Message Bots (Keyword Trigger)", placeholder: "0" },
   { id: "campaigns", label: "Campaigns", placeholder: "0" },
   { id: "ai_prompts", label: "AI Prompts", placeholder: "0" },
   { id: "staff", label: "Agent (default: 1)", placeholder: "1" },
@@ -12,6 +12,10 @@ export const numericFeatures = [
   { id: "tags", label: "Tags", placeholder: "0" },
   { id: "forms", label: "Whatsapp Form", placeholder: "0" },
   { id: "whatsapp_calling", label: "AI calling agent", placeholder: "0" },
+  { id: "appointment_bookings", label: "Appointment Bookings", placeholder: "0" },
+  { id: "facebookAds_campaign", label: "Facebook Ads Campaign", placeholder: "0" },
+  { id: "kanban_funnels", label: "Kanban Funnels", placeholder: "0" },
+  { id: "segments", label: "Segments", placeholder: "0" },
 ];
 
 export const booleanFeatures = [

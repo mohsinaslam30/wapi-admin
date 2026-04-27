@@ -22,6 +22,7 @@ import {
 import { ChevronDown, LogOut, User as UserIcon, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/elements/ui/tooltip";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
@@ -40,11 +41,11 @@ const NavItem: React.FC<NavItemProps> = ({
   const isLeafNode = !hasSubmenu;
 
   const activeClasses = isLeafNode
-    ? "bg-gradient-to-r from-(--text-green-primary) to-[#61896f] text-white shadow-lg shadow-(--text-green-primary)/25"
-    : "bg-green-50 dark:bg-[#455645]/50 text-(--text-green-primary)";
+    ? "bg-gradient-to-r from-(--text-green-primary) to-sidebar-hover-green text-white shadow-lg shadow-(--text-green-primary)/25"
+    : "bg-green-50 dark:bg-sidebar-hover-green/50 text-(--text-green-primary)";
 
   const inactiveClasses =
-    "hover:bg-slate-100 dark:hover:bg-[#455645]/30 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
+    "hover:bg-slate-100 dark:hover:bg-sidebar-hover-green/30 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
 
   return (
     <div className="group/navitem">
@@ -89,7 +90,7 @@ const SubNavItem: React.FC<SubNavItemProps> = ({ label, active, onClick }) => {
       onClick={onClick}
       className={`
         w-full flex items-center gap-3 p-2.5 rounded-lg text-sm transition-all mb-1
-        ${active ? "bg-linear-to-r from-(--text-green-primary) to-[#61896f] text-white shadow-md shadow-(--text-green-primary)/20 font-medium" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#455645]/30"}
+        ${active ? "bg-linear-to-r from-(--text-green-primary) to-sidebar-hover-green text-white shadow-md shadow-(--text-green-primary)/20 font-medium" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-sidebar-hover-green/30"}
       `}
     >
       <div
@@ -124,7 +125,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
           </div>
         </>
       ) : (
-        <div className="h-0.5 w-6 bg-slate-200 dark:bg-[#455645]/50 rounded-full" />
+        <div className="h-0.5 w-6 bg-slate-200 dark:bg-sidebar-hover-green/50 rounded-full" />
       )}
     </div>
   );
@@ -144,6 +145,7 @@ export default function Sidebar() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [logoutApi] = useLogoutMutation();
   const [isMobile, setIsMobile] = useState(false);
+  const [clickedItemId, setClickedItemId] = useState<string | null>(null);
 
   const isVisible = isMobile ? isMobileSidebarOpen : true;
   const isVisuallyCollapsed = sidebarToggle && !isMobile && !sidebarHover;
@@ -235,6 +237,23 @@ export default function Sidebar() {
     }));
   };
 
+  // Sync openSections when menu data becomes available
+  useEffect(() => {
+    if (filteredMenuData.length > 0) {
+      setOpenSections((prev) => {
+        const updates: Record<string, boolean> = {};
+        let changed = false;
+        filteredMenuData.forEach((section) => {
+          if (prev[section.title] === undefined) {
+            updates[section.title] = true;
+            changed = true;
+          }
+        });
+        return changed ? { ...prev, ...updates } : prev;
+      });
+    }
+  }, [filteredMenuData]);
+
   // Auto-open submenus based on current pathname
   useEffect(() => {
     let changed = false;
@@ -291,6 +310,10 @@ export default function Sidebar() {
   };
 
   const handleMenuItemClick = (item: MenuItem) => {
+    if (isVisuallyCollapsed) {
+      setClickedItemId(item.label);
+      setTimeout(() => setClickedItemId(null), 1500);
+    }
     if (item.hasSubmenu) {
       toggleSubmenu(item.label);
     } else if (item.path) {
@@ -317,19 +340,13 @@ export default function Sidebar() {
     <>
       {isMobile && isMobileSidebarOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/40 z-[160] transition-opacity animate-in fade-in"
+          className="fixed inset-0 bg-slate-900/40 dark:bg-(--dark-body) z-[160] transition-opacity animate-in fade-in"
           onClick={() => dispatch(closeMobileSidebar())}
         />
       )}
 
       <div
-        onMouseEnter={() =>
-          !isMobile && sidebarToggle && dispatch(setSidebarHover(true))
-        }
-        onMouseLeave={() =>
-          !isMobile && sidebarToggle && dispatch(setSidebarHover(false))
-        }
-        className={`fixed inset-s-0 top-0 h-screen bg-[#eeeff3] dark:bg-(--dark-body) transition-all duration-300 ease-in-out z-[161]
+        className={`fixed inset-s-0 top-0 h-screen bg-light-body-bg dark:bg-(--dark-body) transition-all duration-300 ease-in-out z-[161]
           ${isVisuallyCollapsed ? "w-27.5" : "w-76"}
           ${isVisible ? "translate-x-0" : isRTL ? "translate-x-full" : "-translate-x-full"}`}
         dir={isRTL ? "rtl" : "ltr"}
@@ -352,7 +369,7 @@ export default function Sidebar() {
                 >
                   {sidebarLogo === null ? (
                     <div className="h-7.5 w-28 flex items-center justify-center text-sm font-semibold">
-                      <div className="h-7.5 w-28 bg-gray-200 dark:bg-[#455645]/40 animate-pulse rounded-md" />
+                      <div className="h-7.5 w-28 bg-gray-200 dark:bg-sidebar-hover-green/40 animate-pulse rounded-md" />
                     </div>
                   ) : (
                     <CustomImage
@@ -378,7 +395,7 @@ export default function Sidebar() {
 
             {/* Navigation */}
             <div
-              className={`flex-1 overflow-y-auto ${isVisuallyCollapsed ? "px-2" : "px-4"} py-2 custom-scrollbar space-y-1`}
+              className={`flex-1 overflow-y-auto ${isVisuallyCollapsed ? "px-2" : "px-4"} py-2 custom-scrollbar scrollbar-hide space-y-1`}
             >
               {filteredMenuData.map((section) => (
                 <div
@@ -395,20 +412,74 @@ export default function Sidebar() {
                     <div className="space-y-1">
                       {section.items.map((item, index) => (
                         <div key={`${item.label}-${index}`}>
-                          <NavItem
-                            icon={getIcon(item.icon)}
-                            label={item.label}
-                            hasSubmenu={item.hasSubmenu}
-                            active={
-                              (!item.hasSubmenu &&
-                                item.path &&
-                                isPathActive(item.path)) ||
-                              isSubmenuActive(item)
-                            }
-                            isSubmenuOpen={openSubmenus[item.label]}
-                            onClick={() => handleMenuItemClick(item)}
-                            collapsed={isVisuallyCollapsed}
-                          />
+                          {isVisuallyCollapsed ? (
+                            <Tooltip open={clickedItemId === item.label ? true : undefined}>
+                              <TooltipTrigger asChild>
+                                <div>
+                                  <NavItem
+                                    icon={getIcon(item.icon)}
+                                    label={item.label}
+                                    hasSubmenu={item.hasSubmenu}
+                                    active={
+                                      (!item.hasSubmenu &&
+                                        item.path &&
+                                        isPathActive(item.path)) ||
+                                      isSubmenuActive(item)
+                                    }
+                                    isSubmenuOpen={openSubmenus[item.label]}
+                                    onClick={() => handleMenuItemClick(item)}
+                                    collapsed={isVisuallyCollapsed}
+                                  />
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent
+                                side="right"
+                                className={`ml-2 z-[200] p-0 overflow-hidden border shadow-xl bg-white dark:bg-(--card-color) dark:border-(--card-border-color) ${item.hasSubmenu ? "min-w-48" : ""}`}
+                              >
+                                {item.hasSubmenu ? (
+                                  <div className="flex flex-col">
+                                    <div className="px-4 py-3 border-b border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-white/2">
+                                      <p className="text-[14px] font-medium text-(--text-green-primary)">
+                                        {t(item.label)}
+                                      </p>
+                                    </div>
+                                    <div className="p-1.5 flex flex-col gap-0.5">
+                                      {item.submenu?.map((sub, idx) => (
+                                        <div
+                                          key={idx}
+                                          onClick={() => handleNavigation(sub.path)}
+                                          className="flex items-center gap-2.5 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-white/5 transition-all group cursor-pointer"
+                                        >
+                                          <span className="text-[13px] font-medium text-slate-600 dark:text-slate-300 group-hover:text-(--text-green-primary) dark:group-hover:text-white">
+                                            {t(sub.label)}
+                                          </span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="px-3 py-1.5 text-[13px] font-semibold text-white bg-(--text-green-primary)">
+                                    {t(item.label)}
+                                  </div>
+                                )}
+                              </TooltipContent>
+                            </Tooltip>
+                          ) : (
+                            <NavItem
+                              icon={getIcon(item.icon)}
+                              label={item.label}
+                              hasSubmenu={item.hasSubmenu}
+                              active={
+                                (!item.hasSubmenu &&
+                                  item.path &&
+                                  isPathActive(item.path)) ||
+                                isSubmenuActive(item)
+                              }
+                              isSubmenuOpen={openSubmenus[item.label]}
+                              onClick={() => handleMenuItemClick(item)}
+                              collapsed={isVisuallyCollapsed}
+                            />
+                          )}
 
                           {/* Submenu */}
                           {item.hasSubmenu &&
@@ -419,7 +490,7 @@ export default function Sidebar() {
                                 className={`
                               overflow-hidden transition-all duration-300 ease-in-out mt-1
                               ${isRTL ? "mr-4 pr-4 border-r" : "ml-4 pl-4 border-l"} 
-                              dark:border-[#455645] border-slate-200 space-y-1
+                              dark:border-sidebar-hover-green border-slate-200 space-y-1
                             `}
                               >
                                 {item.submenu.map((subItem, subIndex) => (
@@ -446,37 +517,55 @@ export default function Sidebar() {
             <div
               className={`p-4 mt-2 border-t dark:border-(--card-border-color) border-slate-100 ${isVisuallyCollapsed ? "px-2" : ""}`}
             >
-              <div
-                onClick={() => handleNavigation("/manage_profile")}
-                className={`p-3 rounded-lg flex items-center transition-all duration-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-[#455645]/30 ${isVisuallyCollapsed ? "justify-center p-2" : "gap-3"}`}
-              >
-                <div
-                  className={`w-10 h-10 shrink-0 rounded-lg bg-linear-to-tr from-(--text-green-primary) to-[#61896f] flex items-center justify-center text-white font-bold border border-white dark:border-(--card-border-color) shadow-sm`}
-                >
-                  {user?.user?.name?.charAt(0) || "A"}
-                </div>
-                {!isVisuallyCollapsed && (
-                  <>
-                    <div className="flex-1 min-w-0 animate-in fade-in slide-in-from-bottom-1 duration-300">
-                      <p className="text-sm font-bold truncate dark:text-white">
-                        {user?.user?.name || "Alex Morgan"}
-                      </p>
-                      <p className="text-[11px] text-slate-500 font-medium truncate tracking-tighter">
-                        {user?.user?.email || "Super Admin"}
-                      </p>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowLogoutModal(true);
-                      }}
-                      className="p-2 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors text-slate-400 dark:hover:bg-red-900/20"
+              {isVisuallyCollapsed ? (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div
+                      onClick={() => handleNavigation("/manage_profile")}
+                      className="p-2 rounded-lg flex items-center justify-center transition-all duration-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-sidebar-hover-green/30"
                     >
-                      <LogOut className="w-5 h-5" />
-                    </button>
-                  </>
-                )}
-              </div>
+                      <div
+                        className="w-10 h-10 shrink-0 rounded-lg bg-linear-to-tr from-(--text-green-primary) to-sidebar-hover-green flex items-center justify-center text-white font-bold border border-white dark:border-(--card-border-color) shadow-sm"
+                      >
+                        {user?.user?.name?.charAt(0) || "A"}
+                      </div>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="ml-2 z-[200] p-0 overflow-hidden border shadow-xl bg-white dark:bg-(--card-color) dark:border-(--card-border-color)">
+                    <div className="px-3 py-1.5 text-[13px] font-semibold text-white bg-(--text-green-primary)">
+                      {t("profile")}
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              ) : (
+                <div
+                  onClick={() => handleNavigation("/manage_profile")}
+                  className="p-3 rounded-lg flex items-center gap-3 transition-all duration-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-sidebar-hover-green/30"
+                >
+                  <div
+                    className="w-10 h-10 shrink-0 rounded-lg bg-linear-to-tr from-(--text-green-primary) to-sidebar-hover-green flex items-center justify-center text-white font-bold border border-white dark:border-(--card-border-color) shadow-sm"
+                  >
+                    {user?.user?.name?.charAt(0) || "A"}
+                  </div>
+                  <div className="flex-1 min-w-0 animate-in fade-in slide-in-from-bottom-1 duration-300">
+                    <p className="text-sm font-bold truncate dark:text-white">
+                      {user?.user?.name || "Alex Morgan"}
+                    </p>
+                    <p className="text-[11px] text-slate-500 font-medium truncate tracking-tighter">
+                      {user?.user?.email || "Super Admin"}
+                    </p>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowLogoutModal(true);
+                    }}
+                    className="p-2 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors text-slate-400 dark:hover:bg-red-900/20"
+                  >
+                    <LogOut className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-import { useGetIsDemoModeQuery } from "@/src/redux/api/authApi";
 import { Skeleton } from "@/src/elements/ui/skeleton";
+import { useGetIsDemoModeQuery } from "@/src/redux/api/authApi";
+import Image from "next/image";
 
 interface DynamicLogoProps {
   width?: number;
@@ -12,7 +11,7 @@ interface DynamicLogoProps {
   skeletonClassName?: string;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+const API_URL = process.env.NEXT_PUBLIC_STORAGE_URL ?? "";
 
 const resolveUrl = (url?: string): string => {
   if (!url || url.length <= 0) return "/assets/logos/logo3.png";

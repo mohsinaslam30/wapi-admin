@@ -63,7 +63,7 @@ export const subscriptionApi = baseApi.enhanceEndpoints({ addTagTypes: ["Subscri
       providesTags: (result) => (result?.data.payments ? [...result.data.payments.map(({ _id }) => ({ type: "Subscription" as const, id: _id })), { type: "Subscription", id: "PAYMENT_LIST" }] : [{ type: "Subscription", id: "PAYMENT_LIST" }]),
     }),
 
-    assignPlanToUser: builder.mutation<{ success: boolean; message: string; data: Subscription }, { user_id: string; plan_id: string; amount?: number }>({
+    assignPlanToUser: builder.mutation<{ success: boolean; message: string; data: Subscription }, { user_id: string; plan_id: string; amount?: number; duration?: number }>({
       query: (body) => ({
         url: "/subscription/assign",
         method: "POST",
@@ -86,7 +86,30 @@ export const subscriptionApi = baseApi.enhanceEndpoints({ addTagTypes: ["Subscri
         { type: "Subscription", id: "LIST" },
       ],
     }),
+
+    overrideSubscriptionLimits: builder.mutation<{ success: boolean; message: string; data: Subscription }, { userId: string; features: Record<string, unknown> }>({
+      query: ({ userId, features }) => ({
+        url: `/subscription/${userId}/override-limits`,
+        method: "PATCH",
+        body: { features },
+      }),
+      invalidatesTags: [
+        { type: "User", id: "LIST" },
+        { type: "Subscription", id: "LIST" },
+      ],
+    }),
+
+    resetSubscriptionLimits: builder.mutation<{ success: boolean; message: string; data: Subscription }, { userId: string }>({
+      query: ({ userId }) => ({
+        url: `/subscription/${userId}/reset-limits`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [
+        { type: "User", id: "LIST" },
+        { type: "Subscription", id: "LIST" },
+      ],
+    }),
   }),
 });
 
-export const { useGetAllSubscriptionsQuery, useGetSubscriptionByIdQuery, useApproveManualSubscriptionMutation, useRejectManualSubscriptionMutation, useGetSubscriptionPaymentsQuery, useGetSubscriptionSummaryQuery, useAssignPlanToUserMutation, useCancelSubscriptionMutation } = subscriptionApi;
+export const { useGetAllSubscriptionsQuery, useGetSubscriptionByIdQuery, useApproveManualSubscriptionMutation, useRejectManualSubscriptionMutation, useGetSubscriptionPaymentsQuery, useGetSubscriptionSummaryQuery, useAssignPlanToUserMutation, useCancelSubscriptionMutation, useOverrideSubscriptionLimitsMutation, useResetSubscriptionLimitsMutation } = subscriptionApi;

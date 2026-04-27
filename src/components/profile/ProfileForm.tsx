@@ -20,9 +20,8 @@ import CountrySelect from "../../shared/CountrySelect";
 const ProfileForm = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.auth);
-
-  const { data: profileData, isLoading: isFetching } = useGetProfileQuery();
+  const { user, token } = useAppSelector((state) => state.auth);
+  const { data: profileData, isLoading: isFetching } = useGetProfileQuery(token || undefined);
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
 
   useEffect(() => {
@@ -37,11 +36,13 @@ const ProfileForm = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required(t("required")),
-    email: Yup.string().email(t("invalid_email")).required(t("required")),
-    phone: Yup.string().required(t("required")),
-    country: Yup.string().required(t("required")),
-    country_code: Yup.string().required(t("required")),
+    name: Yup.string().required(t("validation_required")),
+    email: Yup.string().email(t("validation_invalid_email")).required(t("validation_required")),
+    phone: Yup.string()
+      .matches(/^\d{6,15}$/, t("validation_phone_digits"))
+      .required(t("validation_required")),
+    country: Yup.string().required(t("validation_required")),
+    country_code: Yup.string().required(t("validation_required")),
     note: Yup.string(),
   });
 
@@ -128,7 +129,14 @@ const ProfileForm = () => {
                 </div>
                 <div className="relative flex-1 group">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400 group-focus-within:text-(--text-green-primary) transition-colors" />
-                  <Input id="phone" type="number" placeholder={t("phone_placeholder")} className="pl-10 py-5.5 dark:bg-(--page-body-bg) bg-(--input-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" {...formik.getFieldProps("phone")} />
+                  <Input
+                    id="phone"
+                    type="number"
+                    placeholder={t("phone_placeholder")}
+                    className="pl-10 py-5.5 dark:bg-(--page-body-bg) bg-(--input-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)"
+                    {...formik.getFieldProps("phone")}
+                    onChange={(e) => formik.setFieldValue("phone", e.target.value.replace(/\D/g, ""))}
+                  />
                 </div>
               </div>
               {formik.touched.phone && formik.errors.phone && <p className="text-red-500 text-xs">{formik.errors.phone}</p>}

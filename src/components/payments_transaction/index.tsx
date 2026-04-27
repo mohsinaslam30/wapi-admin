@@ -18,7 +18,7 @@ const PaymentsTransaction = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   const [columns, setColumns] = useState([
-    { id: "invoice_number", label: "Invoice Number", isVisible: true, key: "invoice_number" },
+    { id: "invoice_number", label: "Invoice", isVisible: true, key: "invoice_number" },
     { id: "transaction_id", label: "Transaction ID", isVisible: true, key: "transaction_id" },
     { id: "user", label: "User", isVisible: true, key: "user.name" },
     { id: "user_email", label: "Email", isVisible: true, key: "user.email" },
@@ -66,7 +66,7 @@ const PaymentsTransaction = () => {
     }
 
     const exportColumns = columns
-      .filter((col) => col.isVisible)
+      .filter((col) => col.isVisible && col.id !== "actions")
       .map((col) => ({
         header: col.label,
         key: col.key,
@@ -98,6 +98,7 @@ const PaymentsTransaction = () => {
         limit={limit}
         onSortChange={handleSortChange}
         visibleColumns={columns.filter((c) => c.isVisible).map((c) => c.id)}
+        searchTerm={search}
       />
     </div>
   );

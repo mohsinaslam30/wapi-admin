@@ -74,7 +74,7 @@ const FaqForm = ({ data, onChange }: FaqFormProps) => {
           </div>
         </div>
 
-        <div className="space-y-8 max-w-4xl">
+        <div className="space-y-8">
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline" role="combobox" aria-expanded={open} className="w-full [@media(min-width:1421px)]:w-100 justify-between bg-white dark:bg-page-body border-gray-200 dark:border-(--card-border-color) h-12 dark:hover:bg-(--table-hover) rounded-lg px-5 text-gray-500 font-medium shadow-sm">

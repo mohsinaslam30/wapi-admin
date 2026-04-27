@@ -1,13 +1,12 @@
 "use client";
 
-import { useTranslation } from "react-i18next";
+import { Button } from "@/src/elements/ui/button";
+import DataTable from "@/src/shared/DataTable";
+import { ColumnDef } from "@/src/types/shared";
 import { format } from "date-fns";
 import { Edit2, Star } from "lucide-react";
-import { Button } from "@/src/elements/ui/button";
-import { Badge } from "@/src/elements/ui/badge";
-import DataTable from "@/src/shared/DataTable";
+import { useTranslation } from "react-i18next";
 import Can from "../shared/Can";
-import { ColumnDef } from "@/src/types/shared";
 
 interface QuickReply {
   _id: string;
@@ -33,6 +32,7 @@ interface QuickReplyListProps {
   selectedIds: string[];
   onSelectionChange: (ids: string[]) => void;
   onSortChange?: (key: string, order: "asc" | "desc") => void;
+  searchTerm?: string;
 }
 
 const QuickReplyList = ({
@@ -51,6 +51,7 @@ const QuickReplyList = ({
   selectedIds,
   onSelectionChange,
   onSortChange,
+  searchTerm,
 }: QuickReplyListProps) => {
   const { t } = useTranslation();
 
@@ -96,7 +97,7 @@ const QuickReplyList = ({
       sortKey: "createdAt",
       accessor: (qr) => (
         <span className="text-slate-500 dark:text-slate-400 text-sm">
-          {qr.createdAt ? format(new Date(qr.createdAt), "MMM d, yyyy") : "N/A"}
+          {qr.createdAt ? format(new Date(qr.createdAt), "MMMM d, yyyy") : "N/A"}
         </span>
       ),
     },
@@ -104,7 +105,7 @@ const QuickReplyList = ({
 
   const renderActions = (qr: QuickReply) => (
     <div className="flex items-center gap-2">
-      <Can permission="update.quick_reply">
+      <Can permission="update.quick_replies">
         <Button
           variant="ghost"
           size="icon"
@@ -131,15 +132,16 @@ const QuickReplyList = ({
       limit={limit}
       isLoading={isLoading}
       onDelete={(item: QuickReply) => onDelete(item._id)}
-      deletePermission="delete.quick_reply"
-      actionPermissions={["update.quick_reply"]}
+      deletePermission="delete.quick_replies"
+      actionPermissions={["update.quick_replies"]}
       onBulkDelete={onBulkDelete}
       onSelectionChange={onSelectionChange}
       selectedIds={selectedIds}
       emptyMessage={t("quick_reply_no_replies")}
-      itemLabel="Quick Repliess"
+      itemLabel="Quick Replies"
       renderActions={renderActions}
       onSortChange={onSortChange}
+      searchTerm={searchTerm}
     />
   );
 };

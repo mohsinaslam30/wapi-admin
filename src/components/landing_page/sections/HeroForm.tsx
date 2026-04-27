@@ -145,7 +145,7 @@ const HeroForm = ({ data, onChange }: HeroFormProps) => {
             </div>
           ))}
           {data.floating_images.length === 0 && (
-            <div className="col-span-full py-16 border-2 border-dashed border-gray-200 dark:border-(--card-border-color) rounded-xl flex flex-col items-center justify-center text-gray-400 bg-gray-50/30">
+            <div className="col-span-full py-16 border-2 border-dashed border-gray-200 dark:border-(--card-border-color) rounded-lg flex flex-col items-center justify-center text-gray-400 dark:bg-(--page-body-bg) bg-gray-50/30">
               <Layout className="w-10 h-10 mb-3 opacity-10" />
               <p className="text-[13px] font-medium">No floating images added yet</p>
               <Button onClick={addFloatingImage} variant="link" className="text-primary mt-1">

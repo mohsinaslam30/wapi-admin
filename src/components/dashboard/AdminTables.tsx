@@ -31,7 +31,7 @@ export const NewUsersTable = ({ data }: { data: DashboardTableData["newUsers"] }
     },
     {
       header: "Verification",
-      className: "[@media(max-width:1480px)]:min-w-[160px]",
+      className: "[@media(max-width:1480px)]:min-w-[190px]",
       cell: (row) => (
         <div className="flex items-center gap-2">
           <Globe size={12} className="text-slate-300" />
@@ -44,7 +44,7 @@ export const NewUsersTable = ({ data }: { data: DashboardTableData["newUsers"] }
     },
     {
       header: "Access Level",
-      className: "[@media(max-width:1480px)]:min-w-[153px]",
+      className: "[@media(max-width:1480px)]:min-w-[180px]",
       cell: (row) => (
         <div className="flex items-center gap-2">
           <Badge variant="outline" className={`text-[10px] font-medium px-2.5 py-1 rounded-md border-0 ring-1 ring-inset ${row.planName === "No Plan" ? "bg-slate-500/10 text-slate-500 ring-slate-500/20" : "bg-primary/10 text-primary ring-primary/30"}`}>
@@ -57,7 +57,7 @@ export const NewUsersTable = ({ data }: { data: DashboardTableData["newUsers"] }
     {
       header: "Joined",
       className: "[@media(max-width:1480px)]:min-w-[145px]",
-      cell: (row) => <span className="text-[12px] font-medium text-slate-500 tabular-nums bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-md border border-slate-200/50 dark:border-white/5">{format(new Date(row.created_at), "MMM dd, yyyy")}</span>,
+      cell: (row) => <span className="text-[12px] font-medium text-slate-500 tabular-nums bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-md border border-slate-200/50 dark:border-white/5">{format(new Date(row.created_at), "MMMM dd, yyyy")}</span>,
     },
   ];
 
@@ -88,7 +88,7 @@ export const SubscriptionsTable = ({ data, title, type }: { data: DashboardTable
   const columns: ColumnDef<any>[] = [
     {
       header: "Account",
-      className: "[@media(max-width:1690)]:min-w-[170px]",
+      className: "[@media(max-width:1920px)]:min-w-[170px]",
       cell: (row) => (
         <div className="flex flex-col min-w-0 py-1">
           <span className="font-black text-[12px] text-slate-800 dark:text-white text-xs truncate">{row.userName}</span>
@@ -98,7 +98,7 @@ export const SubscriptionsTable = ({ data, title, type }: { data: DashboardTable
     },
     {
       header: "Service Details",
-      className: "[@media(max-width:1690)]:min-w-[155px]",
+      className: "[@media(max-width:1920px)]:min-w-[165px]",
       cell: (row) => (
         <div className="flex flex-col">
           <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">{row.planName}</span>
@@ -110,12 +110,12 @@ export const SubscriptionsTable = ({ data, title, type }: { data: DashboardTable
     },
     {
       header: "Status",
-      className: "[@media(max-width:762px)]:min-w-[110px]",
+      className: "[@media(max-width:1920px)]:min-w-[127px]",
       cell: (row) => <Badge className={`text-[9px] font-black uppercase px-2.5 py-1 rounded-md border-0 hover:bg-(--light-primary) hover:text-primary dark:hover:bg-(--card-color) ring-1 ring-inset ${row.status === "active" ? "bg-emerald-500/10 text-primary ring-emerald-500/30" : "bg-red-500/10 dark:hover:border-(--card-border-color) dark:hover:text-red-500 text-red-500 ring-red-500/30"}`}>{row.status}</Badge>,
     },
     {
       header: "Payment",
-      className: "[@media(max-width:762px)]:min-w-[130px]",
+      className: "[@media(max-width:1920px)]:min-w-[130px]",
       cell: (row) => (
         <Badge variant="outline" className={`text-[9px] font-black uppercase px-2.5 py-1 rounded-md border-0 ring-1 ring-inset ${row.payment_status === "paid" ? "bg-primayry/10 text-primary ring-primary/30" : "bg-primary/10 text-primary ring-primary/30"}`}>
           {row.payment_status}
@@ -124,7 +124,7 @@ export const SubscriptionsTable = ({ data, title, type }: { data: DashboardTable
     },
     {
       header: "Expiry/Renewal",
-      className: "[@media(max-width:1690px)]:min-w-[153px]",
+      className: "[@media(max-width:1920pxpx)]:min-w-[153px]",
       cell: (row) => (
         <div className="flex items-center gap-2.5">
           <span className="text-[12px] font-black text-slate-500 dark:text-gray-400 tabular-nums uppercase">{format(new Date(row.current_period_end), "MMM dd")}</span>

@@ -21,11 +21,13 @@ const ChangePasswordForm = () => {
   const [changePassword, { isLoading }] = useChangePasswordMutation();
 
   const validationSchema = Yup.object({
-    current_password: Yup.string().required(t("required")),
-    new_password: Yup.string().min(8, t("password_min_length")).required(t("required")),
+    current_password: Yup.string().required(t("validation_required")),
+    new_password: Yup.string()
+      .min(8, t("validation_password_min", { min: 8 }))
+      .required(t("validation_required")),
     confirm_password: Yup.string()
-      .oneOf([Yup.ref("new_password")], t("passwords_must_match"))
-      .required(t("required")),
+      .oneOf([Yup.ref("new_password")], t("validation_passwords_match"))
+      .required(t("validation_required")),
   });
 
   const formik = useFormik<ChangePasswordPayload & { confirm_password: string }>({
@@ -61,7 +63,7 @@ const ChangePasswordForm = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={formik.handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             <div className="space-y-2 flex flex-col">
               <Label htmlFor="current_password">{t("current_password")}</Label>
               <div className="relative group">

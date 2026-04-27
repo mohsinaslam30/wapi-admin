@@ -22,7 +22,7 @@ const AddRolePage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div>
       <RoleForm mode="create" onSubmit={handleSubmit} isLoading={isLoading} />
     </div>
   );

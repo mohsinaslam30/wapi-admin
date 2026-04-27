@@ -4,6 +4,7 @@ import "./globals.css";
 import MainProvider from "./MainProvider";
 import { ThemeProvider } from "./ThemeProvider";
 import { Toaster } from "@/src/elements/ui/sonner";
+import { ToastManager } from "../components/providers/ToastManager";
 
 const monaSans = Mona_Sans({
   variable: "--font-mona-sans",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <MainProvider>{children}</MainProvider>
           <Toaster position="top-center" />
+          <ToastManager />
         </ThemeProvider>
       </body>
     </html>

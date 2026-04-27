@@ -93,6 +93,8 @@ const SubscriptionPlansContainer = () => {
     setPage(1);
   };
 
+  const isFilterActive = Object.keys(filters).length > 0;
+
   const handleExport = (format: "csv" | "excel" | "pdf") => {
     if (!subscriptions.length) {
       toast.error(t("common_no_data_export") || "No data to export");
@@ -100,7 +102,7 @@ const SubscriptionPlansContainer = () => {
     }
 
     const exportColumns = columns
-      .filter((col) => col.isVisible)
+      .filter((col) => col.isVisible && col.id !== "actions")
       .map((col) => ({
         header: col.label,
         key: col.key,
@@ -120,7 +122,7 @@ const SubscriptionPlansContainer = () => {
       <CommonHeader title={t("subscription_title")} description={t("subscription_description")} searchTerm={inputValue} onSearch={handleSearch} onFilter={handleFilter} onExport={handleExport} isLoading={isLoading || isFetching} columns={columns} onColumnToggle={handleColumnToggle} />
       <SubscriptionPlansSummary totalSubscriptions={summaryData?.data.totalSubscriptions || 0} activeSubscriptions={summaryData?.data.activeSubscriptions || 0} expiredSubscriptions={summaryData?.data.expiredSubscriptions || 0} expiringSoonSubscriptions={summaryData?.data.expiringSoonSubscriptions || 0} monthlyRevenue={summaryData?.data.monthlyRevenue || 0} isLoading={isSummaryLoading} onCardClick={handleCardClick} activeFilter={activeFilterId} />
 
-      <SubscriptionPlansTable subscriptions={subscriptions} page={page} totalPages={totalPages} total={total} onPageChange={setPage} isLoading={isLoading || isFetching} limit={limit} onLimitChange={handleLimitChange} onSortChange={handleSortChange} visibleColumns={columns.filter((c) => c.isVisible).map((c) => c.id)} />
+      <SubscriptionPlansTable subscriptions={subscriptions} page={page} totalPages={totalPages} total={total} onPageChange={setPage} isLoading={isLoading || isFetching} limit={limit} onLimitChange={handleLimitChange} onSortChange={handleSortChange} visibleColumns={columns.filter((c) => c.isVisible).map((c) => c.id)} searchTerm={searchTerm} isFilterActive={isFilterActive} />
 
       <FilterModal isOpen={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)} onApply={handleApplyFilters} currentFilters={filters} />
     </div>

@@ -110,6 +110,7 @@ const PagesContainer = () => {
 
   const pages = data?.data?.pages || [];
   const pagination = data?.data?.pagination;
+  const isFilterActive = Object.values(filters).some((v) => !!v);
 
   return (
     <div className="space-y-6">
@@ -137,6 +138,8 @@ const PagesContainer = () => {
         selectedIds={selectedIds}
         onSortChange={handleSortChange}
         visibleColumns={visibleColumns}
+        searchTerm={searchTerm}
+        isFilterActive={isFilterActive}
       />
 
       <FilterModal isOpen={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)} onApply={handleApplyFilters} currentFilters={filters} />

@@ -1,20 +1,10 @@
 "use client";
 
+import { TestimonialHeaderProps } from "@/src/types/components";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../constants";
 import CommonHeader from "../../shared/CommonHeader";
-
-interface TestimonialHeaderProps {
-  onRefresh: () => void;
-  onFilter?: () => void;
-  onExport?: () => void;
-  onSearch?: (value: string) => void;
-  searchTerm?: string;
-  isLoading: boolean;
-  selectedCount?: number;
-  onBulkDelete?: () => void | Promise<void>;
-}
 
 const TestimonialHeader = ({
   onFilter,
@@ -22,6 +12,8 @@ const TestimonialHeader = ({
   onSearch,
   searchTerm = "",
   isLoading,
+  columns,
+  onColumnToggle,
   selectedCount,
   onBulkDelete,
 }: TestimonialHeaderProps) => {
@@ -46,6 +38,8 @@ const TestimonialHeader = ({
       addPermission="create.testimonials"
       bulkDeletePermission="delete.testimonials"
       isLoading={isLoading}
+      columns={columns}
+      onColumnToggle={onColumnToggle}
       selectedCount={selectedCount}
       onBulkDelete={onBulkDelete}
     />

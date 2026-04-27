@@ -14,7 +14,7 @@ export const TruncatedText = ({
   return (
     <p
       className={cn(
-        "text-gray-500 text-[13px] break-all leading-relaxed",
+        "text-gray-500 text-[13px] break-all whitespace-normal line-clamp-2 leading-relaxed",
         className
       )}
     >

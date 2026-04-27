@@ -24,7 +24,6 @@ export const BodySection = ({ messageBody, handleBodyChange, addVariable, setEdi
             <div className="p-3 bg-slate-50/50 dark:bg-(--table-hover) border-t border-slate-100 dark:border-(--card-border-color) flex-wrap gap-3 sm:gap-0 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none">{t("templates_library_rich_text_editor")}</span>
               </div>
               <button type="button" onClick={addVariable} className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-white dark:bg-(--dark-sidebar) border border-slate-200 dark:border-(--card-border-color) rounded-lg text-[9px] sm:text-[10px] font-bold text-primary dark:text-primary hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-(--table-hover) transition-all shadow-sm uppercase tracking-wider">
                 <Plus size={12} />

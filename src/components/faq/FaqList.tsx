@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../constants";
 import Can from "../shared/Can";
 
-const FaqList = ({ faqs, page, totalPages, total, onPageChange, onDelete, onBulkDelete, isLoading, limit = 10, onLimitChange = () => { }, onSelectionChange, selectedIds, onSortChange }: FaqListProps) => {
+const FaqList = ({ faqs, page, totalPages, total, onPageChange, onDelete, onBulkDelete, isLoading, columns: visibilityColumns, limit = 10, onLimitChange = () => { }, onSelectionChange, selectedIds, onSortChange, searchTerm, isFilterActive }: FaqListProps) => {
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -53,13 +53,20 @@ const FaqList = ({ faqs, page, totalPages, total, onPageChange, onDelete, onBulk
       accessor: (faq) => <Badge className={`${faq.status ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400" : "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400"} border-none relative`}>{faq.status ? t("common_published") : t("common_draft")}</Badge>,
     },
     {
+      id: "created_at",
       header: t("common_created_at"),
       className: "[@media(max-width:1830px)]:min-w-[165px]",
       sortable: true,
       sortKey: "created_at",
-      accessor: (faq) => <span className="text-gray-500 dark:text-gray-400 text-sm">{faq.created_at ? format(new Date(faq.created_at), "MMM d, yyyy") : "N/A"}</span>,
+      accessor: (faq) => <span className="text-gray-500 dark:text-gray-400 text-sm">{faq.created_at ? format(new Date(faq.created_at), "MMMM d, yyyy") : "N/A"}</span>,
     },
   ];
+
+  const filteredColumns = columns.filter((col) => {
+    if (!visibilityColumns) return true;
+    const visibility = visibilityColumns.find((v) => v.id === (col.id || col.sortKey || col.header));
+    return visibility ? visibility.isVisible : true;
+  });
 
   const renderActions = (faq: Faq) => (
     <div className="flex items-center gap-2">
@@ -71,7 +78,7 @@ const FaqList = ({ faqs, page, totalPages, total, onPageChange, onDelete, onBulk
     </div>
   );
 
-  return <DataTable data={faqs} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} onDelete={(item: Faq) => onDelete(item._id)} deletePermission="delete.faqs" actionPermissions={["update.faqs"]} onBulkDelete={onBulkDelete} onSelectionChange={onSelectionChange} selectedIds={selectedIds} emptyMessage={t("faq_no_faqs")} itemLabel="FAQs" renderActions={renderActions} onSortChange={onSortChange} />;
+  return <DataTable data={faqs} columns={filteredColumns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} onDelete={(item: Faq) => onDelete(item._id)} deletePermission="delete.faqs" actionPermissions={["update.faqs"]} onBulkDelete={onBulkDelete} onSelectionChange={onSelectionChange} selectedIds={selectedIds} emptyMessage={t("faq_no_faqs")} itemLabel="FAQs" renderActions={renderActions} onSortChange={onSortChange} searchTerm={searchTerm} isFilterActive={isFilterActive} />;
 };
 
 export default FaqList;

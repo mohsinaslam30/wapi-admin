@@ -51,7 +51,13 @@ const ContactForm = ({ data, onChange }: ContactFormProps) => {
                   <Phone className="w-3.5 h-3.5" />
                   <Label className="text-[13px] font-medium">Business Phone</Label>
                 </div>
-                <Input value={data.phone_no} onChange={(e) => handleChange("phone_no", e.target.value)} placeholder="+1 234 567 890" className="bg-(--input-color) dark:bg-page-body h-11 text-[14px] border-(--input-border-color) dark:border-none shadow-sm rounded-lg px-5" />
+                <Input
+                  type="tel"
+                  value={data.phone_no}
+                  onChange={(e) => handleChange("phone_no", e.target.value.replace(/[a-zA-Z]/g, ""))}
+                  placeholder="+1 234 567 890"
+                  className="bg-(--input-color) dark:bg-page-body h-11 text-[14px] border-(--input-border-color) dark:border-none shadow-sm rounded-lg px-5"
+                />
               </div>
 
               <div className="space-y-3">

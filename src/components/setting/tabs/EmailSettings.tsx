@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { Input } from "@/src/elements/ui/input";
 import { Label } from "@/src/elements/ui/label";
@@ -14,6 +15,7 @@ import TestMailModal from "../modals/TestMailModal";
 import { Mail, Eye, EyeOff } from "lucide-react";
 
 const EmailSettings = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const settings = useAppSelector((state) => state.settings.data);
   const { data: storedSettings } = useGetSettingsQuery();
@@ -21,7 +23,13 @@ const EmailSettings = () => {
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
 
   const validationSchema = yup.object().shape({
-    smtp_port: yup.number().transform((value, originalValue) => originalValue === "" ? undefined : value).typeError("Must be a number").min(1, "Invalid port").max(65535, "Invalid port").required("Required"),
+    smtp_port: yup
+      .number()
+      .transform((value, originalValue) => (originalValue === "" ? undefined : value))
+      .typeError(t("validation_number"))
+      .min(1, t("validation_port_range"))
+      .max(65535, t("validation_port_range"))
+      .required(t("validation_required")),
   });
 
   const onChange = async (key: keyof AppSettings, value: any) => {

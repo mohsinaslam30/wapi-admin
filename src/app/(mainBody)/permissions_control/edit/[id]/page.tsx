@@ -38,7 +38,7 @@ const EditRolePage = ({ params }: EditRolePageProps) => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div>
       <RoleForm mode="edit" initialValues={data?.data} onSubmit={handleSubmit} isLoading={isLoading} />
     </div>
   );

@@ -20,9 +20,10 @@ interface PaymentsTableProps {
   limit: number;
   onSortChange?: (sortBy: string, sortOrder: "asc" | "desc") => void;
   visibleColumns?: string[];
+  searchTerm?: string;
 }
 
-const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitChange, page, limit, onSortChange, visibleColumns }: PaymentsTableProps) => {
+const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitChange, page, limit, onSortChange, visibleColumns, searchTerm }: PaymentsTableProps) => {
   const { t } = useTranslation();
 
   const handleDownloadInvoice = (paymentId: string) => {
@@ -52,7 +53,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       sortKey: "invoice_number",
       copyable: true,
       copyField: "invoice_number",
-      className: "[@media(max-width:1678px)]:min-w-[160px]",
+      className: "[@media(max-width:1678px)]:min-w-[196px]",
       accessor: (payment) => <span className="font-mono text-xs text-gray-500">{payment.invoice_number}</span>,
     },
     {
@@ -62,7 +63,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       sortKey: "transaction_id",
       copyable: true,
       copyField: "transaction_id",
-      className: "[@media(max-width:1678px)]:min-w-[160px]",
+      className: "[@media(max-width:1678px)]:min-w-[196px]",
       accessor: (payment) => <span className="font-mono text-xs text-gray-500">{payment.transaction_id || payment._id.slice(-8).toUpperCase()}</span>,
     },
     {
@@ -126,7 +127,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       sortable: true,
       sortKey: "paid_at",
       className: "[@media(max-width:1678px)]:min-w-[185px]",
-      accessor: (payment) => <span className="text-gray-500 text-sm whitespace-nowrap">{payment.paid_at ? format(new Date(payment.paid_at), "MMM d, yyyy HH:mm") : "N/A"}</span>,
+      accessor: (payment) => <span className="text-gray-500 text-sm whitespace-nowrap">{payment.paid_at ? format(new Date(payment.paid_at), "MMMM d, yyyy HH:mm") : "N/A"}</span>,
     },
     {
       id: "actions",
@@ -144,7 +145,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
 
   const displayedColumns = visibleColumns ? allColumns.filter((col) => visibleColumns.includes(col.id)) : allColumns;
 
-  return <DataTable data={payments} columns={displayedColumns} page={page} totalPages={pagination?.totalPages || 1} total={pagination?.totalItems || 0} limit={limit} onPageChange={onPageChange} onLimitChange={onLimitChange} isLoading={isLoading} emptyMessage="No payment history found." itemLabel="Transactions" onSortChange={onSortChange} />;
+  return <DataTable data={payments} columns={displayedColumns} page={page} totalPages={pagination?.totalPages || 1} total={pagination?.totalItems || 0} limit={limit} onPageChange={onPageChange} onLimitChange={onLimitChange} isLoading={isLoading} emptyMessage="No payment history found." itemLabel="Transactions" onSortChange={onSortChange} searchTerm={searchTerm} />;
 };
 
 export default PaymentsTable;

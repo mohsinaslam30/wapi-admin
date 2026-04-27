@@ -10,11 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/src/elements/ui/switch";
 import { Textarea } from "@/src/elements/ui/textarea";
 import { AIModel, CreateAIModelRequest } from "@/src/types/store";
-import { aiModelSchema } from "@/src/utils/validation-schemas";
+import { getAIModelSchema } from "@/src/utils/validation-schemas";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { Globe, ListPlus, Plus, Save, Settings2, ShieldCheck, Sparkles, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import TestModelModal from "./TestModelModal";
 
@@ -58,12 +58,13 @@ const AIModelForm = ({ initialValues, onSubmit, isLoading }: AIModelFormProps) =
   const { t } = useTranslation();
   const router = useRouter();
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+  const aiModelSchema = useMemo(() => getAIModelSchema(t), [t]);
 
   const defaultValues: FormValues = {
     displayName: initialValues?.display_name || "",
     provider: initialValues?.provider || "openai",
     modelId: initialValues?.model_id || "",
-    apiEndpoint: initialValues?.apiEndpoint || "",
+    apiEndpoint: initialValues?.apiEndpoint || initialValues?.api_endpoint || "",
     description: initialValues?.description || "",
     is_default: initialValues?.is_default || false,
     headerList: Object.entries(initialValues?.headers_template || {}).map(([key, value]) => ({ key, value })),
@@ -122,6 +123,7 @@ const AIModelForm = ({ initialValues, onSubmit, isLoading }: AIModelFormProps) =
       provider: values.provider,
       modelId: values.modelId,
       apiEndpoint: values.apiEndpoint,
+      api_endpoint: values.apiEndpoint,
       description: values.description,
       is_default: values.is_default,
       headersTemplate: headers,
@@ -138,7 +140,7 @@ const AIModelForm = ({ initialValues, onSubmit, isLoading }: AIModelFormProps) =
         <Form className="flex flex-col lg:flex-row gap-8 items-start ">
           <div className="flex-1 space-y-8 w-full">
             {/* Basic Information */}
-            <Card className="border shadow-sm dark:bg-(--card-color) bg-white rounded-lg overflow-hidden">
+            <Card className="border-none shadow-none dark:bg-(--card-color) bg-white rounded-lg overflow-hidden">
               <CardContent className="sm:p-6 p-4 space-y-6">
                 <div className="grid grid-cols-1 gap-6">
                   <div className="space-y-2 flex flex-col">
@@ -418,17 +420,17 @@ const AIModelForm = ({ initialValues, onSubmit, isLoading }: AIModelFormProps) =
                 </CardContent>
               </Card>
               <Card className="border shadow-sm dark:border-(--card-border-color) dark:bg-(--card-color) bg-white rounded-lg overflow-hidden">
-                <CardContent className="p-0">
+                <CardContent className="p-4">
                   {/* Header Section */}
-                  <div className="space-y-1.5 sm:p-6 p-4 flex flex-row items-center justify-between py-5 border-b border-slate-50 dark:border-(--card-border-color) px-6">
+                  <div className="space-y-1.5 flex flex-row items-center justify-between border-b border-slate-50 dark:border-(--card-border-color)">
                     <h4 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 tracking-wide">
                       <ShieldCheck className="w-6 h-6 text-(--text-green-primary)" />
-                       Configuration Summary
+                      Configuration Summary
                     </h4>
                   </div>
 
                   {/* Content Section */}
-                  <div className="sm:p-6 p-4 space-y-4">
+                  <div className="pt-2 space-y-4">
                     <div className="flex justify-between items-center py-3 mb-2 last:p-0 border-b border-(--input-border-color) dark:border-(--card-border-color)">
                       <span className="text-sm text-slate-600 dark:text-slate-400">Provider:</span>
                       <span className="font-semibold text-(--text-green-primary) uppercase text-sm">{values.provider}</span>

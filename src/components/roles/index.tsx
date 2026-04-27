@@ -103,6 +103,7 @@ const RoleContainer = () => {
           setSortOrder(order);
         }}
         visibleColumns={columns.filter((c) => c.isVisible).map((c) => c.id)}
+        searchTerm={searchTerm}
       />
 
       <ConfirmModal isOpen={isBulkDeleteModalOpen} onClose={() => setIsBulkDeleteModalOpen(false)} onConfirm={() => handleBulkDelete(selectedIds)} isLoading={isDeleting} title="Delete Roles" subtitle={`Are you sure you want to delete ${selectedIds.length} selected role(s)? This action cannot be undone.`} confirmText="Delete" cancelText="Cancel" variant="danger" loadingText="Deleting..." />

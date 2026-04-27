@@ -22,7 +22,7 @@ const Dashboard = () => {
     dateRange: "this_month",
   });
   const { data: response, isLoading, isFetching, refetch } = useGetAdminDashboardQuery(filters, {
-    skip: !hasPermission("view.admindashboard"),
+    skip: !hasPermission("view.admin_dashboard"),
   });
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const Dashboard = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-purple-500/2 rounded-full blur-[180px] -z-10 pointer-events-none" />
 
       <div className="space-y-10 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-        <div className="flex justify-between items-center mb-10 flex-wrap gap-4">
+        <div className="flex justify-between items-center mb-5 flex-wrap gap-4">
           <div className="space-y-1">
             <h4 className="text-2xl font-semibold text-primary">{t("performance_insights")}</h4>
           </div>
@@ -90,28 +90,40 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <AdminStatCards counts={counts} />
+        <AdminStatCards
+          counts={counts}
+          showPlans={hasPermission("view.plans")}
+          showSubscriptions={hasPermission("view.subscriptions")}
+        />
 
         <div className="grid grid-cols-2 xl:grid-cols-12 [@media(max-width:768px)]:grid-cols-1 gap-10">
           <div className="xl:col-span-7">
             <NewUsersTable data={tables.newUsers} />
           </div>
 
-          <div className="xl:col-span-5">
-            <PlanRevenueChart planRevenue={charts.planRevenueBreakdown} />
+          {hasPermission("view.plans") && (
+            <div className="xl:col-span-5">
+              <PlanRevenueChart planRevenue={charts.planRevenueBreakdown} />
+            </div>
+          )}
+        </div>
+
+        {hasPermission("view.subscriptions") && (
+          <div className="w-full">
+            <RevenueTimelineChart revenueGraph={charts.revenueGraph} />
           </div>
-        </div>
+        )}
 
-        <div className="w-full">
-          <RevenueTimelineChart revenueGraph={charts.revenueGraph} />
-        </div>
-
-        <div className="w-full">
-          <SubscriptionsTable data={tables.newSubscriptions} title="Recent Subscriptions" type="active" />
-        </div>
+        {hasPermission("view.subscriptions") && (
+          <div className="w-full">
+            <SubscriptionsTable data={tables.newSubscriptions} title="Recent Subscriptions" type="active" />
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <SubscriptionsTable data={tables.newSubscriptions.filter((s) => s.status === "cancelled")} title="Subscription Cancellations" type="cancelled" />
+          {hasPermission("view.subscriptions") && (
+            <SubscriptionsTable data={tables.newSubscriptions.filter((s) => s.status === "cancelled")} title="Subscription Cancellations" type="cancelled" />
+          )}
 
           <InquiriesTable data={tables.recentInquiries} />
         </div>

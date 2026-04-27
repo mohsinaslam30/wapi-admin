@@ -9,8 +9,10 @@ import SettingCard from "../shared/SettingCard";
 import TagInput from "../shared/TagInput";
 import { useState, useEffect } from "react";
 import SettingToggle from "../shared/SettingToggle";
+import { useTranslation } from "react-i18next";
 
 const LimitsSettings = ({ isLoading }: { isLoading?: boolean }) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const settings = useAppSelector((state) => state.settings.data);
   const [errors, setErrors] = useState<Partial<Record<keyof AppSettings, string>>>({});
@@ -19,38 +21,44 @@ const LimitsSettings = ({ isLoading }: { isLoading?: boolean }) => {
     document_file_limit: yup
       .number()
       .transform((value, originalValue) => (originalValue === "" ? undefined : value))
-      .typeError("Must be a number")
-      .min(1, "Min 1 MB")
-      .max(100, "Max 100 MB")
-      .required("Required"),
+      .typeError(t("validation_number"))
+      .min(1, t("validation_min_size_mb", { min: 1 }))
+      .max(100, t("validation_max_size_mb", { max: 100 }))
+      .required(t("validation_required")),
     audio_file_limit: yup
       .number()
       .transform((value, originalValue) => (originalValue === "" ? undefined : value))
-      .typeError("Must be a number")
-      .min(1, "Min 1 MB")
-      .max(100, "Max 100 MB")
-      .required("Required"),
+      .typeError(t("validation_number"))
+      .min(1, t("validation_min_size_mb", { min: 1 }))
+      .max(100, t("validation_max_size_mb", { max: 100 }))
+      .required(t("validation_required")),
     video_file_limit: yup
       .number()
       .transform((value, originalValue) => (originalValue === "" ? undefined : value))
-      .typeError("Must be a number")
-      .min(1, "Min 1 MB")
-      .max(1024, "Max 1024 MB")
-      .required("Required"),
+      .typeError(t("validation_number"))
+      .min(1, t("validation_min_size_mb", { min: 1 }))
+      .max(1024, t("validation_max_size_mb", { max: 1024 }))
+      .required(t("validation_required")),
     image_file_limit: yup
       .number()
       .transform((value, originalValue) => (originalValue === "" ? undefined : value))
-      .typeError("Must be a number")
-      .min(1, "Min 1 MB")
-      .max(50, "Max 50 MB")
-      .required("Required"),
+      .typeError(t("validation_number"))
+      .min(1, t("validation_min_size_mb", { min: 1 }))
+      .max(50, t("validation_max_size_mb", { max: 50 }))
+      .required(t("validation_required")),
     multiple_file_share_limit: yup
       .number()
       .transform((value, originalValue) => (originalValue === "" ? undefined : value))
-      .typeError("Must be a number")
-      .min(1, "Min 1")
-      .max(50, "Max 50")
-      .required("Required"),
+      .typeError(t("validation_number"))
+      .min(1, t("validation_min_value", { min: 1 }))
+      .max(50, t("validation_max_value", { max: 50 }))
+      .required(t("validation_required")),
+    storage_limit: yup
+      .number()
+      .transform((value, originalValue) => (originalValue === "" ? undefined : value))
+      .typeError(t("validation_number"))
+      .min(1, t("validation_min_size_mb", { min: 1 }))
+      .required(t("validation_required")),
   });
 
   const onChange = async (key: keyof AppSettings, value: any) => {
@@ -104,12 +112,34 @@ const LimitsSettings = ({ isLoading }: { isLoading?: boolean }) => {
               {errors[key] && <p className="text-xs text-red-500 font-medium">{errors[key]}</p>}
             </div>
           ))}
+          <div className="space-y-1.5 flex flex-col">
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">{t("settings_limits_storage_limit")}</Label>
+            <Input
+              type="number"
+              disabled={isLoading}
+              value={settings.storage_limit ?? ""}
+              onChange={(e) => onChange("storage_limit", e.target.value === "" ? "" : Number(e.target.value))}
+              min={1}
+              className={`h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3 ${errors.storage_limit ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+            />
+            {errors.storage_limit && <p className="text-xs text-red-500 font-medium">{errors.storage_limit}</p>}
+          </div>
         </div>
 
         <div className={`space-y-1.5 flex flex-col pt-2 ${!settings.allow_media_send ? "opacity-50 grayscale-50" : ""}`}>
           <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Allowed File Upload Types</Label>
           <TagInput disabled={!settings.allow_media_send || isLoading} value={Array.isArray(settings.allowed_file_upload_types) ? settings.allowed_file_upload_types : []} onChange={(tags) => onChange("allowed_file_upload_types", tags)} />
         </div>
+      </SettingCard>
+
+      <SettingCard title="Storage Management" description="Configure how file storage is calculated.">
+        <SettingToggle
+          label={t("settings_limits_restore_storage")}
+          description={t("settings_limits_restore_storage_desc")}
+          checked={!!settings.restore_storage_on_delete}
+          onCheckedChange={(v) => onChange("restore_storage_on_delete", v)}
+          disabled={isLoading}
+        />
       </SettingCard>
     </div>
   );

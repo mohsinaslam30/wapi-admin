@@ -84,7 +84,7 @@ const SubscriptionPlansSummary = ({ totalSubscriptions, activeSubscriptions, exp
                 <p className="text-3xl font-bold text-gray-900 dark:text-amber-50 leading-none">
                   <CountUp end={card.value} />
                 </p>
-                <p className="text-[13px] font-bold text-gray-500 dark:text-gray-400 line-clamp-1">{card.label}</p>
+                <p className="text-[13px] font-bold text-gray-500 dark:text-gray-400 xl:line-clamp-2 lg:line-clamp-1">{card.label}</p>
               </div>
             </div>
           </CardContent>

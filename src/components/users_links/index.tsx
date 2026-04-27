@@ -20,6 +20,22 @@ const UsersLinks = () => {
   const [sortBy, setSortBy] = useState("created_at");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
+  const [columnsState, setColumnsState] = useState([
+    { id: "user", label: "User", isVisible: true },
+    { id: "short_link", label: "Short Code", isVisible: true },
+    { id: "mobile", label: "Mobile", isVisible: true },
+    { id: "click_count", label: "Clicks", isVisible: true },
+    { id: "created_at", label: "Created at", isVisible: true },
+  ]);
+
+  const handleColumnToggle = (columnId: string) => {
+    setColumnsState((prev) =>
+      prev.map((col) =>
+        col.id === columnId ? { ...col, isVisible: !col.isVisible } : col,
+      ),
+    );
+  };
+
   const queryParams: GetShortLinksParams = {
     page,
     limit,
@@ -46,8 +62,9 @@ const UsersLinks = () => {
     toast.info(t("common_refreshed"));
   };
 
-  const columns: ColumnDef<ShortLink>[] = [
+  const allColumns: (ColumnDef<ShortLink> & { id: string })[] = [
     {
+      id: "user",
       header: "User",
       className: "[@media(max-width:1428px)]:min-w-[210px]",
       accessorKey: "user",
@@ -59,22 +76,34 @@ const UsersLinks = () => {
             <User size={16} />
           </div>
           <div className="flex flex-col min-w-0">
-            <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{row.user?.name || "N/A"}</span>
-            <span className="text-[12px] text-gray-400 truncate">{row.user?.email || "N/A"}</span>
+            <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+              {row.user?.name || "N/A"}
+            </span>
+            <span className="text-[12px] text-gray-400 truncate">
+              {row.user?.email || "N/A"}
+            </span>
           </div>
         </div>
       ),
     },
     {
-      header: "Short Code",
+      id: "short_link",
+      header: "Short Link",
       className: "[@media(max-width:1428px)]:min-w-[400px]",
       accessorKey: "short_link",
       sortable: true,
       copyable: true,
       cell: (row) => (
         <div className="flex flex-col">
-          <span className="font-medium text-gray-900 dark:text-gray-100 uppercase tracking-tight">{row.short_code}</span>
-          <Link href={row.short_link} target="_blank" rel="noopener noreferrer" className="text-[12px] text-primary hover:underline flex items-center gap-1 mt-0.5">
+          <span className="font-medium text-gray-900 dark:text-gray-100 uppercase tracking-tight">
+            {row.short_code}
+          </span>
+          <Link
+            href={row.short_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[12px] text-primary hover:underline flex items-center gap-1 mt-0.5"
+          >
             <ExternalLink size={10} />
             {row.short_link}
           </Link>
@@ -82,6 +111,7 @@ const UsersLinks = () => {
       ),
     },
     {
+      id: "mobile",
       header: "Mobile",
       className: "font-medium [@media(max-width:1428px)]:min-w-[230px]",
       accessorKey: "mobile",
@@ -89,24 +119,39 @@ const UsersLinks = () => {
       copyable: true,
     },
     {
+      id: "click_count",
       header: "Clicks",
       accessorKey: "click_count",
       sortable: true,
       className: "text-center",
       cell: (row) => (
         <div className="flex justify-center">
-          <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-(--dark-body) text-[11px] font-bold text-slate-600 dark:text-slate-400">{row.click_count}</span>
+          <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-(--dark-body) text-[11px] font-bold text-slate-600 dark:text-slate-400">
+            {row.click_count}
+          </span>
         </div>
       ),
     },
     {
+      id: "created_at",
       header: "Created at",
       className: "[@media(max-width:1428px)]:min-w-[170px]",
       accessorKey: "created_at",
       sortable: true,
-      cell: (row) => <span className="text-gray-400 text-sm">{row.created_at ? format(new Date(row.created_at), "MMM dd, yyyy HH:mm") : "N/A"}</span>,
+      cell: (row) => (
+        <span className="text-gray-400 text-sm">
+          {row.created_at
+            ? format(new Date(row.created_at), "MMMM dd, yyyy HH:mm")
+            : "N/A"}
+        </span>
+      ),
     },
   ];
+
+  const columns = allColumns.filter((col) => {
+    const visibility = columnsState.find((cv) => cv.id === col.id);
+    return visibility ? visibility.isVisible : true;
+  });
 
   return (
     <div className="flex flex-col min-h-full">
@@ -117,9 +162,11 @@ const UsersLinks = () => {
         onSearch={setSearch}
         onRefresh={handleRefresh}
         isLoading={isLoading}
+        columns={columnsState}
+        onColumnToggle={handleColumnToggle}
       />
 
-      <div className="mt-6">
+      <div>
         <DataTable
           data={shortLinks}
           columns={columns}
@@ -134,6 +181,7 @@ const UsersLinks = () => {
             setPage(1);
           }}
           onSortChange={handleSortChange}
+          searchTerm={search}
           emptyMessage="No short links found."
           itemLabel="short links"
           getRowId={(row) => row._id}

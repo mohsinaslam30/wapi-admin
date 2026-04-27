@@ -7,11 +7,11 @@ import { Label } from "@/src/elements/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/elements/ui/select";
 import { Skeleton } from "@/src/elements/ui/skeleton";
 import { useGetLanguageByIdQuery, useGetTranslationsQuery, useUpdateTranslationsMutation } from "@/src/redux/api/languageApi";
-import { ArrowLeft, BookOpen, Check, LayoutGrid, List, RotateCcw, Save, Search } from "lucide-react";
+import { ArrowLeft, Check, LayoutGrid, List, RotateCcw, Save, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Can from "../shared/Can";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import Can from "../shared/Can";
 
 interface TranslationManagementProps {
   id: string;
@@ -50,7 +50,7 @@ const TranslationManagement = ({ id }: TranslationManagementProps) => {
     if (!translations) return {};
     return translations[activeComponent] || {};
   }, [translations, activeComponent]);
-  
+
   const filteredKeys = useMemo(() => {
     return Object.keys(currentTranslations).filter((key) => {
       const lowerQuery = searchQuery.toLowerCase();
@@ -73,10 +73,63 @@ const TranslationManagement = ({ id }: TranslationManagementProps) => {
     });
   };
 
+  const getTranslationDiff = (original: any, current: any) => {
+    const diff: any = {};
+
+    for (const component in current) {
+      const compDiff: any = {};
+      const originalComp = original?.[component] || {};
+      const currentComp = current[component];
+
+      for (const key in currentComp) {
+        const originalVal = originalComp[key];
+        const currentVal = currentComp[key];
+
+        if (typeof currentVal === "object" && currentVal !== null) {
+          const subDiff: any = {};
+          const originalSub = originalVal || {};
+
+          for (const subKey in currentVal) {
+            if (currentVal[subKey] !== originalSub[subKey]) {
+              subDiff[subKey] = currentVal[subKey];
+            }
+          }
+
+          if (Object.keys(subDiff).length > 0) {
+            compDiff[key] = subDiff;
+          }
+        } else {
+          if (currentVal !== originalVal) {
+            compDiff[key] = currentVal;
+          }
+        }
+      }
+
+      if (Object.keys(compDiff).length > 0) {
+        diff[component] = compDiff;
+      }
+    }
+
+    return diff;
+  };
+
   const handleSave = async () => {
     if (!locale) return;
+
+    const diff = getTranslationDiff(translationsData?.data || {}, translations);
+
+    if (Object.keys(diff).length === 0) {
+      toast.info("No changes to save.");
+      return;
+    }
+
+    console.log("Translation Diff Payload:", diff);
+
     try {
-      await updateTranslations({ locale: locale as string, data: { translations } }).unwrap();
+      await updateTranslations({
+        locale: locale as string,
+        data: { translations: diff },
+      }).unwrap();
       toast.success("Translations updated successfully.");
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to update translations.");
@@ -107,29 +160,47 @@ const TranslationManagement = ({ id }: TranslationManagementProps) => {
     <div className="min-h-screen pb-20">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div className="sticky top-[100px] z-[50] -mx-4 pt-0! sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-light-body-bg/80 dark:bg-(--dark-body)/80 backdrop-blur-md shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] py-4 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar)">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.back()}
+              className="w-10 h-10 rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar)"
+            >
               <ArrowLeft size={20} />
             </Button>
-            <div>
+            <div className="flex-1">
               <h1 className="text-2xl font-bold text-(--text-green-primary) flex items-center gap-2">
                 Manage Translations
-                <span className="text-gray-400 font-normal">({languageData?.data?.name || "..."})</span>
+                <span className="text-gray-400 font-normal">
+                  ({languageData?.data?.name || "..."})
+                </span>
               </h1>
-              <p className="text-sm text-gray-500">Edit localization keys and values for this language.</p>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                Edit localization keys and values for this language.
+              </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
             <Can permission="update.languages">
-              <Button variant="outline" onClick={handleReset} className="rounded-lg border-(--input-border-color) h-11 px-4.5 py-5 dark:bg-(--page-body-bg)! dark:border-none" disabled={isUpdating}>
+              <Button
+                variant="outline"
+                onClick={handleReset}
+                className="rounded-lg border-(--input-border-color) h-11 px-4.5 py-5 dark:bg-(--page-body-bg)! dark:border-none"
+                disabled={isUpdating}
+              >
                 <RotateCcw className="w-4 h-4 mr-2" />
                 Reset
               </Button>
             </Can>
             <Can permission="update.languages">
-              <Button onClick={handleSave} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg h-11 px-4.5 py-5 dark:shadow-none min-w-35" disabled={isUpdating}>
+              <Button
+                onClick={handleSave}
+                className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg h-11 px-4.5 py-5 dark:shadow-none min-w-35"
+                disabled={isUpdating}
+              >
                 {isUpdating ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

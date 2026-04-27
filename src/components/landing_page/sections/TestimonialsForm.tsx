@@ -83,9 +83,9 @@ const TestimonialsForm = ({ data, onChange }: TestimonialsFormProps) => {
             <PopoverContent className="w-[var(--radix-popover-trigger-width)] [@media(min-width:1421px)]:w-[500px] p-0 rounded-lg border-gray-100 dark:border-(--card-border-color) shadow-2xl overflow-hidden" align="start">
               <Command className="dark:bg-page-body">
                 <CommandInput placeholder="Search by name or company..." className="h-12" />
-                <CommandList className="p-1">
+                <CommandList className="p-1 custom-scrollbar">
                   <CommandEmpty className="py-6 text-center text-xs text-gray-400">No records found matching your query.</CommandEmpty>
-                  <CommandGroup>
+                  <CommandGroup className="custom-scrollbar">
                     {testimonialsData?.data?.testimonials.map((testimonial) => {
                       const isSelected = selectedTestimonials.some((t: any) => (typeof t === "string" ? t === testimonial._id : t._id === testimonial._id));
                       return (

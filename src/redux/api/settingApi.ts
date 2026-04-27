@@ -59,6 +59,8 @@ export interface AppSettings {
   max_groups_per_user: number;
   max_group_members: number;
   allowed_file_upload_types: string[];
+  storage_limit: number;
+  restore_storage_on_delete: boolean;
   // Maintenance
   maintenance_mode: boolean;
   maintenance_title: string;
@@ -78,6 +80,17 @@ export interface AppSettings {
   show_email_config: boolean;
   show_whatsapp_config: boolean;
   default_currency?: any;
+  // Google
+  google_client_id: string | null;
+  google_client_secret: string | null;
+  google_redirect_uri: string | null;
+  // AWS
+  aws_access_key_id: string | null;
+  aws_secret_access_key: string | null;
+  aws_secret_access_key_set?: boolean;
+  aws_region: string | null;
+  aws_s3_bucket: string | null;
+  is_aws_s3_enabled: boolean;
 }
 
 export interface TestMailPayload {

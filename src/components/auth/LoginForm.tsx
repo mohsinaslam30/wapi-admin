@@ -112,7 +112,8 @@ const LoginForm = () => {
         })
       );
 
-      router.push(callbackUrl);
+      const nextUrl = callbackUrl.includes("?") ? `${callbackUrl}&login_success=true` : `${callbackUrl}?login_success=true`;
+      router.push(nextUrl);
       router.refresh();
     } catch (err: any) {
       setError(err?.data?.message || err?.message || "An error occurred during login");
@@ -122,10 +123,10 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="bg-[#f6f8f7] bg-admin dark:bg-page-body min-h-screen flex items-center justify-center p-4.5 relative overflow-hidden flex-col">
+    <div className="bg-auth-bg bg-admin dark:bg-page-body min-h-screen flex items-center justify-center p-4.5 relative overflow-hidden flex-col">
       <div className="w-full max-w-md relative shadow-2xl rounded-lg">
         <Card className="w-full max-w-xl bg-white border-0 shadow-none overflow-hidden rounded-lg dark:bg-(--card-color) dark:border dark:border-(--card-border-color)">
-          <CardContent className="pt-12 pb-8 px-8 sm:px-10">
+          <CardContent className="pt-12 sm:p-6 p-4">
             {/* Logo / Icon */}
             <div className="flex flex-col items-center mb-8">
               <DynamicLogo />
@@ -199,7 +200,7 @@ const LoginForm = () => {
                   </div>
                 </div>
 
-                <div className="mt-6 p-3 bg-(--light-primary) rounded-lg border border-[#16a34a33] justify-center flex cursor-pointer dark:bg-transparent dark:border-(--card-border-color)" onClick={fillDemoCredentials}>
+                <div className="mt-6 p-3 bg-(--light-primary) rounded-lg border border-success-border-light justify-center flex cursor-pointer dark:bg-transparent dark:border-(--card-border-color)" onClick={fillDemoCredentials}>
                   <p className="text-sm font-semibold text-slate-600 dark:text-gray-400">Demo Credentials</p>
                 </div>
               </>

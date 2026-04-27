@@ -10,6 +10,8 @@ import { toast } from "sonner";
 import { CreateAIModelRequest } from "@/src/types/store";
 import { ROUTES } from "@/src/constants";
 
+import { ArrowLeft } from "lucide-react";
+
 const EditAIModelPage = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -50,10 +52,21 @@ const EditAIModelPage = () => {
   }
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-(--text-green-primary) mb-2">{t("ai_models_edit_title")}</h1>
-        <p className="text-sm text-gray-400">{t("ai_models_edit_subtitle")}</p>
+    <div className="w-full pb-8">
+      {/* Header */}
+      <div className="sticky pt-0! top-[110px] z-[50] bg-light-body-bg shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] dark:bg-(--dark-body) py-4 -mt-4 transition-all mb-5 flex flex-col sm:flex-row sm:items-center gap-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => router.back()}
+          className="rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar) transition-all"
+        >
+          <ArrowLeft size={20} />
+        </Button>
+        <div>
+          <h1 className="text-2xl font-bold text-(--text-green-primary) mb-2">{t("ai_models_edit_title")}</h1>
+          <p className="text-sm text-gray-400">{t("ai_models_edit_subtitle")}</p>
+        </div>
       </div>
       <AIModelForm initialValues={data.data} onSubmit={handleSubmit} isLoading={isUpdating} />
     </div>

@@ -26,6 +26,20 @@ const InquiryContainer = () => {
   const [sortBy, setSortBy] = useState("created_at");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
+  const [columns, setColumns] = useState([
+    { id: "name", label: t("inquiry_name"), isVisible: true },
+    { id: "subject", label: t("inquiry_subject"), isVisible: true },
+    { id: "created_at", label: t("common_created_at"), isVisible: true },
+  ]);
+
+  const handleColumnToggle = (columnId: string) => {
+    setColumns((prev) =>
+      prev.map((col) =>
+        col.id === columnId ? { ...col, isVisible: !col.isVisible } : col
+      )
+    );
+  };
+
   const handleSortChange = (key: string, order: "asc" | "desc") => {
     setSortBy(key);
     setSortOrder(order);
@@ -104,6 +118,8 @@ const InquiryContainer = () => {
         onSearch={handleSearch}
         searchTerm={inputValue}
         isLoading={isFetching}
+        columns={columns}
+        onColumnToggle={handleColumnToggle}
         selectedCount={selectedIds.length}
         onBulkDelete={() => setIsBulkDeleteModalOpen(true)}
       />
@@ -123,6 +139,8 @@ const InquiryContainer = () => {
         onSelectionChange={setSelectedIds}
         selectedIds={selectedIds}
         onSortChange={handleSortChange}
+        columns={columns}
+        searchTerm={searchTerm}
       />
 
       <ConfirmModal

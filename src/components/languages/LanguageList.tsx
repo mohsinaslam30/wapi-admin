@@ -1,6 +1,7 @@
 "use client";
 
 import { ImageBaseUrl, ROUTES } from "@/src/constants";
+import { getResolvedImageUrl } from "@/src/utils/image";
 import { Button } from "@/src/elements/ui/button";
 import { Switch } from "@/src/elements/ui/switch";
 import { usePermissions } from "@/src/hooks/usePermissions";
@@ -26,9 +27,10 @@ interface LanguageListProps {
   onSelectionChange: (ids: string[]) => void;
   selectedIds: string[];
   onSortChange: (sortBy: string, sortOrder: "asc" | "desc") => void;
+  searchTerm?: string;
 }
 
-const LanguageList = ({ languages, onDelete, onBulkDelete, onToggleStatus, isLoading, total, page, totalPages, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange }: LanguageListProps) => {
+const LanguageList = ({ languages, onDelete, onBulkDelete, onToggleStatus, isLoading, total, page, totalPages, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange, searchTerm }: LanguageListProps) => {
   const router = useRouter();
   const { hasPermission } = usePermissions();
 
@@ -36,7 +38,7 @@ const LanguageList = ({ languages, onDelete, onBulkDelete, onToggleStatus, isLoa
     {
       header: "Flag",
       className: "[@media(max-width:768px)]:min-w-[125px]",
-      cell: (row: Language) => <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-100 dark:bg-(--page-body-bg) dark:border-none bg-gray-50 flex items-center justify-center">{row.flag ? <Image src={ImageBaseUrl + "/" + row.flag} alt={row.name} width={100} height={100} className="w-full h-full object-cover" unoptimized /> : <Globe className="w-5 h-5 text-gray-400" />}</div>,
+      cell: (row: Language) => <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-100 dark:bg-(--page-body-bg) dark:border-none bg-gray-50 flex items-center justify-center">{row.flag ? <Image src={getResolvedImageUrl(row.flag)} alt={row.name} width={100} height={100} className="w-full h-full object-cover" unoptimized /> : <Globe className="w-5 h-5 text-gray-400" />}</div>,
     },
     {
       header: "Name",
@@ -58,7 +60,7 @@ const LanguageList = ({ languages, onDelete, onBulkDelete, onToggleStatus, isLoa
     {
       header: "Status",
       className: " [@media(max-width:768px)]:min-w-[100px]",
-      cell: (row: Language) => <Switch checked={row.is_active} onCheckedChange={() => onToggleStatus(row._id)} disabled={isLoading || !hasPermission("update.languages")} className="data-[state=checked]:bg-(--text-green-primary)" />,
+      cell: (row: Language) => <Switch checked={row.is_active} onCheckedChange={() => !row.is_default && onToggleStatus(row._id)} disabled={row.is_default || isLoading || !hasPermission("update.languages")} className="data-[state=checked]:bg-(--text-green-primary)" />,
     },
   ];
 
@@ -78,7 +80,7 @@ const LanguageList = ({ languages, onDelete, onBulkDelete, onToggleStatus, isLoa
     </div>
   );
 
-  return <DataTable data={languages} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} onDelete={(item: Language) => onDelete(item._id)} deletePermission="delete.languages" actionPermissions={["update.languages"]} onBulkDelete={onBulkDelete} isLoading={isLoading} itemLabel="Languages" itemLabelSingular="Language" renderActions={renderActions} onSelectionChange={onSelectionChange} selectedIds={selectedIds} onSortChange={onSortChange} />;
+  return <DataTable data={languages} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} onDelete={(item: Language) => onDelete(item._id)} canDelete={(row: Language) => !row.is_default} deletePermission="delete.languages" actionPermissions={["update.languages"]} onBulkDelete={onBulkDelete} isLoading={isLoading} itemLabel="Languages" itemLabelSingular="Language" renderActions={renderActions} onSelectionChange={onSelectionChange} selectedIds={selectedIds} onSortChange={onSortChange} searchTerm={searchTerm} />;
 };
 
 export default LanguageList;

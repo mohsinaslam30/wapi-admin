@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import Can from "../shared/Can";
 
-const SubscriptionPlansTable = ({ subscriptions, page, totalPages, total, onPageChange, isLoading, limit, onLimitChange, onSortChange, visibleColumns }: SubscriptionPlansTableProps & { onSortChange?: (sortBy: string, sortOrder: "asc" | "desc") => void; visibleColumns?: string[] }) => {
+const SubscriptionPlansTable = ({ subscriptions, page, totalPages, total, onPageChange, isLoading, limit, onLimitChange, onSortChange, visibleColumns, searchTerm, isFilterActive }: SubscriptionPlansTableProps & { onSortChange?: (sortBy: string, sortOrder: "asc" | "desc") => void; visibleColumns?: string[] }) => {
   const { t } = useTranslation();
   const [approveManual] = useApproveManualSubscriptionMutation();
   const [rejectManual] = useRejectManualSubscriptionMutation();
@@ -147,11 +147,11 @@ const SubscriptionPlansTable = ({ subscriptions, page, totalPages, total, onPage
         <div className="text-sm">
           <p className="text-gray-900 dark:text-amber-50">
             <span className="text-gray-400 mr-1">{t("subscription_table_start")}</span>
-            {sub.current_period_start ? format(new Date(sub.current_period_start), "MMM dd, yyyy") : "N/A"}
+            {sub.current_period_start ? format(new Date(sub.current_period_start), "MMMM dd, yyyy") : "N/A"}
           </p>
           <p className="text-gray-900 mt-1 dark:text-amber-50">
             <span className="text-gray-400 mr-1">{t("subscription_table_end")}</span>
-            {sub.current_period_end ? format(new Date(sub.current_period_end), "MMM dd, yyyy") : "N/A"}
+            {sub.current_period_end ? format(new Date(sub.current_period_end), "MMMM dd, yyyy") : "N/A"}
           </p>
         </div>
       ),
@@ -203,7 +203,7 @@ const SubscriptionPlansTable = ({ subscriptions, page, totalPages, total, onPage
 
   return (
     <>
-      <DataTable data={subscriptions} columns={displayedColumns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} emptyMessage={t("subscription_table_no_subscriptions")} itemLabel={t("subscription_table_item_plural")} itemLabelSingular={t("subscription_table_item")} renderActions={renderActions} onSortChange={onSortChange} />
+      <DataTable data={subscriptions} columns={displayedColumns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} emptyMessage={t("subscription_table_no_subscriptions")} itemLabel={t("subscription_table_item_plural")} itemLabelSingular={t("subscription_table_item")} renderActions={renderActions} onSortChange={onSortChange} searchTerm={searchTerm} isFilterActive={isFilterActive} />
 
       <ConfirmModal isOpen={!!cancelSub} onClose={() => setCancelSub(null)} onConfirm={handleCancel} isLoading={isCancelling} title={t("subscription_cancel_title") || "Cancel Subscription"} subtitle={t("subscription_cancel_subtitle") || "Are you sure you want to cancel this subscription? This action will take effect immediately."} confirmText={t("common_confirm_cancel") || "Cancel Plan"} cancelText={t("common_no_keep_it") || "No, keep it"} variant="danger" loadingText="Cancelling..." />
     </>

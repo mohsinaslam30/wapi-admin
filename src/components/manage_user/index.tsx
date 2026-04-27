@@ -22,6 +22,23 @@ const UserListContainer = () => {
   const [sortBy, setSortBy] = useState("created_at");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
+  const [columns, setColumns] = useState([
+    { id: "user", label: t("subscription_table_user"), isVisible: true },
+    { id: "role", label: t("nav_roles_permission"), isVisible: true },
+    { id: "phone", label: t("auth_phone") || "Phone", isVisible: true },
+    { id: "status", label: t("common_status"), isVisible: true },
+    { id: "plan", label: t("common_plan") || "Plan", isVisible: true },
+    { id: "joined", label: t("common_joined") || "Joined", isVisible: true },
+  ]);
+
+  const handleColumnToggle = (columnId: string) => {
+    setColumns((prev) =>
+      prev.map((col) =>
+        col.id === columnId ? { ...col, isVisible: !col.isVisible } : col,
+      ),
+    );
+  };
+
   const handleSortChange = (key: string, order: "asc" | "desc") => {
     setSortBy(key);
     setSortOrder(order);
@@ -73,7 +90,23 @@ const UserListContainer = () => {
 
   return (
     <div className="flex flex-col min-h-full">
-      <CommonHeader title={t("manage_users_title")} description={t("manage_users_description")} searchTerm={search} onSearch={setSearch} onRefresh={handleRefresh} isLoading={isLoading} onAddClick={() => router.push(ROUTES.ManageUsersAdd)} addLabel={t("manage_users_add_user_label")} addPermission="create.users" bulkDeletePermission="delete.users" selectedCount={selectedIds.length} onBulkDelete={() => setShowBulkDeleteModal(true)} bulkActionLoading={isDeleting} />
+      <CommonHeader
+        title={t("manage_users_title")}
+        description={t("manage_users_description")}
+        searchTerm={search}
+        onSearch={setSearch}
+        onRefresh={handleRefresh}
+        isLoading={isLoading}
+        onAddClick={() => router.push(ROUTES.ManageUsersAdd)}
+        addLabel={t("manage_users_add_user_label")}
+        addPermission="create.users"
+        bulkDeletePermission="delete.users"
+        selectedCount={selectedIds.length}
+        onBulkDelete={() => setShowBulkDeleteModal(true)}
+        bulkActionLoading={isDeleting}
+        columns={columns}
+        onColumnToggle={handleColumnToggle}
+      />
 
       <UserList
         users={users}
@@ -92,6 +125,8 @@ const UserListContainer = () => {
         selectedIds={selectedIds}
         onSelectionChange={setSelectedIds}
         onSortChange={handleSortChange}
+        columnVisibility={columns}
+        searchTerm={search}
       />
 
       <ConfirmModal isOpen={showBulkDeleteModal} onClose={() => setShowBulkDeleteModal(false)} onConfirm={handleBulkDelete} isLoading={isDeleting} title={t("manage_users_confirm_delete_title")} subtitle={t("manage_users_confirm_delete_subtitle", { count: selectedIds.length })} confirmText={t("manage_users_confirm_delete_btn")} cancelText={t("common_cancel")} variant="danger" />

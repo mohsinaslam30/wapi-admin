@@ -38,6 +38,7 @@ export const BasicInfoSection = ({ language, setLanguage, category, setCategory,
   const sectorCategories = sector ? SECTOR_TEMPLATE_CATEGORIES[sector as SectorKey] ?? [] : [];
 
   const handleSectorChange = (val: string) => {
+    if (val === sector) return;
     setSector(val);
     setTemplateCategory("");
   };
@@ -98,7 +99,7 @@ export const BasicInfoSection = ({ language, setLanguage, category, setCategory,
           <Label className="text-sm font-bold text-slate-700 dark:text-slate-300">
             {t("templates_library_basic_info_template_category")} <span className="text-red-500">*</span>
           </Label>
-          <Select value={templateCategory || ""} onValueChange={setTemplateCategory} disabled={!sector}>
+          <Select key={sector} value={templateCategory || ""} onValueChange={setTemplateCategory} disabled={!sector}>
             <SelectTrigger className="h-12 py-5.5 border-(--input-border-color) dark:border-none rounded-lg bg-(--input-color) dark:bg-page-body transition-all">
               <SelectValue placeholder={sector ? t("templates_library_basic_info_select_category") : t("templates_library_basic_info_select_sector_first")} />
             </SelectTrigger>

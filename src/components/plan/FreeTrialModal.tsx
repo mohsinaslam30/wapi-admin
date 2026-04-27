@@ -39,10 +39,10 @@ const FreeTrialModal = ({ isOpen, onClose }: FreeTrialModalProps) => {
   const validationSchema = yup.object().shape({
     free_trial_days: yup
       .number()
-      .typeError("Must be a number")
-      .min(1, "Min 1 day")
-      .max(364, "Max 364 days")
-      .required("Required"),
+      .typeError(t("validation_number"))
+      .min(1, t("validation_min_days", { min: 1 }))
+      .max(364, t("validation_max_days", { max: 364 }))
+      .required(t("validation_required")),
   });
 
   const handleSubmit = async (e: React.FormEvent) => {

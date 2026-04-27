@@ -27,7 +27,7 @@ const PlanHeader = ({ isLoading, onFreeTrialClick }: PlanHeaderProps) => {
       isLoading={isLoading || false}
       extraActions={
         <Can permission="update.plans">
-          <Button variant="outline" onClick={onFreeTrialClick} className="flex items-center gap-2 px-4.5 py-5 rounded-lg border-(--input-color) text-slate-800 hover:bg-[#f8fafc] font-medium transition-all dark:bg-page-body dark:border-none dark:text-amber-50 dark:hover:bg-(--dark-sidebar)" disabled={isLoading}>
+          <Button variant="outline" onClick={onFreeTrialClick} className="flex items-center gap-2 px-4.5 py-5 rounded-lg border-(--input-color) text-slate-800 hover:bg-input-color font-medium transition-all dark:bg-page-body dark:border-none dark:text-amber-50 dark:hover:bg-(--dark-sidebar)" disabled={isLoading}>
             <Gift className="w-5 h-5" />
             Trial Period
           </Button>

@@ -22,7 +22,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onSelect, placehol
 
   return (
     <Select value={value} onValueChange={handleValueChange} disabled={disabled}>
-      <SelectTrigger className={cn("h-10 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700", className)}>
+      <SelectTrigger className={cn("h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700", className)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent className="bg-white dark:bg-(--card-color) border-(--input-border-color) dark:border-(--card-border-color) max-h-60">

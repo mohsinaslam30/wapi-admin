@@ -10,7 +10,8 @@ export function proxy(request: NextRequest) {
   const isForgotPasswordFlow = [
     "/auth/forgot-password",
     "/auth/verify-otp",
-    "/auth/reset-password"
+    "/auth/reset-password",
+    "/auth/restore-session",
   ].includes(request.nextUrl.pathname);
 
   if (isApiRoute) {

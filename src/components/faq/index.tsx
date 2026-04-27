@@ -35,10 +35,10 @@ const FaqContainer = () => {
   };
 
   const [columns, setColumns] = useState([
-    { id: "title", label: "FAQ Title", isVisible: true },
-    { id: "description", label: "Description", isVisible: true },
-    { id: "status", label: "Status", isVisible: true },
-    { id: "actions", label: "Actions", isVisible: true },
+    { id: "title", label: t("faq_question_label"), isVisible: true },
+    { id: "description", label: t("faq_answer_label"), isVisible: true },
+    { id: "status", label: t("common_status"), isVisible: true },
+    { id: "created_at", label: t("common_created_at"), isVisible: true },
   ]);
 
   const handleColumnToggle = (columnId: string) => {
@@ -168,6 +168,9 @@ const FaqContainer = () => {
         onSelectionChange={setSelectedIds}
         selectedIds={selectedIds}
         onSortChange={handleSortChange}
+        columns={columns}
+        searchTerm={searchTerm}
+        isFilterActive={hasActiveFilters}
       />
 
       <ConfirmModal

@@ -20,6 +20,9 @@ export interface TestimonialListProps {
   onSelectionChange?: (ids: string[]) => void;
   selectedIds?: string[];
   onSortChange?: (sortBy: string, sortOrder: "asc" | "desc") => void;
+  columns?: { id: string; label: string; isVisible: boolean }[];
+  searchTerm?: string;
+  isFilterActive?: boolean;
 }
 
 export interface EditTestimonialModalProps {
@@ -101,6 +104,8 @@ export interface FaqListProps {
   onSelectionChange?: (ids: string[]) => void;
   selectedIds?: string[];
   onSortChange?: (sortBy: string, sortOrder: "asc" | "desc") => void;
+  searchTerm?: string;
+  isFilterActive?: boolean;
 }
 
 export interface FaqTableProps {
@@ -126,6 +131,8 @@ export interface InquiryHeaderProps {
   onSearch: (value: string) => void;
   searchTerm: string;
   isLoading: boolean;
+  columns?: { id: string; label: string; isVisible: boolean }[];
+  onColumnToggle?: (columnId: string) => void;
   selectedCount?: number;
   onBulkDelete?: () => void | Promise<void>;
 }
@@ -165,6 +172,9 @@ export interface InquiryListProps {
   onSelectionChange?: (ids: string[]) => void;
   selectedIds?: string[];
   onSortChange?: (sortBy: string, sortOrder: "asc" | "desc") => void;
+  columns?: { id: string; label: string; isVisible: boolean }[];
+  searchTerm?: string;
+  isFilterActive?: boolean;
 }
 
 export interface FilterModalProps {
@@ -194,6 +204,10 @@ export interface PlanFeaturesProps {
     teams: string;
     forms: string;
     whatsapp_calling: string;
+    appointment_bookings: string;
+    facebookAds_campaign: string;
+    kanban_funnels: string;
+    segments: string;
   };
   onFeatureChange: (field: string, value: string | boolean) => void;
 }
@@ -288,6 +302,8 @@ export interface SubscriptionPlansTableProps {
   isLoading: boolean;
   limit?: number;
   onLimitChange?: (limit: number) => void;
+  searchTerm?: string;
+  isFilterActive?: boolean;
 }
 
 export interface SubscriptionPlansSearchBarProps {
@@ -341,6 +357,19 @@ export interface PaymentGatewayHeaderProps {
 export interface PlanWithSubscribers extends Plan {
   subscriber_count?: number;
   active_subscriber_count?: number;
+}
+
+export interface TestimonialHeaderProps {
+  onRefresh: () => void;
+  onFilter?: () => void;
+  onExport?: () => void;
+  onSearch?: (value: string) => void;
+  searchTerm?: string;
+  isLoading: boolean;
+  columns?: { id: string; label: string; isVisible: boolean }[];
+  onColumnToggle?: (columnId: string) => void;
+  selectedCount?: number;
+  onBulkDelete?: () => void | Promise<void>;
 }
 
 export interface PlanWithSubscribers extends Plan {

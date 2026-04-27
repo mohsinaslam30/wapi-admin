@@ -64,6 +64,10 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
       teams: "",
       forms: "",
       whatsapp_calling: "",
+      appointment_bookings: "",
+      facebookAds_campaign: "",
+      kanban_funnels: "",
+      segments: "",
     },
   });
 
@@ -104,6 +108,10 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
             teams: plan.features?.teams != null ? plan.features.teams.toString() : "",
             forms: plan.features?.forms != null ? plan.features.forms.toString() : "",
             whatsapp_calling: plan.features?.whatsapp_calling != null ? plan.features.whatsapp_calling.toString() : "",
+            appointment_bookings: plan.features?.appointment_bookings != null ? plan.features.appointment_bookings.toString() : "",
+            facebookAds_campaign: plan.features?.facebookAds_campaign != null ? plan.features.facebookAds_campaign.toString() : "",
+            kanban_funnels: plan.features?.kanban_funnels != null ? plan.features.kanban_funnels.toString() : "",
+            segments: plan.features?.segments != null ? plan.features.segments.toString() : "",
           },
           taxes: plan.taxes ? plan.taxes.map((t: any) => (typeof t === "string" ? t : t._id)) : [],
         });
@@ -192,6 +200,10 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
           teams: formData.features.teams ? parseInt(formData.features.teams) : undefined,
           forms: formData.features.forms ? parseInt(formData.features.forms) : undefined,
           whatsapp_calling: formData.features.whatsapp_calling ? parseInt(formData.features.whatsapp_calling) : undefined,
+          appointment_bookings: formData.features.appointment_bookings ? parseInt(formData.features.appointment_bookings) : undefined,
+          facebookAds_campaign: formData.features.facebookAds_campaign ? parseInt(formData.features.facebookAds_campaign) : undefined,
+          kanban_funnels: formData.features.kanban_funnels ? parseInt(formData.features.kanban_funnels) : undefined,
+          segments: formData.features.segments ? parseInt(formData.features.segments) : undefined,
         },
       };
 
@@ -230,62 +242,75 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
 
   return (
     <div className="min-h-screen ">
-      <div className="max-w-4xl mx-auto">
+      <div>
         {/* Header */}
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar) transition-all">
+        <div className="sticky top-[100px] z-[50] -mx-4 pt-0! sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-light-body-bg dark:bg-(--dark-body) shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] py-4 mb-5 sm:mb-2 flex flex-col sm:flex-row sm:items-center gap-4 transition-all">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => router.back()}
+            className="w-10 h-10 rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar) transition-all"
+          >
             <ArrowLeft size={20} />
           </Button>
-          <div>
-            <h1 className="text-2xl font-bold text-primary tracking-tight">{isEditMode ? t("plan_edit_title") : t("plan_add_title")}</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">{isEditMode ? t("plan_edit_subtitle") : t("plan_add_subtitle")}</p>
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold text-(--text-green-primary) tracking-tight">
+              {isEditMode ? t("plan_edit_title") : t("plan_add_title")}
+            </h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm leading-relaxed">
+              {isEditMode ? t("plan_edit_subtitle") : t("plan_add_subtitle")}
+            </p>
           </div>
         </div>
 
         {/* Form Content */}
-        <div className="space-y-6">
-          <PlanBasicInfo
-            formData={{
-              name: formData.name,
-              slug: formData.slug,
-              description: formData.description,
-            }}
-            onFieldChange={handleBasicInfoChange}
-          />
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+          <div className="space-y-6">
+            <PlanBasicInfo
+              formData={{
+                name: formData.name,
+                slug: formData.slug,
+                description: formData.description,
+              }}
+              onFieldChange={handleBasicInfoChange}
+            />
 
-          <PlanPricing
-            formData={{
-              price: formData.price,
-              original_price: formData.original_price,
-              currency: formData.currency,
-              billing_cycle: formData.billing_cycle,
-              trial_days: formData.trial_days,
-              sort_order: formData.sort_order,
-              taxes: formData.taxes,
-            }}
-            onFieldChange={handlePricingChange}
-          />
+            <PlanPricing
+              formData={{
+                price: formData.price,
+                original_price: formData.original_price,
+                currency: formData.currency,
+                billing_cycle: formData.billing_cycle,
+                trial_days: formData.trial_days,
+                sort_order: formData.sort_order,
+                taxes: formData.taxes,
+              }}
+              onFieldChange={handlePricingChange}
+            />
 
-          <PlanStatus
-            formData={{
-              is_featured: formData.is_featured,
-              is_active: formData.is_active,
-            }}
-            onFieldChange={handleStatusChange}
-          />
-
-          <PlanFeatures features={formData.features} onFeatureChange={handleFeatureChange} />
-
-          {/* Bottom Action Footer (Sticky-ish for mobile) */}
-          <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-100 dark:border-(--card-border-color) mt-4">
-            <Button variant="outline" onClick={handleCancel} className="px-4.5 py-5 dark:border-none text-gray-700 dark:text-gray-300 dark:bg-page-body dark:hover:bg-(--dark-sidebar) font-medium" disabled={isLoading}>
-              {t("common_cancel")}
-            </Button>
-            <Button onClick={handleSubmit} className="px-4.5 py-5 bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white font-semibold shadow-sm transition-all active:scale-95 disabled:opacity-50" disabled={isLoading || !formData.name || !formData.price || isLoadingPlan}>
-              <Check className="w-4 h-4 mr-2" />
-              {isLoading ? (isEditMode ? t("plan_updating") : t("plan_creating")) : isEditMode ? t("plan_update_button") : t("plan_save_button")}
-            </Button>
+            <PlanStatus
+              formData={{
+                is_featured: formData.is_featured,
+                is_active: formData.is_active,
+              }}
+              onFieldChange={handleStatusChange}
+            />
           </div>
+
+          <div className="space-y-6">
+            <PlanFeatures features={formData.features} onFeatureChange={handleFeatureChange} />
+          </div>
+        </div>
+
+        {/* Bottom Action Footer (Sticky-ish for mobile) */}
+        <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-100 dark:border-(--card-border-color) mt-4">
+          <Button variant="outline" onClick={handleCancel} className="px-4.5 py-5 dark:border-none text-gray-700 dark:text-gray-300 dark:bg-page-body dark:hover:bg-(--dark-sidebar) font-medium" disabled={isLoading}>
+            {t("common_cancel")}
+          </Button>
+          <Button onClick={handleSubmit} className="px-4.5 py-5 bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white font-semibold shadow-sm transition-all active:scale-95 disabled:opacity-50" disabled={isLoading || !formData.name || !formData.price || isLoadingPlan}>
+            <Check className="w-4 h-4 mr-2" />
+            {isLoading ? (isEditMode ? t("plan_updating") : t("plan_creating")) : isEditMode ? t("plan_update_button") : t("plan_save_button")}
+          </Button>
         </div>
       </div>
     </div>

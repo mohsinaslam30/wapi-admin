@@ -11,7 +11,7 @@ export interface ExportColumn {
 }
 
 const getNestedValue = (obj: any, path: string) => {
-  return path.split("_").reduce((acc, part) => acc && acc[part], obj);
+  return path.split(".").reduce((acc, part) => acc && acc[part], obj);
 };
 
 export const exportData = ({
@@ -28,7 +28,11 @@ export const exportData = ({
   const headers = columns.map((col) => col.header);
   const rows = data.map((item) =>
     columns.map((col) => {
-      const value = getNestedValue(item, col.key);
+      let value = getNestedValue(item, col.key);
+      if (typeof value === "number") {
+        // Round to 2 decimal places if it's a float
+        value = Number.isInteger(value) ? value : value.toFixed(2);
+      }
       return value === null || value === undefined ? "" : String(value);
     })
   );
@@ -62,12 +66,39 @@ export const exportData = ({
     XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
     XLSX.writeFile(workbook, `${filename}.xlsx`);
   } else if (format === "pdf") {
-    const doc = new jsPDF();
+    const doc = new jsPDF({
+      orientation: columns.length > 5 ? "landscape" : "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+
     autoTable(doc, {
       head: [headers],
       body: rows,
       theme: "striped",
-      headStyles: { fillColor: [52, 73, 94] },
+      headStyles: {
+        fillColor: [52, 73, 94],
+        fontSize: 10,
+        halign: "center",
+      },
+      bodyStyles: {
+        fontSize: 9,
+        valign: "middle",
+      },
+      columnStyles: {
+        // Add specific column widths if needed, or let autotable handle it with wrap
+      },
+      margin: { top: 20 },
+      didDrawPage: (data) => {
+        // Add title on each page
+        doc.setFontSize(18);
+        doc.setTextColor(40);
+        doc.text(filename.replace(/_/g, " ").toUpperCase(), data.settings.margin.left, 10);
+      },
+      styles: {
+        overflow: "linebreak",
+        cellPadding: 2,
+      },
     });
     doc.save(`${filename}.pdf`);
   }

@@ -22,14 +22,14 @@ const CommonHeader = ({ title, description, onSearch, searchTerm = "", searchPla
   }, [title, dispatch]);
 
   return (
-    <div className="space-y-6 sm:space-y-8 mb-5 sm:mb-8">
+    <div className="space-y-6 pt-0! sm:space-y-8 mb-5 sm:mb-2 sticky top-[100px] z-[50] -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-light-body-bg dark:bg-(--dark-body) shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] py-4 transition-all">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-(--text-green-primary) tracking-tight mb-2">{title}</h1>
           <p className="text-gray-400 text-sm">{description}</p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           {extraActions}
           {onAddClick && (
             <Can permission={addPermission}>
@@ -46,7 +46,7 @@ const CommonHeader = ({ title, description, onSearch, searchTerm = "", searchPla
         <div className="dark:bg-(--card-color) dark:border-(--card-border-color) bg-white p-4 sm:p-6 rounded-lg shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center gap-4 flex-wrap">
           {onSearch && (
             <div className="relative flex-1">
-              <div className="absolute left-4 rtl:right-4 rtl:left-0 top-1/2 -translate-y-1/2 text-[#94a3b8]">
+              <div className="absolute left-4 rtl:right-4 rtl:left-0 top-1/2 -translate-y-1/2 text-muted-text">
                 <Search className="w-5 h-5" />
               </div>
               <Input placeholder={searchPlaceholder === "Search..." ? t("common_search") + "..." : searchPlaceholder} value={searchTerm} onChange={(e) => onSearch(e.target.value)} className="dark:bg-page-body pl-12 rtl:pr-12 rtl:pl-0 py-6 bg-(--input-color) border-(--input-border-color) focus:border-(--text-green-primary) focus:ring-(--text-green-primary) rounded-lg text-sm dark:border-(--card-border-color) w-full" />
@@ -54,27 +54,8 @@ const CommonHeader = ({ title, description, onSearch, searchTerm = "", searchPla
           )}
           {!!(onFilter || onExport || onRefresh || (columns && onColumnToggle) || (selectedCount && selectedCount > 0)) && (
             <div className="flex flex-col sm:flex-row gap-4">
-              {columns && onColumnToggle && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="dark:bg-page-body dark:hover:bg-(--dark-sidebar) dark:hover:text-amber-50 dark:border-none dark:text-amber-50 flex items-center gap-2 px-6 py-6 rounded-lg border-[#e2e8f0] text-[#475569] hover:bg-[#f8fafc] hover:text-[#1e293b] font-medium transition-all" disabled={isLoading}>
-                      <Settings2 className="w-5 h-5" />
-                      {t("common_columns")}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuLabel>{t("common_toggle_columns")}</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {columns.map((column) => (
-                      <DropdownMenuCheckboxItem key={column.id} checked={column.isVisible} onCheckedChange={() => onColumnToggle(column.id)}>
-                        {column.label}
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              )}
               {onFilter && (
-                <Button variant="outline" onClick={onFilter} className="dark:bg-page-body dark:border-none dark:hover:bg-(--dark-sidebar) dark:hover:text-amber-50 dark:border-(--card-border-color) dark:text-amber-50 flex items-center gap-2 px-6 py-6 rounded-lg shadow-sm! text-[#475569] hover:bg-[#f8fafc] hover:text-[#1e293b] font-medium transition-all" disabled={isLoading}>
+                <Button variant="outline" onClick={onFilter} className="dark:bg-page-body dark:border-none dark:hover:bg-(--dark-sidebar) dark:hover:text-amber-50 dark:border-(--card-border-color) dark:text-amber-50 flex items-center gap-2 px-6 py-6 rounded-lg shadow-sm! text-body-text hover:bg-input-color hover:text-body-text-hover font-medium transition-all" disabled={isLoading}>
                   <ListFilter className="w-5 h-5" />
                   {t("common_filter_btn")}
                 </Button>
@@ -82,7 +63,7 @@ const CommonHeader = ({ title, description, onSearch, searchTerm = "", searchPla
               {onExport && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="dark:bg-page-body dark:hover:bg-(--dark-sidebar) dark:border-none dark:hover:text-amber-50 dark:text-amber-50 flex items-center gap-2 px-6 py-6 rounded-lg shadow-sm text-[#475569] hover:bg-[#f8fafc] hover:text-[#1e293b] font-medium transition-all" disabled={isLoading}>
+                    <Button variant="outline" className="dark:bg-page-body dark:hover:bg-(--dark-sidebar) dark:border-none dark:hover:text-amber-50 dark:text-amber-50 flex items-center gap-2 px-6 py-6 rounded-lg shadow-sm text-body-text hover:bg-input-color hover:text-body-text-hover font-medium transition-all" disabled={isLoading}>
                       <Download className="w-5 h-5" />
                       {t("common_export")}
                     </Button>
@@ -97,10 +78,36 @@ const CommonHeader = ({ title, description, onSearch, searchTerm = "", searchPla
                 </DropdownMenu>
               )}
               {onRefresh && (
-                <Button onClick={onRefresh} variant="outline" className="dark:bg-page-body dark:hover:bg-(--dark-sidebar) dark:hover:text-amber-50 dark:border-none dark:text-amber-50 flex items-center gap-2 px-6 py-6 rounded-lg border-[#e2e8f0] text-[#475569] hover:bg-[#f8fafc] hover:text-[#1e293b] font-medium transition-all">
+                <Button onClick={onRefresh} variant="outline" className="dark:bg-page-body dark:hover:bg-(--dark-sidebar) dark:hover:text-amber-50 dark:border-none dark:text-amber-50 flex items-center gap-2 px-6 py-6 rounded-lg border-light-border-color text-body-text hover:bg-input-color hover:text-body-text-hover font-medium transition-all">
                   <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
                   {t("common_refresh")}
                 </Button>
+              )}
+              {columns && onColumnToggle && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="dark:bg-page-body dark:hover:bg-(--dark-sidebar) dark:hover:text-amber-50 dark:border-none dark:text-amber-50 flex items-center gap-2 px-6 py-6 rounded-lg border-light-border-color text-body-text hover:bg-input-color hover:text-body-text-hover font-medium transition-all" disabled={isLoading}>
+                      <Settings2 className="w-5 h-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>{t("common_toggle_columns")}</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {(() => {
+                      const visibleColumnsCount = columns.filter((col) => col.isVisible).length;
+                      return columns.map((column) => (
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          checked={column.isVisible}
+                          onCheckedChange={() => onColumnToggle(column.id)}
+                          disabled={column.isVisible && visibleColumnsCount === 1}
+                        >
+                          {column.label}
+                        </DropdownMenuCheckboxItem>
+                      ));
+                    })()}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
               {!!selectedCount && onBulkDelete && (
                 <Can permission={bulkDeletePermission}>

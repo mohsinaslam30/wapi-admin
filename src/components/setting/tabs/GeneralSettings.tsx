@@ -9,8 +9,10 @@ import { updateSettingField, updateSettingError } from "@/src/redux/reducers/set
 import SettingCard from "../shared/SettingCard";
 import SettingToggle from "../shared/SettingToggle";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const GeneralSettings = ({ isLoading }: { isLoading?: boolean }) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const settings = useAppSelector((state) => state.settings.data);
   const [errors, setErrors] = useState<Partial<Record<keyof AppSettings, string>>>({});
@@ -19,9 +21,9 @@ const GeneralSettings = ({ isLoading }: { isLoading?: boolean }) => {
     session_expiration_days: yup
       .number()
       .transform((value, originalValue) => (originalValue === "" ? undefined : value))
-      .typeError("Must be a number")
-      .min(1, "Min 1 day")
-      .required("Required"),
+      .typeError(t("validation_number"))
+      .min(1, t("validation_min_days", { min: 1 }))
+      .required(t("validation_required")),
   });
 
   const onChange = async (key: keyof AppSettings, value: any) => {

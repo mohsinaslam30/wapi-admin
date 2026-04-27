@@ -79,7 +79,7 @@ const ResetPasswordContent = () => {
   return (
     <div className="min-h-screen bg-admin dark:bg-page-body flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-2xl border-0 dark:bg-(--card-color) dark:border dark:border-(--card-border-color)">
-        <CardContent className="pt-12 pb-8 px-8">
+        <CardContent className="sm:p-6 p-4">
           <div className="flex flex-col items-center mb-8">
             <DynamicLogo />
             <h1 className="text-lg sm:text-2xl font-bold text-(--text-green-primary) mb-2 mt-2">Set New Password</h1>
@@ -87,7 +87,7 @@ const ResetPasswordContent = () => {
           </div>
 
           {error && (
-            <div className="mb-6 p-3 bg-[#ff000014] border border-[#ff000042] rounded-lg flex items-start gap-2">
+            <div className="mb-6 p-3 bg-error-bg-light border border-error-border-light rounded-lg flex items-start gap-2">
               <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
               <p className="text-sm text-red-600">{error}</p>
             </div>

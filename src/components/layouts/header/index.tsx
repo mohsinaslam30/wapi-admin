@@ -23,7 +23,7 @@ const Header = () => {
   return (
     <header
       className={`
-        z-[151] fixed top-5 transition-all duration-300 h-20 flex items-center left-0 right-0 shadow-[0_-55px_0px_0px_#eeeff3] dark:shadow-[0_-55px_0px_0px_var(--dark-body)]
+        z-[151] fixed top-5 transition-all duration-300 h-20 flex items-center left-0 right-0 shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)]
         ${!isVisuallyCollapsed ? "lg:ps-72" : "lg:ps-24 ps-0"} 
       `}
     >

@@ -72,7 +72,7 @@ const CKEditorComponent = ({ value, onChange, placeholder = "Type your answer he
               margin-block: 14px !important;
             }
               .ck.ck-editor__main  .ck-blurred.ck-editor__editable_inline{
-              border: 1px solid #dddddd !important;
+              border: 1px solid var(--ck-border-color) !important;
               }
 
             .ck-loader{
@@ -191,9 +191,9 @@ const CKEditorComponent = ({ value, onChange, placeholder = "Type your answer he
             // Style the toolbar
             const toolbar = editorElement.querySelector(".ck-toolbar");
             if (toolbar instanceof HTMLElement) {
-              toolbar.style.backgroundColor = isDarkMode ? cardColor : "#f8fafc";
+              toolbar.style.backgroundColor = isDarkMode ? cardColor : "var(--input-color)";
               // toolbar.style.border = "none";
-              toolbar.style.borderBottom = isDarkMode ? `1px solid ${cardBorderColor}` : "1px solid #f1f5f9";
+              toolbar.style.borderBottom = isDarkMode ? `1px solid ${cardBorderColor}` : "1px solid var(--card-border-light)";
               toolbar.style.padding = "8px 16px";
             }
 

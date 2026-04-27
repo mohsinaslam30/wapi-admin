@@ -38,7 +38,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const isVisuallyCollapsed = sidebarToggle && !sidebarHover;
 
   return (
-    <div className="min-h-screen bg-[#eeeff3] dark:bg-(--dark-body) transition-colors duration-300">
+    <div className="min-h-screen bg-light-body-bg dark:bg-(--dark-body) transition-colors duration-300">
       <Header />
       <div className=" flex-1">
         <Sidebar />
@@ -47,7 +47,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             ${!isVisuallyCollapsed ? "lg:ml-76 rtl:lg:ml-0 rtl:lg:mr-76" : "lg:ml-24 rtl:lg:ml-0 rtl:lg:mr-24"} ml-0`}
         >
           <div className="p-5 sm:p-6 lg:p-8 min-h-screen">
-            <div className="rounded-lg h-full mt-21.25">{children}</div>
+            <div className="rounded-lg h-full mt-[80px]">{children}</div>
           </div>
         </main>
       </div>

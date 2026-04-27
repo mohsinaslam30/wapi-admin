@@ -99,7 +99,7 @@ const VerifyOtpContent = () => {
   return (
     <div className="min-h-screen bg-admin dark:bg-[var(--page-body-bg)] flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-2xl border-0 dark:bg-[var(--card-color)] dark:border dark:border-[var(--card-border-color)]">
-        <CardContent className="p-6 pb-8 px-8 sm:pt-12 sm:px-8 sm:pb-8">
+        <CardContent className="sm:p-6 p-4">
           <div className="flex flex-col items-center mb-8">
             <DynamicLogo />
             <h1 className="text-lg sm:text-2xl font-bold text-primary mb-2 mt-2">Verify OTP</h1>
@@ -109,14 +109,14 @@ const VerifyOtpContent = () => {
           </div>
 
           {error && (
-            <div className="mb-6 p-3 bg-[#ff000014] border border-[#ff000042] rounded-lg flex items-start gap-2">
+            <div className="mb-6 p-3 bg-error-bg-light border border-error-border-light rounded-lg flex items-start gap-2">
               <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
               <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
 
           {success && (
-            <div className="mb-6 p-3 bg-green-50 border border-green-200 dark:bg-[#32433230] dark:border-[var(--card-border-color)] rounded-lg flex items-start gap-2">
+            <div className="mb-6 p-3 bg-green-50 border border-green-200 dark:bg-success-bg-dark dark:border-[var(--card-border-color)] rounded-lg flex items-start gap-2">
               <AlertCircle className="w-5 h-5 text-green-600 shrink-0" />
               <p className="text-sm text-green-600">{success}</p>
             </div>

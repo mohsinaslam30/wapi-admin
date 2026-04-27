@@ -126,59 +126,32 @@ const PageForm = ({ initialData, onSubmit, isLoading, isEdit }: PageFormProps) =
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => router.back()}
-            className="rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar) transition-all"
-          >
-            <ArrowLeft size={20} />
-          </Button>
-          <div className="flex-1">
-            <h1 className="text-2xl font-extrabold text-(--text-green-primary) tracking-tight">
-              {isEdit ? t("pages_edit_title", "Edit Page") : t("pages_add_title", "Create New Page")}
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
-              {isEdit ? t("pages_subtitle") : t("pages_add_subtitle", "Fill in the details below to create a new page")}
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-              className="px-4.5 py-5 border-gray-300 dark:border-none text-gray-700 dark:text-gray-300 dark:bg-page-body dark:hover:bg-(--dark-sidebar) font-medium"
-              disabled={isLoading}
-            >
-              {t("common_cancel")}
-            </Button>
-            <Button
-              type="submit"
-              onClick={handleSubmit}
-              disabled={isLoading || !form.title}
-              className="px-4.5 py-5 bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white font-semibold shadow-md transition-all active:scale-95 disabled:opacity-50"
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  {isEdit ? t("common_updating") : t("common_saving")}
-                </span>
-              ) : (
-                <span className="flex items-center gap-2">
-                  <Check size={18} />
-                  {isEdit ? t("common_update") : t("common_save")}
-                </span>
-              )}
-            </Button>
-          </div>
+    <div className="w-full pb-8">
+      {/* Header */}
+      <div className="sticky top-[100px] z-[50] -mx-4 pt-0! sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-light-body-bg dark:bg-(--dark-body) shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] py-4 mb-5 sm:mb-2 flex flex-col sm:flex-row sm:items-center gap-4 transition-all">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={() => router.back()}
+          className="w-10 h-10 rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-slate-200 dark:border-(--card-border-color) hover:bg-slate-50 dark:hover:bg-(--dark-sidebar) transition-all"
+        >
+          <ArrowLeft size={20} />
+        </Button>
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold text-(--text-green-primary) tracking-tight">
+            {isEdit ? t("pages_edit_title", "Edit Page") : t("pages_add_title", "Create New Page")}
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm leading-relaxed">
+            {isEdit ? t("pages_subtitle") : t("pages_add_subtitle", "Fill in the details below to create a new page")}
+          </p>
         </div>
+      </div>
 
-        <div className="space-y-6">
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        {/* Main Content — 8 columns */}
+        <div className="xl:col-span-8 space-y-6">
           <PageContentForm
             title={form.title}
             slug={form.slug}
@@ -193,20 +166,49 @@ const PageForm = ({ initialData, onSubmit, isLoading, isEdit }: PageFormProps) =
             onMetaTitleChange={(e) => setForm((prev) => ({ ...prev, meta_title: e.target.value }))}
             onMetaDescriptionChange={(e) => setForm((prev) => ({ ...prev, meta_description: e.target.value }))}
           />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-12">
-            <VisibilitySettingsForm
-              status={form.status}
-              onStatusChange={(val) => setForm((prev) => ({ ...prev, status: val }))}
-            />
-
-            <MetaImageForm
-              imagePreview={imagePreview}
-              onImageChange={handleImageChange}
-              onRemoveImage={removeImage}
-            />
-          </div>
         </div>
+
+        {/* Sidebar — 4 columns */}
+        <div className="xl:col-span-4 space-y-6">
+          <VisibilitySettingsForm
+            status={form.status}
+            onStatusChange={(val) => setForm((prev) => ({ ...prev, status: val }))}
+          />
+
+          <MetaImageForm
+            imagePreview={imagePreview}
+            onImageChange={handleImageChange}
+            onRemoveImage={removeImage}
+          />
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex items-center justify-end flex-wrap gap-3 mt-8">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => router.back()}
+          className="px-6 py-5 h-11 border-gray-300 dark:bg-(--card-color) dark:border-(--card-border-color) dark:text-gray-200 shadow-sm dark:hover:bg-(--dark-sidebar) text-gray-700 hover:bg-gray-50 font-medium"
+          disabled={isLoading}
+        >
+          {t("common_cancel")}
+        </Button>
+        <Button
+          type="submit"
+          onClick={handleSubmit}
+          disabled={isLoading || !form.title}
+          className="px-6 py-5 h-11 bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white font-semibold shadow-md transition-all active:scale-95 disabled:opacity-50 gap-2"
+        >
+          {isLoading ? (
+            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : (
+            <Check size={18} />
+          )}
+          {isLoading
+            ? isEdit ? t("common_updating") : t("common_saving")
+            : isEdit ? t("common_update") : t("common_save")}
+        </Button>
       </div>
     </div>
   );

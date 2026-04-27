@@ -34,7 +34,7 @@ function AppContent({ children }: MainProviderProps) {
     isSuccess: isPermissionsSuccess,
     isLoading: isPermissionsLoading,
     isError: isPermissionsError,
-  } = useGetMyPermissionsQuery(undefined, {
+  } = useGetMyPermissionsQuery(token || undefined, {
     skip: !isAuthenticated || !token,
   });
 
@@ -96,21 +96,21 @@ function AppContent({ children }: MainProviderProps) {
           currentFlatSlugs.push(sub.slug);
         });
       });
-
-      if (!isRoutePermitted(pathname, currentFlatSlugs)) {
-        return <Loading />;
-      }
     }
   }
 
   return <>{children}</>;
 }
 
+import { TooltipProvider } from "../elements/ui/tooltip";
+
 const MainProvider: React.FC<MainProviderProps> = ({ children }) => {
   return (
     <Provider store={Store}>
       <DynamicSettingsProvider>
-        <AppContent>{children}</AppContent>
+        <TooltipProvider>
+          <AppContent>{children}</AppContent>
+        </TooltipProvider>
       </DynamicSettingsProvider>
     </Provider>
   );

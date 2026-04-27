@@ -93,10 +93,6 @@ const PlatformForm = ({ data, onChange }: PlatformFormProps) => {
               <p className="text-[12px] text-gray-400">Add detailed platform steps to guide your users</p>
             </div>
           </div>
-          <Button onClick={addItem} size="sm" className="gap-2 h-10 px-6 rounded-lg bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20">
-            <Plus className="w-4 h-4" />
-            Add New Step
-          </Button>
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:gap-8">
@@ -193,6 +189,12 @@ const PlatformForm = ({ data, onChange }: PlatformFormProps) => {
               </Button>
             </div>
           )}
+          <div className="flex items-center justify-end">
+            <Button onClick={addItem} size="sm" className="gap-2 h-10 px-6 rounded-lg bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20">
+              <Plus className="w-4 h-4" />
+              Add New Step
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -52,7 +52,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
           icon: CheckCircle,
           iconBgColor: "bg-green-100",
           iconColor: "text-green-600",
-          buttonColor: "bg-green-600 hover:bg-green-700",
+          buttonColor: "bg-(--text-green-primary) hover:bg-(--text-green-primary)",
         };
       case "info":
         return {
@@ -76,7 +76,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={!isLoading ? onClose : undefined}>
-      <AlertDialogContent className="sm:max-w-md max-w-[calc(100%-2rem)]">
+      <AlertDialogContent className="sm:max-w-md max-w-[calc(100%-2rem)] rounded-lg">
         <AlertDialogHeader className="text-center space-y-4 relative">
           {showIcon && (
             <div className="flex justify-center absolute -top-14.25 left-[42%]">

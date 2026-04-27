@@ -22,6 +22,39 @@
   --table-hover: var(--table-hover);
   --card-color: var(--dark-card-color);
   --card-border-color: var(--card-border-color);
+  /* Semantic UI variables */
+  --color-light-body-bg: var(--light-body-bg);
+  --color-sidebar-hover-green: var(--sidebar-hover-green);
+  --color-muted-text: var(--muted-text-color);
+  --color-body-text: var(--body-text-color);
+  --color-body-text-hover: var(--body-text-hover-color);
+  --color-auth-bg: var(--auth-bg-color);
+  --color-error-bg-light: var(--error-bg-light);
+  --color-error-border-light: var(--error-border-light);
+  --color-success-bg-dark: var(--success-bg-dark);
+  --color-success-border-light: var(--success-border-light);
+  --color-light-loader-bg: var(--light-loader-bg);
+  --color-overlay-bg: var(--overlay-bg);
+  --color-card-border-light: var(--card-border-light);
+  --color-switch-dark-bg: var(--switch-dark-bg);
+  /* Chart colors */
+  --color-chart-teal: var(--chart-teal);
+  --color-chart-warning: var(--chart-warning);
+  --color-chart-danger: var(--chart-danger);
+  --color-chart-purple: var(--chart-purple);
+  --color-chart-pink: var(--chart-pink);
+  --color-chart-indigo: var(--chart-indigo);
+  /* Brand / payment gateway colors */
+  --color-stripe-purple: var(--stripe-purple);
+  --color-razorpay-dark: var(--razorpay-dark);
+  --color-razorpay-blue: var(--razorpay-blue);
+  --color-paypal-dark: var(--paypal-dark);
+  --color-paypal-blue: var(--paypal-blue);
+  /* CKEditor */
+  --color-ck-border: var(--ck-border-color);
+  /* WhatsApp preview */
+  --color-whatsapp-chat-bg: var(--whatsapp-chat-bg);
+  --color-whatsapp-header-bg: var(--whatsapp-header-bg);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -76,6 +109,39 @@
   --warning-color: #f3d04f !important;
   --input-color: #f8fafc !important;
   --input-border-color: #e2e8f0 !important;
+  /* Semantic UI variables */
+  --light-body-bg: #eeeff3;
+  --sidebar-hover-green: #61896f;
+  --muted-text-color: #94a3b8;
+  --body-text-color: #475569;
+  --body-text-hover-color: #1e293b;
+  --auth-bg-color: #f6f8f7;
+  --error-bg-light: #ff000014;
+  --error-border-light: #ff000042;
+  --success-bg-dark: #32433230;
+  --success-border-light: #16a34a33;
+  --light-loader-bg: #fafafa;
+  --overlay-bg: #00000082;
+  --card-border-light: #f1f5f9;
+  --switch-dark-bg: #476240;
+  /* Chart colors */
+  --chart-teal: #1ac78e;
+  --chart-warning: #f59e0b;
+  --chart-danger: #ef4444;
+  --chart-purple: #8b5cf6;
+  --chart-pink: #ec4899;
+  --chart-indigo: #6366f1;
+  /* Brand / payment gateway colors */
+  --stripe-purple: #635BFF;
+  --razorpay-dark: #072654;
+  --razorpay-blue: #3395FF;
+  --paypal-dark: #003087;
+  --paypal-blue: #009cde;
+  /* CKEditor */
+  --ck-border-color: #dddddd;
+  /* WhatsApp preview */
+  --whatsapp-chat-bg: #E5DDD5;
+  --whatsapp-header-bg: #075E54;
   --radius: 0.625rem;
   --background: #ffffff;
   --foreground: #0f0f0f;
@@ -142,11 +208,8 @@
   --chart-4: #8b5cf6;
   --chart-5: #ef4444;
   --sidebar: #181818;
-  --sidebar-foreground: #fafafa;
   --sidebar-primary: #6366f1;
-  --sidebar-primary-foreground: #fafafa;
   --sidebar-accent: #2a2a2a;
-  --sidebar-accent-foreground: #fafafa;
   --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: #8e8e8e;
 }
@@ -161,11 +224,6 @@
     font-family: var(--font-mona-sans);
   }
 
-  .page-body-wrapper,
-  .close-sidebar .close-icon svg {
-    /* @apply hidden; */
-  }
-
   /* scrollbar */
   .custom-scrollbar {
     &::-webkit-scrollbar-track {
@@ -173,8 +231,9 @@
     }
 
     &::-webkit-scrollbar {
-      width: 2px;
-      height: 2px;
+      /* width: 2px;
+      height: 2px; */
+      @apply w-[2px] h-[2px];
     }
 
     &::-webkit-scrollbar-thumb {
@@ -258,4 +317,17 @@ textarea:focus-visible {
 
 ::view-transition-new(root) {
   z-index: 9999;
+}
+
+/* Hide number input spin buttons */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield !important;
+  appearance: textfield !important;
 }

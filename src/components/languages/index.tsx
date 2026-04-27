@@ -101,7 +101,7 @@ const LanguageContainer = () => {
     <div>
       <LanguageHeader onSearch={setInputValue} searchTerm={inputValue} isLoading={isFetching} columns={columns} onColumnToggle={handleColumnToggle} selectedCount={selectedIds.length} onBulkDelete={() => setIsBulkDeleteModalOpen(true)} />
 
-      <LanguageList languages={data?.data.languages || []} onDelete={handleDeleteLanguage} onBulkDelete={handleBulkDelete} onToggleStatus={handleToggleStatus} isLoading={isLoading || isFetching || isDeleting || isToggling} total={data?.data.pagination?.totalItems || 0} page={page} totalPages={data?.data.pagination?.totalPages || 1} onPageChange={setPage} limit={limit} onLimitChange={setLimit} onSelectionChange={setSelectedIds} selectedIds={selectedIds} onSortChange={handleSortChange} />
+      <LanguageList languages={data?.data.languages || []} onDelete={handleDeleteLanguage} onBulkDelete={handleBulkDelete} onToggleStatus={handleToggleStatus} isLoading={isLoading || isFetching || isDeleting || isToggling} total={data?.data.pagination?.totalItems || 0} page={page} totalPages={data?.data.pagination?.totalPages || 1} onPageChange={setPage} limit={limit} onLimitChange={setLimit} onSelectionChange={setSelectedIds} selectedIds={selectedIds} onSortChange={handleSortChange} searchTerm={searchTerm} />
 
       <ConfirmModal isOpen={isBulkDeleteModalOpen} onClose={() => setIsBulkDeleteModalOpen(false)} onConfirm={() => handleBulkDelete(selectedIds)} isLoading={isDeleting} title="Delete Languages" subtitle={`Are you sure you want to delete ${selectedIds.length} selected languages?`} confirmText="Delete" cancelText="Cancel" variant="danger" />
     </div>

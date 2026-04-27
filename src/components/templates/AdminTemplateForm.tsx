@@ -20,7 +20,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/src/elements
 
 export const AdminTemplateForm = ({ templateId }: AdminTemplateFormProps) => {
   const { t } = useTranslation();
-  const { router, isCreating, formData, setFormData, authData, setAuthData, productCards, mediaCards, mediaButtonTemplates, isMarketingCarousel, isLimitedTimeOffer, isCouponCode, isCatalog, isCallPermission, hideHeaderFooter, headerFile, setHeaderFile, handleBodyChange, addVariable, updateVariable, addButton, removeButton, updateButton, addProductCard, removeProductCard, updateProductCard, addMediaCard, removeMediaCard, updateMediaCard, addMediaButtonTemplate, removeMediaButtonTemplate, updateMediaCardButtonValue, onSubmit, setEditor } = useAdminTemplateForm(templateId);
+  const { router, isCreating, formData, setFormData, authData, setAuthData, productCards, mediaCards, mediaButtonTemplates, isMarketingCarousel, isLimitedTimeOffer, isCouponCode, isCatalog, isCallPermission, hideHeaderFooter, headerFile, setHeaderFile, handleBodyChange, addVariable, updateVariable, addButton, removeButton, updateButton, addProductCard, removeProductCard, updateProductCard, addMediaCard, removeMediaCard, updateMediaCard, addMediaButtonTemplate, removeMediaButtonTemplate, updateMediaCardButtonValue, onSubmit, setEditor, isInitialized, isFetching } = useAdminTemplateForm(templateId);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const isAuth = formData.category === "AUTHENTICATION";
@@ -58,7 +58,23 @@ export const AdminTemplateForm = ({ templateId }: AdminTemplateFormProps) => {
 
       <div className="flex flex-1 flex-col lg:flex-row gap-6 py-4 sm:py-6 overflow-y-auto min-h-0 custom-scrollbar">
         <div className="flex-1 space-y-10 min-w-0 pb-20">
-          <BasicInfoSection language={formData.language} setLanguage={(v) => setFormData((p: any) => ({ ...p, language: v }))} category={formData.category} setCategory={(v) => setFormData((p: any) => ({ ...p, category: v, marketing_type: "none" }))} templateName={formData.template_name} setTemplateName={(v) => setFormData((p: any) => ({ ...p, template_name: v }))} marketingType={formData.marketing_type} setMarketingType={(v) => setFormData((p: any) => ({ ...p, marketing_type: v, interactive_type: "none", buttons: [] }))} offerText={formData.offer_text} setOfferText={(v) => setFormData((p: any) => ({ ...p, offer_text: v }))} sector={formData.sector} setSector={(v) => setFormData((p: any) => ({ ...p, sector: v }))} templateCategory={formData.template_category} setTemplateCategory={(v) => setFormData((p: any) => ({ ...p, template_category: v }))} />
+          <BasicInfoSection
+            key={isInitialized ? "initialized" : "initial"}
+            language={formData.language}
+            setLanguage={(v) => setFormData((p: any) => ({ ...p, language: v }))}
+            category={formData.category}
+            setCategory={(v) => setFormData((p: any) => ({ ...p, category: v, marketing_type: "none" }))}
+            templateName={formData.template_name}
+            setTemplateName={(v) => setFormData((p: any) => ({ ...p, template_name: v }))}
+            marketingType={formData.marketing_type}
+            setMarketingType={(v) => setFormData((p: any) => ({ ...p, marketing_type: v, interactive_type: "none", buttons: [] }))}
+            offerText={formData.offer_text}
+            setOfferText={(v) => setFormData((p: any) => ({ ...p, offer_text: v }))}
+            sector={formData.sector}
+            setSector={(v) => setFormData((p: any) => ({ ...p, sector: v }))}
+            templateCategory={formData.template_category}
+            setTemplateCategory={(v) => setFormData((p: any) => ({ ...p, template_category: v }))}
+          />
 
           {isAuth ? (
             <AuthenticationSection authData={authData} setAuthData={setAuthData} />

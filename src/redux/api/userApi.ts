@@ -63,6 +63,13 @@ export const userApi = baseApi
         }),
         invalidatesTags: [{ type: "User", id: "LIST" }],
       }),
+
+      sendResetPasswordLink: builder.mutation<{ success: boolean; message: string }, string>({
+        query: (id) => ({
+          url: `/manage_user/${id}/send-reset-password-link`,
+          method: "POST",
+        }),
+      }),
     }),
   });
 
@@ -72,4 +79,5 @@ export const {
   useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUsersMutation,
+  useSendResetPasswordLinkMutation,
 } = userApi;

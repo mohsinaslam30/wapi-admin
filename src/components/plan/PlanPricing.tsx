@@ -96,7 +96,6 @@ const PlanPricing = ({ formData, onFieldChange }: PlanPricingProps) => {
           <select id="billing_cycle" value={formData.billing_cycle} onChange={(e) => onFieldChange("billing_cycle", e.target.value)} className="dark:bg-page-body focus-visible:outline-none dark:border-(--card-border-color) h-11 w-full px-3 bg-gray-50/50 border border-gray-200 rounded-lg focus:border-(--text-green-primary) focus:ring-1 focus:ring-(--text-green-primary) transition-all appearance-none cursor-pointer">
             <option value="monthly">{t("plan_billing_cycle_monthly") || "Monthly"}</option>
             <option value="yearly">{t("plan_billing_cycle_yearly") || "Yearly"}</option>
-            <option value="lifetime">{t("plan_billing_cycle_lifetime") || "Lifetime"}</option>
             <option value="free Trial">{t("plan_billing_cycle_trial") || "Free Plan"}</option>
           </select>
         </div>

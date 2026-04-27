@@ -94,10 +94,6 @@ const FeaturesForm = ({ data, onChange }: FeaturesFormProps) => {
               <p className="text-[12px] text-gray-400">Add detailed features that make your platform stand out</p>
             </div>
           </div>
-          <Button onClick={addFeature} size="sm" className="gap-2 h-10 px-6 rounded-lg bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20">
-            <Plus className="w-4 h-4" />
-            Add Feature
-          </Button>
         </div>
 
         <div className="grid grid-cols-1 gap-6">
@@ -142,6 +138,12 @@ const FeaturesForm = ({ data, onChange }: FeaturesFormProps) => {
               </Button>
             </div>
           )}
+          <div className="flex items-center justify-end">
+            <Button onClick={addFeature} size="sm" className="gap-2 h-10 px-6 rounded-lg bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20">
+              <Plus className="w-4 h-4" />
+              Add Feature
+            </Button>
+          </div>
         </div>
       </div>
     </div>

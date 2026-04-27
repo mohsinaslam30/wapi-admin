@@ -4,6 +4,7 @@ import { useCreateAdminTemplateMutation, useGetAdminTemplateByIdQuery, useUpdate
 import { AuthFormData, ButtonTemplate, MediaCard, ProductCard } from "@/src/types/template";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import TurndownService from "turndown";
 
@@ -19,12 +20,14 @@ const defaultMediaCard = (templates: { id: string; type: string }[]) => ({
 
 export const useAdminTemplateForm = (templateId?: string) => {
   const router = useRouter();
+  const { t } = useTranslation();
   const turndownService = new TurndownService({ emDelimiter: "_" });
   turndownService.escape = (text) => text;
 
   const [createTemplate, { isLoading: isCreating }] = useCreateAdminTemplateMutation();
   const [updateTemplate] = useUpdateAdminTemplateMutation();
-  const { data: templateResponse } = useGetAdminTemplateByIdQuery(templateId!, { skip: !templateId });
+  const templateQuery = useGetAdminTemplateByIdQuery(templateId!, { skip: !templateId });
+  const templateResponse = templateQuery.data;
 
   const [isInitialized, setIsInitialized] = useState(false);
   const [editor, setEditor] = useState<any>(null);
@@ -309,14 +312,39 @@ export const useAdminTemplateForm = (templateId?: string) => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.language) return toast.error("Language is required");
-    if (!formData.category) return toast.error("Category is required");
-    if (!formData.template_name) return toast.error("Template name is required");
-    if (formData.category !== "AUTHENTICATION" && !formData.message_body) return toast.error("Message body is required");
-    if (formData.category === "AUTHENTICATION" && !authData.message_body) return toast.error("Message body is required");
-    if (isLimitedTimeOffer && !formData.offer_text) return toast.error("Offer text is required");
-    if (formData.marketing_type === "carousel_product" && productCards.length < 2) return toast.error("At least 2 product cards required");
-    if (formData.marketing_type === "carousel_media" && mediaCards.length < 2) return toast.error("At least 2 media cards required");
+
+    // 1. Basic Info Validation
+    if (!formData.template_name) return toast.error(t("templates_library_validation_name_required"));
+    const nameRegex = /^[a-z0-9_]+$/;
+    if (!nameRegex.test(formData.template_name)) return toast.error(t("templates_library_validation_name_invalid"));
+
+    if (!formData.language) return toast.error(t("templates_library_basic_info_select_language"));
+    if (!formData.sector) return toast.error(t("templates_library_validation_sector_required"));
+    if (!formData.template_category) return toast.error(t("templates_library_validation_template_category_required"));
+    if (!formData.category) return toast.error(t("templates_library_validation_category_required"));
+
+    // 2. Content Validation
+    const isAuth = formData.category === "AUTHENTICATION";
+    if (!isAuth && !formData.message_body) return toast.error(t("templates_library_validation_message_body_required"));
+    if (isAuth && !authData.message_body) return toast.error(t("templates_library_validation_message_body_required"));
+
+    // 3. Marketing Specific Validation
+    if (isLimitedTimeOffer && !formData.offer_text) return toast.error(t("templates_library_validation_offer_text_required"));
+    if (formData.marketing_type === "carousel_product" && productCards.length < 2) return toast.error(t("templates_library_form_carousel_min_cards_required"));
+    if (formData.marketing_type === "carousel_media" && mediaCards.length < 2) return toast.error(t("templates_library_form_carousel_min_cards_required"));
+
+    // 4. Authentication Specific Validation
+    if (isAuth) {
+      const expiry = Number(authData.code_expiration_minutes);
+      const otpLength = Number(authData.otp_code_length);
+
+      if (isNaN(expiry) || expiry < 1 || expiry > 90) {
+        return toast.error(t("templates_library_validation_code_expiry_range"));
+      }
+      if (isNaN(otpLength) || otpLength < 4 || otpLength > 10) {
+        return toast.error(t("templates_library_validation_otp_length_range"));
+      }
+    }
 
     const messageBody = turndownService.turndown(formData.message_body);
     const sectorPayload = { sector: formData.sector || undefined, template_category: formData.template_category || undefined };
@@ -524,5 +552,7 @@ export const useAdminTemplateForm = (templateId?: string) => {
     updateMediaCardButtonValue,
     onSubmit,
     setEditor,
+    isInitialized,
+    isFetching: templateQuery.isFetching,
   };
 };

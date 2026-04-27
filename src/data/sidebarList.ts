@@ -29,7 +29,7 @@ export const sidebarMenuData: MenuSection[] = [
         icon: "LayoutDashboard",
         label: "nav_overview_panel",
         path: ROUTES.Dashboard,
-        permission: "view.admindashboard",
+        permission: "view.admin_dashboard",
       },
       {
         icon: "Award",
@@ -46,7 +46,7 @@ export const sidebarMenuData: MenuSection[] = [
           {
             label: "nav_active_subscriptions",
             path: ROUTES.SubscriberPlans,
-            permission: "view.plans",
+            permission: "view.subscriptions",
           },
           {
             label: "nav_create_new_plan",
@@ -59,7 +59,7 @@ export const sidebarMenuData: MenuSection[] = [
         icon: "Receipt",
         label: "nav_billing_history",
         path: ROUTES.BillingHistory,
-        permission: "view.payments",
+        permission: "view.subscriptions",
       },
       {
         icon: "Users",
@@ -90,7 +90,7 @@ export const sidebarMenuData: MenuSection[] = [
         icon: "MessageSquare",
         label: "nav_quick_reply",
         path: ROUTES.QuickReply,
-        permission: "view.quick_reply",
+        permission: "view.quick_replies",
       },
     ],
   },
@@ -131,7 +131,7 @@ export const sidebarMenuData: MenuSection[] = [
         icon: "LayoutTemplate",
         label: "nav_message_presets",
         path: ROUTES.TemplatesLibrary,
-        permission: "view.admin_templates",
+        permission: "view.admin-template",
       },
     ],
   },

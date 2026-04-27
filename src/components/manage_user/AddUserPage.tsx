@@ -86,7 +86,9 @@ const AddUserPage = ({ id }: AddUserPageProps) => {
 
   const set = (key: keyof FormState, value: string | boolean) => setForm((prev) => ({ ...prev, [key]: value }));
 
-  const isValid = form.name.trim() && form.email.trim() && (isEditMode || form.password.trim());
+  const cleanPhone = form.phone.replace(/\D/g, "");
+  const isPhoneValid = !cleanPhone || (cleanPhone.length >= 6 && cleanPhone.length <= 15);
+  const isValid = form.name.trim() && form.email.trim() && (isEditMode || form.password.trim()) && isPhoneValid;
 
   const handleSubmit = async () => {
     if (!isValid) return;
@@ -134,22 +136,22 @@ const AddUserPage = ({ id }: AddUserPageProps) => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="w-full">
       {/* Page Header */}
-      <div className="flex items-center gap-3 mb-8">
+      <div className="sticky top-[100px] z-[50] -mx-4 pt-0! sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-light-body-bg dark:bg-(--dark-body) shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] py-4 mb-5 sm:mb-2 flex flex-col sm:flex-row sm:items-center gap-4 transition-all">
         <Button
           variant="ghost"
           size="icon"
           onClick={() => router.back()}
-          className="rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-gray-200 dark:border-(--card-border-color) hover:bg-gray-50 dark:hover:bg-(--dark-sidebar)"
+          className="w-10 h-10 rounded-lg bg-white dark:bg-(--card-color) shadow-sm border border-gray-200 dark:border-(--card-border-color) hover:bg-gray-50 dark:hover:bg-(--dark-sidebar)"
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <div>
-          <h1 className="text-2xl font-bold text-(--text-green-primary)">
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold text-(--text-green-primary) tracking-tight">
             {isEditMode ? "Edit User" : "Create New User"}
           </h1>
-          <p className="text-sm text-gray-400 mt-0.5">
+          <p className="text-sm text-gray-400 mt-0.5 leading-relaxed">
             {isEditMode
               ? "Update user information and permissions"
               : "Set up a new user account"}
@@ -157,140 +159,150 @@ const AddUserPage = ({ id }: AddUserPageProps) => {
         </div>
       </div>
 
-      <div className="space-y-5">
-        {/* Basic Info */}
-        <div className="bg-white dark:bg-(--card-color) rounded-lg border border-(--input-border-color) dark:border-(--card-border-color) shadow-sm overflow-hidden">
-          <div className="sm:px-6 px-4 py-4 border-b border-gray-100 dark:border-(--card-border-color) flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <UserIcon className="w-5 h-5 text-primary" />
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        <div className="xl:col-span-8 space-y-6">
+          {/* Basic Info */}
+          <div className="bg-white dark:bg-(--card-color) rounded-lg border border-(--input-border-color) dark:border-(--card-border-color) shadow-sm overflow-hidden">
+            <div className="sm:px-6 px-4 py-4 border-b border-gray-100 dark:border-(--card-border-color) flex items-center gap-2">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <UserIcon className="w-5 h-5 text-primary" />
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                General Information
+              </h2>
             </div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              General Information
-            </h2>
-          </div>
-          <div className="sm:p-6 p-4 grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="space-y-1.5 flex flex-col">
-              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Name <span className="text-red-500">*</span>
-              </Label>
-              <Input value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="John Doe" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700" />
-            </div>
-            <div className="space-y-1.5 flex flex-col">
-              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Email ID <span className="text-red-500">*</span>
-              </Label>
-              <Input type="email" value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="john@example.com" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700" />
-            </div>
-            {!isEditMode && (
+            <div className="sm:p-6 p-4 grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="space-y-1.5 flex flex-col">
+                <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Name <span className="text-red-500">*</span>
+                </Label>
+                <Input value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="John Doe" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700" />
+              </div>
+              <div className="space-y-1.5 flex flex-col">
+                <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Email ID <span className="text-red-500">*</span>
+                </Label>
+                <Input type="email" value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="john@example.com" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700" />
+              </div>
+              {!isEditMode && (
+                <div className="space-y-1.5 flex flex-col md:col-span-2">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Account Password <span className="text-red-500">*</span>
+                  </Label>
+                  <Input type="password" value={form.password} onChange={(e) => set("password", e.target.value)} placeholder="Min. 8 characters" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700" />
+                </div>
+              )}
+              <div className="space-y-1.5 flex flex-col">
+                <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Country
+                </Label>
+                <CountrySelect
+                  value={form.country}
+                  onSelect={(country: Country) => {
+                    set("country", country.name);
+                    set("country_code", country.dial_code);
+                  }}
+                />
+              </div>
+              <div className="grid grid-cols-[80px_1fr] gap-3">
+                <div className="space-y-1.5 flex flex-col">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Country Code</Label>
+                  <Input value={form.country_code} disabled placeholder="+1" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700 opacity-70 cursor-not-allowed" />
+                </div>
+                <div className="space-y-1.5 flex flex-col">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</Label>
+                  <Input
+                    type="number"
+                    value={form.phone}
+                    onChange={(e) => set("phone", e.target.value.replace(/\D/g, ""))}
+                    placeholder="1234567890"
+                    className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700"
+                  />
+                </div>
+              </div>
               <div className="space-y-1.5 flex flex-col md:col-span-2">
                 <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Account Password <span className="text-red-500">*</span>
+                  Notes
                 </Label>
-                <Input type="password" value={form.password} onChange={(e) => set("password", e.target.value)} placeholder="Min. 8 characters" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700" />
+                <Textarea
+                  value={form.note}
+                  onChange={(e) => set("note", e.target.value)}
+                  placeholder="Add internal notes for this user..."
+                  rows={3}
+                  className="bg-(--input-color) border rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700 resize-none"
+                />
               </div>
-            )}
-            <div className="space-y-1.5 flex flex-col">
-              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Country
-              </Label>
-              <CountrySelect
-                value={form.country}
-                onSelect={(country: Country) => {
-                  set("country", country.name);
-                  set("country_code", country.dial_code);
-                }}
-              />
-            </div>
-            <div className="grid grid-cols-[80px_1fr] gap-3">
-              <div className="space-y-1.5 flex flex-col">
-                <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Country Code</Label>
-                <Input value={form.country_code} disabled placeholder="+1" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700 opacity-70 cursor-not-allowed" />
-              </div>
-              <div className="space-y-1.5 flex flex-col">
-                <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</Label>
-                <Input value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="1234567890" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700" />
-              </div>
-            </div>
-            <div className="space-y-1.5 flex flex-col md:col-span-2">
-              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Notes
-              </Label>
-              <Textarea
-                value={form.note}
-                onChange={(e) => set("note", e.target.value)}
-                placeholder="Add internal notes for this user..."
-                rows={3}
-                className="bg-(--input-color) border rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700 resize-none"
-              />
             </div>
           </div>
         </div>
 
-        {/* Permissions */}
-        <div className="bg-white dark:bg-(--card-color) rounded-lg border border-(--input-border-color) dark:border-(--card-border-color) shadow-sm overflow-hidden">
-          <div className="sm:px-6 px-4 py-4 border-b border-gray-100 dark:border-(--card-border-color)">
-            <h2 className="text-xl font-medium text-gray-900 dark:text-gray-100">User Settings</h2>
-          </div>
-          <div className="sm:p-6 p-4 space-y-4">
-            <div className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-(--card-border-color) pb-4">
-              <div>
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                  User Role
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                  Assign permissions based on role
-                </p>
-              </div>
-              <Select
-                value={form.role_id}
-                onValueChange={(v) => set("role_id", v)}
-              >
-                <SelectTrigger className="w-45 bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-(--card-border-color)">
-                  <SelectValue placeholder="Select role" />
-                </SelectTrigger>
-                <SelectContent className="dark:bg-(--card-color) dark:border-(--card-border-color)">
-                  {roles.map((role) => (
-                    <SelectItem
-                      key={role._id}
-                      value={role._id}
-                      className="dark:hover:bg-(--table-hover) cursor-pointer"
-                    >
-                      {role.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+        <div className="xl:col-span-4 space-y-6">
+          {/* Permissions */}
+          <div className="bg-white dark:bg-(--card-color) rounded-lg border border-(--input-border-color) dark:border-(--card-border-color) shadow-sm overflow-hidden">
+            <div className="sm:px-6 px-4 py-4 border-b border-gray-100 dark:border-(--card-border-color)">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">User Settings</h2>
             </div>
-            <div className="flex items-center justify-between py-2">
-              <div>
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                  Active Status
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                  Allow access to this account
-                </p>
+            <div className="sm:p-6 p-4 space-y-4">
+              <div className="flex flex-col gap-2 py-2 border-b border-gray-100 dark:border-(--card-border-color) pb-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                    User Role
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    Assign permissions based on role
+                  </p>
+                </div>
+                <Select
+                  value={form.role_id}
+                  onValueChange={(v) => set("role_id", v)}
+                >
+                  <SelectTrigger className="w-full bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-(--card-border-color) h-11">
+                    <SelectValue placeholder="Select role" />
+                  </SelectTrigger>
+                  <SelectContent className="dark:bg-(--card-color) dark:border-(--card-border-color)">
+                    {roles.map((role) => (
+                      <SelectItem
+                        key={role._id}
+                        value={role._id}
+                        className="dark:hover:bg-(--table-hover) cursor-pointer"
+                      >
+                        {role.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-              <Switch
-                checked={form.status}
-                onCheckedChange={(v) => set("status", v)}
-                className="data-[state=checked]:bg-(--text-green-primary)"
-              />
+              <div className="flex items-center justify-between py-2">
+                <div>
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                    Active Status
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    Allow access to this account
+                  </p>
+                </div>
+                <Switch
+                  checked={form.status}
+                  onCheckedChange={(v) => set("status", v)}
+                  className="data-[state=checked]:bg-(--text-green-primary)"
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-3 pb-8">
-          <Button variant="outline" onClick={() => router.back()} disabled={isSubmitting} className="px-4.5 py-5 h-11 rounded-lg border-(--input-border-color) dark:border-(--card-border-color) dark:bg-(--card-color) dark:text-gray-200">
-            Cancel
+          {/* Actions */}
+        </div>
+      </div>
+      <div className="flex flex-col mt-4 sm:flex-row items-center justify-end gap-3 pb-8">
+        <Button variant="outline" onClick={() => router.back()} disabled={isSubmitting} className="w-full sm:w-auto px-4.5 py-5 h-11 rounded-lg border-(--input-border-color) dark:border-(--card-border-color) dark:bg-(--card-color) dark:text-gray-200">
+          Cancel
+        </Button>
+        <Can permission={isEditMode ? "update.users" : "create.users"}>
+          <Button onClick={handleSubmit} disabled={isSubmitting || !isValid} className="w-full sm:w-auto px-4.5 py-5 h-11 rounded-lg bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white gap-2">
+            {isSubmitting ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Save className="w-4 h-4" />}
+            {isSubmitting ? (isEditMode ? "Updating..." : "Creating...") : isEditMode ? "Update User" : "Create User"}
           </Button>
-          <Can permission={isEditMode ? "update.users" : "create.users"}>
-            <Button onClick={handleSubmit} disabled={isSubmitting || !isValid} className="px-4.5 py-5 h-11 rounded-lg bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white gap-2">
-              {isSubmitting ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Save className="w-4 h-4" />}
-              {isSubmitting ? (isEditMode ? "Updating..." : "Creating...") : isEditMode ? "Update User" : "Create User"}
-            </Button>
-          </Can>
-        </div>
+        </Can>
       </div>
     </div>
   );

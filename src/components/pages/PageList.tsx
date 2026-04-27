@@ -28,15 +28,21 @@ interface PageListProps {
   selectedIds: string[];
   onSortChange: (key: string, order: "asc" | "desc") => void;
   visibleColumns: Record<string, boolean>;
+  searchTerm?: string;
+  isFilterActive?: boolean;
 }
 
-const PageList = ({ pages, isLoading, onDelete, onBulkDelete, onToggleStatus, total, page, totalPages, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange, visibleColumns }: PageListProps) => {
+const PageList = ({ pages, isLoading, onDelete, onBulkDelete, onToggleStatus, total, page, totalPages, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange, visibleColumns, searchTerm, isFilterActive }: PageListProps) => {
   const { t } = useTranslation();
   const router = useRouter();
   const { hasPermission } = usePermissions();
 
   const handleEdit = (page: Page) => {
     router.push(`${ROUTES.ManagePagesEdit}/${page._id}`);
+  };
+
+  const stripHtml = (html: string) => {
+    return html.replace(/<[^>]*>?/gm, "");
   };
 
   const columns = [
@@ -63,7 +69,7 @@ const PageList = ({ pages, isLoading, onDelete, onBulkDelete, onToggleStatus, to
       copyField: "content",
       accessor: (row: Page) => (
         <div className="flex flex-col cursor-pointer" onClick={() => handleEdit(row)}>
-          <span className="font-medium text-gray-700 dark:text-white break-word line-clamp-2 text-sm">{row.content}</span>
+          <span className="font-medium text-gray-700 dark:text-white break-word line-clamp-2 text-sm">{stripHtml(row.content)}</span>
         </div>
       ),
     },
@@ -79,7 +85,7 @@ const PageList = ({ pages, isLoading, onDelete, onBulkDelete, onToggleStatus, to
       className: "[@media(max-width:1560px)]:min-w-[150px]",
       sortable: true,
       sortKey: "created_at",
-      accessor: (row: Page) => <span className="text-sm text-gray-500 dark:text-gray-400">{row.created_at ? format(new Date(row.created_at), "MMM d, yyyy") : "N/A"}</span>,
+      accessor: (row: Page) => <span className="text-sm text-gray-500 dark:text-gray-400">{row.created_at ? format(new Date(row.created_at), "MMMM d, yyyy") : "N/A"}</span>,
     },
   ].filter((col) => {
     if (col.sortKey && visibleColumns[col.sortKey] !== undefined) {
@@ -98,7 +104,7 @@ const PageList = ({ pages, isLoading, onDelete, onBulkDelete, onToggleStatus, to
     </div>
   );
 
-  return <DataTable data={pages} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} onDelete={(item: Page) => onDelete(item)} deletePermission="delete.pages" actionPermissions={["update.pages"]} onBulkDelete={onBulkDelete} onSelectionChange={onSelectionChange} selectedIds={selectedIds} itemLabel="Pages" renderActions={renderActions} onSortChange={onSortChange} />;
+  return <DataTable data={pages} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} onDelete={(item: Page) => onDelete(item)} deletePermission="delete.pages" actionPermissions={["update.pages"]} onBulkDelete={onBulkDelete} onSelectionChange={onSelectionChange} selectedIds={selectedIds} itemLabel="Pages" renderActions={renderActions} onSortChange={onSortChange} searchTerm={searchTerm} isFilterActive={isFilterActive} />;
 };
 
 export default PageList;

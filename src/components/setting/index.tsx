@@ -6,7 +6,6 @@ import { useGetSettingsQuery, useUpdateSettingsMutation } from "@/src/redux/api/
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
 import { resetDirty, setSettings } from "@/src/redux/reducers/settingsSlice";
 import CommonHeader from "@/src/shared/CommonHeader";
-import { BarChart2, Globe, Mail, MessageSquare, Palette, RefreshCw, Save, Wrench } from "lucide-react";
 import Can from "../shared/Can";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,15 +14,20 @@ import { SettingsFilesProvider, usePendingFiles } from "./shared/SettingsFilesCo
 import BrandingSettings from "./tabs/BrandingSettings";
 import EmailSettings from "./tabs/EmailSettings";
 import GeneralSettings from "./tabs/GeneralSettings";
+import GoogleSettings from "./tabs/GoogleSettings";
 import LimitsSettings from "./tabs/LimitsSettings";
 import MaintenanceSettings from "./tabs/MaintenanceSettings";
 import WhatsAppSettings from "./tabs/WhatsAppSettings";
+import AWSSettings from "./tabs/AWSSettings";
+import { BarChart2, Globe, Mail, MessageSquare, Palette, RefreshCw, Save, Wrench, Cloud } from "lucide-react";
 
 const tabs = [
   { id: "general", label: "General", icon: Globe, description: "App info & preferences" },
   { id: "branding", label: "Branding", icon: Palette, description: "Logos & icons" },
   { id: "whatsapp", label: "WhatsApp", icon: MessageSquare, description: "API credentials" },
   { id: "email", label: "Email", icon: Mail, description: "SMTP configuration" },
+  { id: "google", label: "Google", icon: Globe, description: "Google API credentials" },
+  { id: "aws", label: "AWS", icon: Cloud, description: "AWS S3 configuration" },
   { id: "limits", label: "Limits", icon: BarChart2, description: "File & group limits" },
   { id: "maintenance", label: "Maintenance", icon: Wrench, description: "Maintenance & error pages" },
 ] as const;
@@ -129,6 +133,10 @@ const SettingInner = () => {
         return <EmailSettings />;
       case "limits":
         return <LimitsSettings isLoading={isUpdating} />;
+      case "google":
+        return <GoogleSettings />;
+      case "aws":
+        return <AWSSettings />;
       case "maintenance":
         return <MaintenanceSettings isLoading={isUpdating} />;
     }
@@ -141,7 +149,7 @@ const SettingInner = () => {
       <CommonHeader title={t("settings_title")} description={t("settings_description")} onRefresh={handleRefresh} isLoading={isLoading} />
 
       <div className="min-[1400px]:hidden mb-4 bg-white dark:bg-(--card-color) rounded-lg border border-gray-100 dark:border-(--card-border-color) shadow-sm">
-        <div className="overflow-x-auto custom-scrollbar">
+        <div className="overflow-x-auto table-custom-scrollbar">
           <div className="flex gap-1 p-2 min-w-max">
             {tabs.map(({ id, label, icon: Icon }) => {
               const isActive = activeTab === id;

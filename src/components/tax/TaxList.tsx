@@ -27,9 +27,10 @@ interface TaxListProps {
   selectedIds: string[];
   onSortChange: (sortBy: string, sortOrder: "asc" | "desc") => void;
   visibleColumns?: string[];
+  searchTerm?: string;
 }
 
-const TaxList = ({ taxes, isLoading, total, page, totalPages, onPageChange, limit, onLimitChange, onDelete, onBulkDelete, onSelectionChange, selectedIds, onSortChange, visibleColumns }: TaxListProps) => {
+const TaxList = ({ taxes, isLoading, total, page, totalPages, onPageChange, limit, onLimitChange, onDelete, onBulkDelete, onSelectionChange, selectedIds, onSortChange, visibleColumns, searchTerm }: TaxListProps) => {
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -89,7 +90,7 @@ const TaxList = ({ taxes, isLoading, total, page, totalPages, onPageChange, limi
     </div>
   );
 
-  return <DataTable data={taxes} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} onDelete={(item: Tax) => onDelete(item)} deletePermission="delete.taxes" actionPermissions={["update.taxes"]} onBulkDelete={onBulkDelete} renderActions={renderActions} onSelectionChange={onSelectionChange} selectedIds={selectedIds} onSortChange={onSortChange} emptyMessage={t("tax_no_taxes_found") || "No taxes found."} itemLabel="Taxes" itemLabelSingular={t("tax_item") || "tax"} />;
+  return <DataTable data={taxes} columns={columns} page={page} totalPages={totalPages} total={total} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} onDelete={(item: Tax) => onDelete(item)} deletePermission="delete.taxes" actionPermissions={["update.taxes"]} onBulkDelete={onBulkDelete} renderActions={renderActions} onSelectionChange={onSelectionChange} selectedIds={selectedIds} onSortChange={onSortChange} searchTerm={searchTerm} emptyMessage={t("tax_no_taxes_found") || "No taxes found."} itemLabel="Taxes" itemLabelSingular={t("tax_item") || "tax"} />;
 };
 
 export default TaxList;

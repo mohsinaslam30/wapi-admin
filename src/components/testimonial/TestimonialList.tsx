@@ -1,5 +1,6 @@
 import { stripHtml } from "@/lib/utils";
 import { ImageBaseUrl } from "@/src/constants";
+import { getResolvedImageUrl } from "@/src/utils/image";
 import { Button } from "@/src/elements/ui/button";
 import { Switch } from "@/src/elements/ui/switch";
 import { usePermissions } from "@/src/hooks/usePermissions";
@@ -14,7 +15,7 @@ import { ROUTES } from "../../constants";
 import DataTable from "../../shared/DataTable";
 import Can from "../shared/Can";
 
-const TestimonialList = ({ testimonials, onDelete, onBulkDelete, onUpdateStatus, isLoading, totalCount = 0, currentPage = 1, totalPages = 1, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange }: TestimonialListProps) => {
+const TestimonialList = ({ testimonials, onDelete, onBulkDelete, onUpdateStatus, isLoading, columns: visibilityColumns, totalCount = 0, currentPage = 1, totalPages = 1, onPageChange, limit, onLimitChange, onSelectionChange, selectedIds, onSortChange, searchTerm, isFilterActive }: TestimonialListProps) => {
   const router = useRouter();
   const { hasPermission } = usePermissions();
 
@@ -42,6 +43,7 @@ const TestimonialList = ({ testimonials, onDelete, onBulkDelete, onUpdateStatus,
 
   const columns: ColumnDef<Testimonial>[] = [
     {
+      id: "user_name",
       header: "USER",
       sortable: true,
       sortKey: "user_name",
@@ -50,7 +52,7 @@ const TestimonialList = ({ testimonials, onDelete, onBulkDelete, onUpdateStatus,
       accessor: (testimonial) => (
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleEditClick(testimonial)}>
           {testimonial.user_image ? (
-            <Image src={ImageBaseUrl + "/uploads/user_profiles/" + testimonial.user_image} alt={testimonial.user_name} className="w-10 h-10 rounded-lg object-cover" width={100} height={100} unoptimized />
+            <Image src={getResolvedImageUrl(testimonial?.user_image)} alt={testimonial.user_name} className="w-10 h-10 rounded-lg object-cover" width={100} height={100} unoptimized />
           ) : (
             <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-(--dark-body) flex items-center justify-center">
               <User className="w-5 h-5 text-gray-400 dark:text-primary" />
@@ -64,31 +66,41 @@ const TestimonialList = ({ testimonials, onDelete, onBulkDelete, onUpdateStatus,
       ),
     },
     {
+      id: "description",
       header: "TESTIMONIAL",
       copyable: true,
       copyField: "description",
       accessor: (testimonial) => <p className="text-sm text-gray-900 break-all dark:text-amber-50 line-clamp-2">{stripHtml(testimonial.description)}</p>,
     },
     {
+      id: "rating",
       header: "RATING",
       sortable: true,
       sortKey: "rating",
       accessor: (testimonial) => renderStars(testimonial.rating || 5),
     },
     {
+      id: "status",
       header: "STATUS",
       sortable: true,
       sortKey: "status",
       accessor: (testimonial) => <Switch checked={testimonial.status} onCheckedChange={(checked) => handleStatusToggle(testimonial, checked)} disabled={isLoading || !hasPermission("update.testimonials")} className="data-[state=checked]:bg-primary" />,
     },
     {
+      id: "created_at",
       header: "CREATED AT",
       className: "[@media(max-width:1478px)]:min-w-[165px]",
       sortable: true,
       sortKey: "created_at",
-      accessor: (testimonial) => <span className="text-gray-500 dark:text-gray-400 text-sm">{testimonial.created_at ? format(new Date(testimonial.created_at), "MMM d, yyyy") : "N/A"}</span>,
+      accessor: (testimonial) => <span className="text-gray-500 dark:text-gray-400 text-sm">{testimonial.created_at ? format(new Date(testimonial.created_at), "MMMM d, yyyy") : "N/A"}</span>,
     },
   ];
+
+  const filteredColumns = columns.filter((col) => {
+    if (!visibilityColumns) return true;
+    const visibility = visibilityColumns.find((v) => v.id === col.id);
+    return visibility ? visibility.isVisible : true;
+  });
 
   const handleBulkDelete = (ids: string[]) => {
     if (onBulkDelete) {
@@ -106,7 +118,7 @@ const TestimonialList = ({ testimonials, onDelete, onBulkDelete, onUpdateStatus,
     </div>
   );
 
-  return <DataTable data={testimonials} columns={columns} page={currentPage} totalPages={totalPages} total={totalCount} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} onDelete={(item: Testimonial) => onDelete(item._id)} deletePermission="delete.testimonials" actionPermissions={["update.testimonials"]} onBulkDelete={handleBulkDelete} onSelectionChange={onSelectionChange} selectedIds={selectedIds} itemLabel="Testimonials" itemLabelSingular="Testimonial" renderActions={renderActions} onSortChange={onSortChange} columnClassNames={["[@media(max-width:1478px)]:min-w-[250px] font-semibold", "max-w-xs", " text-blue-500", "hidden md:table-cell"]} />;
+  return <DataTable data={testimonials} columns={filteredColumns} page={currentPage} totalPages={totalPages} total={totalCount} onPageChange={onPageChange} onLimitChange={onLimitChange} limit={limit} isLoading={isLoading} onDelete={(item: Testimonial) => onDelete(item._id)} deletePermission="delete.testimonials" actionPermissions={["update.testimonials"]} onBulkDelete={handleBulkDelete} onSelectionChange={onSelectionChange} selectedIds={selectedIds} itemLabel="Testimonials" itemLabelSingular="Testimonial" renderActions={renderActions} onSortChange={onSortChange} searchTerm={searchTerm} isFilterActive={isFilterActive} columnClassNames={["[@media(max-width:1478px)]:min-w-[250px] font-semibold", "max-w-xs", " text-blue-500", "hidden md:table-cell"]} />;
 };
 
 export default TestimonialList;

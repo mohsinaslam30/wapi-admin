@@ -47,13 +47,13 @@ const ForgotPasswordPage = () => {
         payload.email = inputValue;
       }
       delete payload.otp; // Remove placeholder
-      
+
       await forgotPassword(payload).unwrap();
       setSuccess("OTP sent successfully!");
-      
+
       // Navigate to verify OTP page with the identifier
       setTimeout(() => {
-        const param = inputType === "mobile" 
+        const param = inputType === "mobile"
           ? `mobile=${encodeURIComponent(inputValue)}`
           : `email=${encodeURIComponent(inputValue)}`;
         router.push(`${ROUTES.VerifyOTP}?${param}`);
@@ -73,11 +73,11 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="bg-[#f6f8f7] dark:bg-[var(--page-body-bg)] min-h-screen bg-admin flex items-center relative overflow-hidden justify-center p-4">
+    <div className="bg-auth-bg dark:bg-[var(--page-body-bg)] min-h-screen bg-admin flex items-center relative overflow-hidden justify-center p-4">
       {/* <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-3xl"></div> */}
       <Card className="w-full max-w-md shadow-2xl border-0 dark:bg-[var(--card-color)] dark:border dark:border-[var(--card-border-color)]">
-        <CardContent className="pt-12 pb-8 px-8">
+        <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col items-center mb-8">
             <DynamicLogo />
             <h1 className="text-lg sm:text-2xl font-bold text-[var(--text-green-primary)] mb-2">Forgot Password?</h1>
@@ -85,14 +85,14 @@ const ForgotPasswordPage = () => {
           </div>
 
           {error && (
-            <div className="mb-6 p-3 bg-[#ff000014] border border-[#ff000042] rounded-lg flex items-start gap-2">
+            <div className="mb-6 p-3 bg-error-bg-light border border-error-border-light rounded-lg flex items-start gap-2">
               <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
               <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
 
           {success && (
-            <div className="mb-6 p-3 bg-green-50 border border-green-200 dark:bg-[#32433230] dark:border-[var(--card-border-color)] rounded-lg flex items-start gap-2">
+            <div className="mb-6 p-3 bg-green-50 border border-green-200 dark:bg-success-bg-dark dark:border-[var(--card-border-color)] rounded-lg flex items-start gap-2">
               <AlertCircle className="w-5 h-5 text-green-600 shrink-0" />
               <p className="text-sm text-green-600">{success}</p>
             </div>
