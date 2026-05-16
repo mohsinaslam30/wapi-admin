@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
 
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
   } catch (error: any) {
     console.error("Error fetching settings:", error);
     return NextResponse.json({ error: "Failed to fetch settings", details: error.message }, { status: 500 });
@@ -64,7 +64,7 @@ export async function PUT(request: NextRequest) {
 
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
   } catch (error: any) {
     console.error("Error updating settings:", error);
     return NextResponse.json({ error: "Failed to update settings", details: error.message }, { status: 500 });

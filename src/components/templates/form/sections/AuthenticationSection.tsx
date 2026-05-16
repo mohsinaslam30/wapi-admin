@@ -16,19 +16,6 @@ export const AuthenticationSection = ({ authData, setAuthData }: AuthenticationS
 
   const setCopyButtonText = (text: string) => update({ otp_buttons: [{ ...authData.otp_buttons?.[0], otp_type: selectedType, copy_button_text: text }] });
 
-  const handleBodyChange = (newBody: string) => {
-    const variableMatches = newBody.match(/{{([^}]+)}}/g);
-    const uniqueKeys = variableMatches ? Array.from(new Set(variableMatches.map((m) => m.replace(/{{|}}/g, "")))) : [];
-    const existingVars = authData.variables_example || [];
-    const newVars = uniqueKeys.map((key) => existingVars.find((v) => v.key === key) || { key, example: "" });
-    setAuthData({ ...authData, message_body: newBody, variables_example: newVars });
-  };
-
-  const updateVariable = (index: number, value: string) => {
-    const newVars = [...(authData.variables_example || [])];
-    newVars[index] = { ...newVars[index], example: value };
-    update({ variables_example: newVars });
-  };
 
   return (
     <div className="space-y-6">
@@ -40,34 +27,11 @@ export const AuthenticationSection = ({ authData, setAuthData }: AuthenticationS
         </div>
       </div>
 
-      <div className="bg-white dark:bg-(--card-color) p-4 sm:p-6 rounded-lg border border-slate-200 dark:border-(--card-border-color) shadow-sm space-y-4">
-        <div>
-          <Label className="text-sm font-bold text-slate-700 dark:text-slate-300">{t("templates_library_message_body")}</Label>
-          <p className="text-[11px] text-slate-400 mt-1">{t("templates_library_auth_body_hint")}</p>
-        </div>
-        <CharacterCountWrapper current={authData.message_body?.replace(/<[^>]*>/g, "").length || 0} max={1600}>
-          <textarea value={authData.message_body} onChange={(e) => handleBodyChange(e.target.value)} rows={3} placeholder={t("templates_library_auth_body_placeholder")} className="w-full resize-none rounded-lg border border-slate-200 dark:border-(--card-border-color) bg-(--input-color) dark:bg-page-body px-4 py-3 text-sm text-slate-800 dark:text-gray-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all" />
-        </CharacterCountWrapper>
-        {(authData.variables_example || []).length > 0 && (
-          <div className="space-y-2">
-            <Label className="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">{t("templates_library_variable_examples")}</Label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {authData.variables_example.map((v, i) => (
-                <div key={v.key} className="space-y-1 flex flex-col">
-                  <Label className="text-[11px] text-slate-500 dark:text-gray-400">{t("templates_library_variable_title", { key: v.key })}</Label>
-                  <Input value={v.example} onChange={(e) => updateVariable(i, e.target.value)} placeholder={t("templates_library_variable_example_placeholder", { key: v.key })} className="h-11 text-sm border-(--input-border-color) p-3 dark:border-(--card-border-color) bg-(--input-color) dark:bg-page-body" />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
       <div className="bg-white dark:bg-(--card-color) p-4 sm:p-6 rounded-lg border border-(--input-border-color) dark:border-(--card-border-color) shadow-sm space-y-4">
         <div className="space-y-2 flex flex-col">
           <Label className="text-sm font-bold text-slate-700 dark:text-slate-300">{t("templates_library_button_text_label")}</Label>
           <CharacterCountWrapper current={authData.otp_buttons?.[0]?.copy_button_text?.length || 0} max={60}>
-            <Input placeholder="Copy Code" value={authData.otp_buttons?.[0]?.copy_button_text || ""} onChange={(e) => setCopyButtonText(e.target.value.slice(0, 60))} className="h-11 border-(--input-border-color) p-3 dark:border-(--card-border-color) rounded-lg bg-(--input-color) dark:bg-page-body focus:bg-white dark:focus:bg-page-body transition-all" />
+            <Input placeholder="Copy Code" value={authData.otp_buttons?.[0]?.copy_button_text || ""} onChange={(e) => setCopyButtonText(e.target.value.slice(0, 60))} className="h-11 border-(--input-border-color) p-3 dark:border-(--card-border-color) rounded-lg bg-(--input-color) dark:bg-page-body focus:bg-white dark:focus:bg-page-body transition-all" disabled/>
           </CharacterCountWrapper>
           <p className="text-[11px] text-slate-400">{t("templates_library_auth_button_text_hint")}</p>
         </div>

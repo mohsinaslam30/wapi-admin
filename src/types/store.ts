@@ -183,6 +183,15 @@ export interface PlanFeatures {
   facebookAds_campaign?: number;
   kanban_funnels?: number;
   segments?: number;
+  google_account?: number;
+  quick_replies?: number;
+  workspaces?: number;
+  facebook_lead?: number;
+  document_file_limit?: number;
+  audio_file_limit?: number;
+  video_file_limit?: number;
+  image_file_limit?: number;
+  multiple_file_share_limit?: number;
 }
 
 export interface Plan {
@@ -202,6 +211,7 @@ export interface Plan {
   stripe_product_id?: string;
   razorpay_plan_id?: string;
   features: PlanFeatures;
+  enabled_features?: Record<string, boolean>;
   taxes?: Tax[] | string[];
   created_at?: string;
   updated_at?: string;
@@ -246,6 +256,7 @@ export interface CreatePlanRequest {
   stripe_product_id?: string;
   razorpay_plan_id?: string;
   features?: PlanFeatures;
+  enabled_features?: Record<string, boolean>;
   taxes?: string[];
 }
 
@@ -656,6 +667,7 @@ export interface UserSubscription {
   payment_status?: string;
   auto_renew?: boolean;
   features?: Record<string, unknown>;
+  enabled_features?: Record<string, boolean>;
   is_custom?: boolean;
   duration?: number;
 }
@@ -667,6 +679,7 @@ export interface UserPlan {
   price: number;
   billing_cycle: string;
   features?: Record<string, unknown>;
+  enabled_features?: Record<string, boolean>;
 }
 
 export interface User {

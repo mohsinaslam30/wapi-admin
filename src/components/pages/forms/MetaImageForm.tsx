@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/src/elements/ui/button";
+import { Input } from "@/src/elements/ui/input";
 import CustomImage from "@/src/shared/Image";
 import { Image as ImageIcon, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -34,13 +36,13 @@ const MetaImageForm = ({ imagePreview, onImageChange, onRemoveImage }: MetaImage
               height={225}
               className="w-full h-full object-cover"
             />
-            <button
+            <Button
               type="button"
               onClick={onRemoveImage}
-              className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+              className="absolute top-2 h-[unset]! right-2 p-1.5! bg-red-500! text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
             >
               <X size={16} />
-            </button>
+            </Button>
           </div>
         ) : (
           <div
@@ -58,7 +60,7 @@ const MetaImageForm = ({ imagePreview, onImageChange, onRemoveImage }: MetaImage
             </div>
           </div>
         )}
-        <input
+        <Input
           id="meta_image"
           type="file"
           accept="image/*"

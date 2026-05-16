@@ -422,7 +422,7 @@ const AIModelForm = ({ initialValues, onSubmit, isLoading }: AIModelFormProps) =
               <Card className="border shadow-sm dark:border-(--card-border-color) dark:bg-(--card-color) bg-white rounded-lg overflow-hidden">
                 <CardContent className="p-4">
                   {/* Header Section */}
-                  <div className="space-y-1.5 flex flex-row items-center justify-between border-b border-slate-50 dark:border-(--card-border-color)">
+                  <div className="space-y-1.5 flex flex-row items-center justify-between">
                     <h4 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 tracking-wide">
                       <ShieldCheck className="w-6 h-6 text-(--text-green-primary)" />
                       Configuration Summary

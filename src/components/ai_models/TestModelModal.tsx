@@ -42,7 +42,7 @@ const TestModelModal = ({ isOpen, onClose, modelId }: TestModelModalProps) => {
         setResponse(result.message || "Unknown error");
         toast.error(result.message || "Test failed");
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
     } catch (error: any) {
       const errorMessage = error.data?.message || error.message || "An unexpected error occurred";
       setResponse(errorMessage);

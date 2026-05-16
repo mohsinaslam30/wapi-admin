@@ -114,6 +114,7 @@ export interface LandingPageData {
   faq_section: FaqSection;
   contact_section: ContactSection;
   footer_section: FooterSection;
+  landing_page_enabled: boolean;
   createdAt?: string;
   updatedAt?: string;
 }

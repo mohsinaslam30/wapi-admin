@@ -7,6 +7,7 @@ import { ButtonSectionProps } from "@/src/types/template";
 import { Copy, FileText, Link, Plus, Smartphone, Trash2 } from "lucide-react";
 import CharacterCountWrapper from "@/src/shared/CharacterCountWrapper";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/src/elements/ui/button";
 
 export const ButtonSection = ({ interactiveType, setInteractiveType, buttons, addButton, removeButton, updateButton, interactiveActions, isLimitedTimeOffer, isCouponCode }: ButtonSectionProps) => {
   const { t } = useTranslation();
@@ -25,9 +26,9 @@ export const ButtonSection = ({ interactiveType, setInteractiveType, buttons, ad
         {interactiveActions
           .filter((action) => (isRestricted ? action.value === "cta" : true))
           .map((action) => (
-            <button key={action.value} type="button" onClick={() => setInteractiveType(action.value)} className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg border transition-all text-[10px] sm:text-xs font-bold uppercase tracking-wider ${interactiveType === action.value ? "border-primary bg-emerald-50/50 text-emerald-700 dark:bg-(--card-color) dark:text-primary shadow-sm" : "border-slate-50 dark:border-(--card-border-color) bg-slate-50/20 dark:bg-(--dark-sidebar) dark:hover:border-(--card-border-color) text-slate-400 hover:border-slate-200"}`}>
+            <Button key={action.value} type="button" onClick={() => setInteractiveType(action.value)} className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg border transition-all text-[10px] sm:text-xs font-bold uppercase tracking-wider ${interactiveType === action.value ? "border-primary bg-emerald-50/50 hover:bg-emerald-50/50 text-emerald-700 dark:bg-(--card-color) dark:hover:bg-(--card-color) dark:text-primary shadow-sm" : "border-slate-50 dark:border-(--card-border-color) bg-slate-50/20 hover:bg-slate-50/20 dark:bg-(--dark-sidebar) dark:hover:bg-(--dark-sidebar) dark:hover:border-(--card-border-color) text-slate-400 hover:border-slate-200"}`}>
               {t(action.label)}
-            </button>
+            </Button>
           ))}
       </div>
 
@@ -41,9 +42,9 @@ export const ButtonSection = ({ interactiveType, setInteractiveType, buttons, ad
                   {t("templates_library_button_label", { index: idx + 1, type: btn.type === "url" ? "URL" : btn.type.replace("_", " ") })}
                 </span>
               </div>
-              <button type="button" onClick={() => removeButton(btn.id)} className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-all opacity-0 group-hover:opacity-100">
+              <Button type="button" onClick={() => removeButton(btn.id)} className="p-2! bg-[unset]! text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-all opacity-0 group-hover:opacity-100">
                 <Trash2 size={18} />
-              </button>
+              </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
@@ -76,37 +77,37 @@ export const ButtonSection = ({ interactiveType, setInteractiveType, buttons, ad
 
         {interactiveType === "cta" && (
           <div className="flex flex-col sm:flex-row gap-3">
-            <button type="button" onClick={() => addButton("website")} className="flex-1 h-11 sm:h-12 flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-200 dark:hover:border-(--card-border-color) dark:text-amber-50 dark:border-(--card-border-color) text-slate-500 font-bold hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:hover:bg-(--table-hover) transition-all text-xs sm:text-sm p-3">
+            <Button type="button" onClick={() => addButton("website")} className="flex-1 h-11 bg-[unset]! sm:h-12 flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-200 dark:hover:border-(--card-border-color) dark:text-amber-50 dark:border-(--card-border-color) text-slate-500 font-bold hover:border-emerald-500/50 hover:bg-emerald-50/30! dark:hover:bg-(--table-hover)! transition-all text-xs sm:text-sm p-3">
               <Link size={16} /> {t("templates_library_button_add_url", { current: buttons?.filter((b: any) => b.type === "url").length || 0, max: 2 })}
-            </button>
+            </Button>
             {!isRestricted && (
-              <button type="button" onClick={() => addButton("phone_call")} className="flex-1 h-11 sm:h-12 flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-200 dark:hover:border-(--card-border-color) dark:text-amber-50 dark:border-(--card-border-color) text-slate-500 font-bold hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:hover:bg-(--table-hover) transition-all text-xs sm:text-sm p-3">
+              <Button type="button" onClick={() => addButton("phone_call")} className="flex-1 h-11 bg-[unset]! sm:h-12 flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-200 dark:hover:border-(--card-border-color) dark:text-amber-50 dark:border-(--card-border-color) text-slate-500 font-bold hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:hover:bg-(--table-hover)! transition-all text-xs sm:text-sm p-3">
                 <Smartphone size={16} /> {t("templates_library_button_add_phone", { current: buttons?.filter((b: any) => b.type === "phone_call").length || 0, max: 1 })}
-              </button>
+              </Button>
             )}
             {isRestricted && (
-              <button type="button" onClick={() => addButton("copy_code")} className="flex-1 h-11 sm:h-12 flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-200 dark:hover:border-(--card-border-color) dark:text-amber-50 dark:border-(--card-border-color) text-slate-500 font-bold hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:hover:bg-(--table-hover) transition-all text-xs sm:text-sm">
+              <Button type="button" onClick={() => addButton("copy_code")} className="flex-1 h-11 bg-[unset]! sm:h-12 flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-200 dark:hover:border-(--card-border-color) dark:text-amber-50 dark:border-(--card-border-color) text-slate-500 font-bold hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:hover:bg-(--table-hover)! transition-all text-xs sm:text-sm">
                 <Copy size={16} /> {t("templates_library_button_add_copy_code", { current: buttons?.filter((b: any) => b.type === "copy_code").length || 0, max: 1 })}
-              </button>
+              </Button>
             )}
           </div>
         )}
         {interactiveType === "quick_reply" && !isRestricted && (
-          <button type="button" onClick={() => addButton("quick_reply")} className="w-full h-12 flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-200 dark:hover:border-(--card-border-color) dark:text-amber-50 dark:border-(--card-border-color) text-slate-500 font-bold hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:hover:bg-(--table-hover) transition-all text-sm">
+          <Button type="button" onClick={() => addButton("quick_reply")} className="w-full h-12 flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-200 dark:hover:border-(--card-border-color) dark:text-amber-50 dark:border-(--card-border-color) text-slate-500 font-bold bg-[unset]! hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:hover:bg-(--table-hover) transition-all text-sm">
             <Plus size={18} /> {t("templates_library_button_add_quick_reply", { current: buttons?.filter((b: any) => b.type === "quick_reply").length || 0, max: 10 })}
-          </button>
+          </Button>
         )}
         {interactiveType === "all" && !isRestricted && (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-            <button type="button" onClick={() => addButton("quick_reply")} className="flex flex-col items-center gap-2 p-3 sm:p-4 rounded-lg dark:bg-(--table-hover) dark:hover:border-(--card-border-color) border border-slate-100 dark:border-(--card-border-color) bg-slate-50/30 dark:text-amber-50 hover:border-emerald-200 transition-all font-bold text-xs text-slate-600">
+            <Button type="button" onClick={() => addButton("quick_reply")} className="flex flex-col h-[76px] items-center gap-2 p-3 sm:p-4 rounded-lg dark:bg-(--table-hover)! dark:hover:border-(--card-border-color) border border-slate-100 dark:border-(--card-border-color) bg-slate-50/30! dark:text-amber-50 hover:border-emerald-200 transition-all font-bold text-xs text-slate-600">
               <FileText size={18} className="text-slate-400" /> {t("templates_library_button_quick_reply_type")} ({buttons?.filter((b: any) => b.type === "quick_reply").length || 0}/10)
-            </button>
-            <button type="button" onClick={() => addButton("website")} className="flex flex-col items-center gap-2 p-3 sm:p-4 rounded-lg dark:bg-(--table-hover) dark:hover:border-(--card-border-color) border border-slate-100 dark:border-(--card-border-color) bg-slate-50/30 dark:text-amber-50 hover:border-emerald-200 transition-all font-bold text-xs text-slate-600">
+            </Button>
+            <Button type="button" onClick={() => addButton("website")} className="flex flex-col h-[76px] items-center gap-2 p-3 sm:p-4 rounded-lg dark:bg-(--table-hover)! dark:hover:border-(--card-border-color) border border-slate-100 dark:border-(--card-border-color) bg-slate-50/30! dark:text-amber-50 hover:border-emerald-200 transition-all font-bold text-xs text-slate-600">
               <Link size={18} className="text-slate-400" /> {t("templates_library_button_url_label")} ({buttons?.filter((b: any) => b.type === "url").length || 0}/2)
-            </button>
-            <button type="button" onClick={() => addButton("phone_call")} className="flex flex-col items-center gap-2 p-3 sm:p-4 rounded-lg dark:bg-(--table-hover) dark:hover:border-(--card-border-color) border border-slate-100 dark:border-(--card-border-color) bg-slate-50/30 dark:text-amber-50 hover:border-emerald-200 transition-all font-bold text-xs text-slate-600">
+            </Button>
+            <Button type="button" onClick={() => addButton("phone_call")} className="flex flex-col h-[76px] items-center gap-2 p-3 sm:p-4 rounded-lg dark:bg-(--table-hover)! dark:hover:border-(--card-border-color) border border-slate-100 dark:border-(--card-border-color) bg-slate-50/30! dark:text-amber-50 hover:border-emerald-200 transition-all font-bold text-xs text-slate-600">
               <Smartphone size={18} className="text-slate-400" /> {t("templates_library_button_phone_label").split(" ")[0]} ({buttons?.filter((b: any) => b.type === "phone_call").length || 0}/1)
-            </button>
+            </Button>
           </div>
         )}
       </div>

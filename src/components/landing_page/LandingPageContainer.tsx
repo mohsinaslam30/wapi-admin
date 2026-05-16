@@ -2,6 +2,8 @@
 "use client";
 
 import { Button } from "@/src/elements/ui/button";
+import { Label } from "@/src/elements/ui/label";
+import { Switch } from "@/src/elements/ui/switch";
 import { useGetLandingPageQuery, useUpdateLandingPageMutation } from "@/src/redux/api/landingPageApi";
 import CommonHeader from "@/src/shared/CommonHeader";
 import { LandingPageData } from "@/src/types/landingPage";
@@ -187,12 +189,12 @@ const LandingPageContainer = () => {
                   const isActive = activeTab === tab.id;
                   const Icon = tab.icon;
                   return (
-                    <button
+                    <Button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={`
-                        flex items-center gap-3 [@media(min-width:1421px)]:gap-4 px-2 [@media(min-width:1421px)]:px-5 py-2 [@media(min-width:1421px)]:py-4 rounded-lg text-left transition-all duration-300 group relative overflow-hidden shrink-0 snap-center [@media(min-width:1421px)]:snap-start
-                        ${isActive ? "bg-primary text-white shadow" : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-(--dark-body) hover:text-gray-400"}
+                        flex items-center h-[72px] gap-3 [@media(min-width:1421px)]:gap-4 px-2 [@media(min-width:1421px)]:px-5 py-2 [@media(min-width:1421px)]:py-4 rounded-lg text-left group relative overflow-hidden shrink-0 snap-center [@media(min-width:1421px)]:snap-start
+                        ${isActive ? "bg-primary text-white shadow" : "text-gray-500 dark:text-gray-400 hover:bg-gray-50! dark:hover:bg-(--dark-body)! hover:text-gray-400 bg-[unset]! shadow-[unset]!"}
                       `}
                     >
                       <div
@@ -208,7 +210,7 @@ const LandingPageContainer = () => {
                         <p className={`hidden [@media(min-width:1421px)]:block text-[13px] truncate font-medium ${isActive ? "text-white/60" : "text-gray-400"}`}>{t(`landing_page_tabs_${tab.id}_desc`)}</p>
                       </div>
                       {isActive && <div className="absolute right-0 top-0 bottom-0 w-1.5 bg-white/30 hidden [@media(min-width:1421px)]:block" />}
-                    </button>
+                    </Button>
                   );
                 })}
               </div>
@@ -246,7 +248,22 @@ const LandingPageContainer = () => {
                   {t("common_draft")}
                 </div>
               )}
-              <div className="flex-1 [@media(min-width:1421px)]:flex-initial flex items-center justify-end gap-2 w-full">
+              {formData && (
+                <div className="flex items-center gap-3 px-4 py-3 bg-gray-50 dark:bg-page-body rounded-lg border border-gray-100 dark:border-none shadow-inner">
+                  <Label htmlFor="landing-page-toggle" className="text-[13px] font-bold text-gray-600 dark:text-gray-300 cursor-pointer">
+                    {t("landing_page_manage_landing")}
+                  </Label>
+                  <Switch
+                    id="landing-page-toggle"
+                    checked={!!formData.landing_page_enabled}
+                    onCheckedChange={(checked) => {
+                      setFormData({ ...formData, landing_page_enabled: checked });
+                      setIsDirty(true);
+                    }}
+                  />
+                </div>
+              )}
+              <div className="flex-1 flex items-center justify-end gap-2 w-full">
                 <Button variant="outline" size="sm" onClick={refetch} className=" [@media(min-width:1421px)]:flex-initial h-10 lg:h-12 px-4.5 py-5 gap-2 border-gray-100 dark:bg-page-body dark:border-none rounded-lg font-bold text-gray-500 dark:hover:bg-(--table-hover) hover:bg-gray-50 group">
                   <RefreshCw className={`w-3.5 h-3.5 lg:w-4 group-active:rotate-180 transition-transform ${isLoading ? "animate-spin" : ""}`} />
                   <span className="[@media(min-width:1421px)]:inline">{t("common_refresh")}</span>
@@ -272,7 +289,7 @@ const LandingPageContainer = () => {
                 <p className="text-[11px] lg:text-[12px] text-gray-400 mt-1">{t("landing_page_fetching_settings")}</p>
               </div>
             ) : (
-              <div className="bg-white dark:bg-(--card-color) p-4 [@media(min-width:1421px)]:p-8 rounded-lg border border-gray-100 dark:border-(--card-border-color) shadow-2xl shadow-primary/2 dark:shadow-none min-h-80 [@media(min-width:1421px)]:min-h-150 relative">
+              <div className="bg-white dark:bg-(--card-color) p-4 [@media(min-width:1421px)]:p-6 rounded-lg border border-gray-100 dark:border-(--card-border-color) shadow-2xl shadow-primary/2 dark:shadow-none min-h-80 [@media(min-width:1421px)]:min-h-150 relative">
                 <div className="absolute top-10 right-10 opacity-5 pointer-events-none hidden [@media(min-width:1421px)]:block">
                   <activeTabInfo.icon className="w-40 h-40" />
                 </div>

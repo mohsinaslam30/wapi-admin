@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(data, { status: response.status });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
   } catch (error: any) {
     console.error("Error sending test mail:", error);
     return NextResponse.json(

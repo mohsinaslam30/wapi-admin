@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   } catch (error: any) {
     console.error('Error creating AI model:', error);
     return NextResponse.json(

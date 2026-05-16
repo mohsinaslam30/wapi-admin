@@ -53,7 +53,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       sortKey: "invoice_number",
       copyable: true,
       copyField: "invoice_number",
-      className: "[@media(max-width:1678px)]:min-w-[196px]",
+      className: "[@media(max-width:1920px)]:min-w-[215px]",
       accessor: (payment) => <span className="font-mono text-xs text-gray-500">{payment.invoice_number}</span>,
     },
     {
@@ -63,13 +63,13 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       sortKey: "transaction_id",
       copyable: true,
       copyField: "transaction_id",
-      className: "[@media(max-width:1678px)]:min-w-[196px]",
+      className: "[@media(max-width:1920px)]:min-w-[225px]",
       accessor: (payment) => <span className="font-mono text-xs text-gray-500">{payment.transaction_id || payment._id.slice(-8).toUpperCase()}</span>,
     },
     {
       id: "user",
       header: "User",
-      className: "[@media(max-width:1678px)]:min-w-[170px]",
+      className: "[@media(max-width:1920px)]:min-w-[220px]",
       sortable: true,
       sortKey: "name",
       copyable: true,
@@ -86,7 +86,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       header: "Plan",
       sortable: true,
       sortKey: "name",
-      className: "[@media(max-width:1678px)]:min-w-[165px]",
+      className: "[@media(max-width:1920px)]:min-w-[165px]",
       accessor: (payment) => <span className="text-gray-700 dark:text-gray-300">{payment.plan?.name || "N/A"}</span>,
     },
     {
@@ -94,7 +94,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       header: "Amount",
       sortable: true,
       sortKey: "amount",
-      className: "[@media(max-width:1678px)]:min-w-[255px]",
+      className: "[@media(max-width:1920px)]:min-w-[240px]",
       accessor: (payment) => (
         <span className="font-bold text-gray-900 dark:text-gray-100 uppercase">
           {payment.amount} {payment.currency}
@@ -106,7 +106,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       header: "Gateway",
       sortable: true,
       sortKey: "payment_gateway",
-      className: "[@media(max-width:1678px)]:min-w-[125px]",
+      className: "[@media(max-width:1920px)]:min-w-[200px]",
       accessor: (payment) => (
         <Badge variant="outline" className="capitalize border-slate-200 dark:border-slate-800">
           {payment.payment_gateway}
@@ -118,7 +118,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       header: "Status",
       sortable: true,
       sortKey: "payment_status",
-      className: "[@media(max-width:1678px)]:min-w-[130px]",
+      className: "[@media(max-width:1920px)]:min-w-[130px]",
       accessor: (payment) => <Badge className={`border-none ${getStatusColor(payment.payment_status)}`}>{payment.payment_status}</Badge>,
     },
     {
@@ -126,7 +126,7 @@ const PaymentsTable = ({ payments, isLoading, pagination, onPageChange, onLimitC
       header: "Paid At",
       sortable: true,
       sortKey: "paid_at",
-      className: "[@media(max-width:1678px)]:min-w-[185px]",
+      className: "[@media(max-width:1920px)]:min-w-[185px]",
       accessor: (payment) => <span className="text-gray-500 text-sm whitespace-nowrap">{payment.paid_at ? format(new Date(payment.paid_at), "MMMM d, yyyy HH:mm") : "N/A"}</span>,
     },
     {

@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { HeaderSectionProps } from "@/src/types/template";
 import CharacterCountWrapper from "@/src/shared/CharacterCountWrapper";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/src/elements/ui/button";
 
 export const HeaderSection = ({ templateType, setTemplateType, headerText, setHeaderText, templateTypes, setHeaderFile, headerFile }: HeaderSectionProps) => {
   const { t } = useTranslation();
@@ -51,7 +52,7 @@ export const HeaderSection = ({ templateType, setTemplateType, headerText, setHe
             {templateTypes
               .filter((t_opt) => t_opt.value !== "text" && t_opt.value !== "none")
               .map((type) => (
-                <button
+                <Button
                   key={type.value}
                   type="button"
                   onClick={() => {
@@ -60,11 +61,11 @@ export const HeaderSection = ({ templateType, setTemplateType, headerText, setHe
                       setHeaderFile(null);
                     } else setTemplateType(type.value);
                   }}
-                  className={`flex flex-col items-center justify-center gap-1.5 p-2 sm:p-3 rounded-lg border transition-all font-bold text-[9px] sm:text-[10px] uppercase tracking-wider ${templateType === type.value ? "border-primary bg-emerald-50/50 text-primary dark:bg-(--table-hover)" : "border-slate-150 dark:border-(--table-hover) bg-slate-50/20 dark:bg-(--table-hover) text-slate-400 dark:text-gray-500 hover:border-primary dark:hover:border-(--card-border-color)"}`}
+                  className={`flex flex-col h-[79px] items-center justify-center gap-1.5 p-2 sm:p-3 rounded-lg border transition-all font-bold text-[9px] sm:text-[10px] uppercase tracking-wider ${templateType === type.value ? "border-primary bg-emerald-50/50 hover:bg-emerald-50/50 text-primary dark:bg-(--table-hover) dark:hover:bg-(--table-hover)" : "border-slate-150 dark:border-(--table-hover) bg-slate-50/20 hover:bg-slate-50/20 dark:bg-(--table-hover) dark:hover:bg-(--table-hover) text-slate-400 dark:text-gray-500 hover:border-primary dark:hover:border-(--card-border-color)"}`}
                 >
                   <div className={`p-1.5 rounded-lg ${templateType === type.value ? "bg-emerald-100 dark:bg-(--card-color)" : "bg-white dark:bg-transparent shadow-xs"}`}>{type.icon}</div>
                   {type.label}
-                </button>
+                </Button>
               ))}
           </div>
         </div>
@@ -72,7 +73,7 @@ export const HeaderSection = ({ templateType, setTemplateType, headerText, setHe
 
       {templateType !== "text" && templateType !== "none" && (
         <div className="pt-6 border-t border-slate-50 dark:border-(--card-border-color)">
-          <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept={templateType === "image" ? "image/*" : templateType === "video" ? "video/*" : templateType === "document" ? ".pdf,.doc,.docx" : "*"} />
+          <Input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept={templateType === "image" ? "image/*" : templateType === "video" ? "video/*" : templateType === "document" ? ".pdf,.doc,.docx" : "*"} />
           {headerFile ? (
             <div className="flex items-center justify-between p-4 bg-emerald-50/50 dark:bg-emerald-500/5 border border-emerald-100 dark:border-emerald-500/20 rounded-2xl animate-in fade-in slide-in-from-top-2 duration-300">
               <div className="flex items-center gap-4">
@@ -84,16 +85,16 @@ export const HeaderSection = ({ templateType, setTemplateType, headerText, setHe
                   <span className="text-[10px] text-primary dark:text-emerald-400 font-bold uppercase tracking-wider">{(headerFile.size / (1024 * 1024)).toFixed(2)} MB • {t("templates_library_file_ready")}</span>
                 </div>
               </div>
-              <button
+              <Button
                 type="button"
                 onClick={() => {
                   setHeaderFile(null);
                   setTemplateType("none");
                 }}
-                className="p-2.5 text-slate-500 dark:text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-all"
+                className="p-2.5! bg-[unset]! text-slate-500 dark:text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-all"
               >
                 <X size={20} />
-              </button>
+              </Button>
             </div>
           ) : (
             <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-slate-200 dark:border-(--card-border-color) rounded-lg p-10 flex flex-col items-center justify-center bg-slate-50/30 dark:bg-(--card-color) hover:bg-white dark:hover:bg-(--table-hover) hover:border-primary dark:hover:border-(--card-border-color) transition-all cursor-pointer group">

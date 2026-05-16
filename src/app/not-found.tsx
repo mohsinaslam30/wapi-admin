@@ -44,7 +44,7 @@ const NotFound = () => {
           <Button
             onClick={() => router.back()}
             variant="outline"
-            className="flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-(--card-border-color) h-9 dark:bg-(--card-color) dark:hover:bg-(--dark-sidebar) hover:border-(--text-green-primary) hover:text-(--text-green-primary) transition-colors"
+            className="flex items-center gap-2 h-[44px]! px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-(--card-border-color) h-9 dark:bg-(--card-color) dark:hover:bg-(--dark-sidebar) hover:border-(--text-green-primary) hover:text-(--text-green-primary) transition-colors"
           >
             <ArrowLeft className="w-4 h-full" />
             Go Back

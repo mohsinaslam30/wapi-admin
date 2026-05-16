@@ -146,9 +146,9 @@ const PricingForm = ({ data, onChange }: PricingFormProps) => {
                       {typeof plan.currency === "string" ? plan.currency : plan.currency?.symbol}{plan.price}
                     </span>
                   </div>
-                  <button onClick={() => togglePlan(plan._id)} className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-500 dark:hover:bg-red-900/20 hover:text-white flex items-center justify-center transition-all shrink-0">
+                  <Button onClick={() => togglePlan(plan._id)} className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-500 dark:hover:bg-red-900/20 hover:text-white flex items-center justify-center transition-all shrink-0">
                     <X className="w-4 h-4" />
-                  </button>
+                  </Button>
                 </Badge>
               ))}
             {selectedPlans.length === 0 && (

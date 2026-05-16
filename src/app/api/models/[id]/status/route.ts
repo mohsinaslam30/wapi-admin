@@ -23,7 +23,7 @@ export async function PATCH(
 
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   } catch (error: any) {
     console.error('Error toggling AI model status:', error);
     return NextResponse.json(

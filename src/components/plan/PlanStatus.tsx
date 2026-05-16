@@ -22,7 +22,7 @@ const PlanStatus = ({ formData, onFieldChange }: PlanStatusProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div className="flex items-center justify-between p-4 bg-gray-50/50 dark:bg-page-body rounded-xl border border-gray-100 dark:border-(--card-border-color) transition-all hover:border-(--text-green-primary)/30">
           <div className="space-y-1">
             <Label htmlFor="is_featured" className="text-sm font-bold text-gray-900 dark:text-gray-200 cursor-pointer">

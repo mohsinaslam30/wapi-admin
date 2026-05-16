@@ -22,8 +22,8 @@ interface AdminChartsProps {
 }
 
 export const PlanRevenueChart = ({ planRevenue }: { planRevenue: AdminChartsProps["planRevenue"] }) => {
-  const series = planRevenue.map((p) => p.totalRevenue);
-  const labels = planRevenue.map((p) => p._id);
+  const series = planRevenue?.map((p) => p.totalRevenue);
+  const labels = planRevenue?.map((p) => p._id);
   const settings = useAppSelector((state) => state.settings.data);
   const defaultSymbol = settings?.default_currency?.symbol || "$";
 
@@ -116,10 +116,10 @@ export const RevenueTimelineChart = ({ revenueGraph }: { revenueGraph: AdminChar
   const series = [
     {
       name: "Revenue",
-      data: processedData.map((g) => g.totalRevenue),
+      data: processedData?.map((g) => g.totalRevenue),
     },
   ];
-  const categories = processedData.map((g) => g._id);
+  const categories = processedData?.map((g) => g._id);
 
   const options: ApexOptions = {
     chart: {

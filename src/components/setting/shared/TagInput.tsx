@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/src/elements/ui/button";
+import { Input } from "@/src/elements/ui/input";
 import { TagInputProps } from "@/src/types/setting";
 import { X } from "lucide-react";
 import { KeyboardEvent, useState } from "react";
@@ -43,12 +45,12 @@ const TagInput = ({ value = [], onChange, placeholder = "Type and press Enter...
         {value.map((tag) => (
           <span key={tag} className="inline-flex items-center gap-1 px-2 py-0.5 bg-(--text-green-primary)/10 text-(--text-green-primary) text-xs font-medium rounded-md border border-(--text-green-primary)/20">
             .{tag}
-            <button type="button" onClick={() => removeTag(tag)} className="hover:text-red-500 transition-colors" disabled={disabled}>
+            <Button type="button" onClick={() => removeTag(tag)} className="hover:text-red-500 bg-[unset]! p-0! h-[unset]! text-primary! transition-colors" disabled={disabled}>
               <X className="w-3 h-3" />
-            </button>
+            </Button>
           </span>
         ))}
-        <input
+        <Input
           value={inputValue}
           onChange={(e) => {
             setInputValue(e.target.value);
@@ -68,9 +70,9 @@ const TagInput = ({ value = [], onChange, placeholder = "Type and press Enter...
         <div className="z-50 top-full mt-1 left-0 right-0 bg-white dark:bg-(--page-body-bg) border border-gray-200 dark:border-none rounded-lg shadow-lg overflow-hidden max-h-48 overflow-y-auto">
           <div className="p-1.5 flex flex-wrap gap-1">
             {filtered.map((type) => (
-              <button key={type} type="button" onMouseDown={() => addTag(type)} className="px-2 py-1 text-xs font-medium rounded-md bg-gray-100 dark:bg-(--card-color) text-gray-700 dark:text-gray-300 hover:bg-(--text-green-primary)/10 hover:text-(--text-green-primary) transition-colors">
+              <Button key={type} type="button" onMouseDown={() => addTag(type)} className="px-2 py-1 text-xs font-medium rounded-md bg-gray-100 dark:bg-(--card-color) text-gray-700 dark:text-gray-300 hover:bg-(--text-green-primary)/10 hover:text-(--text-green-primary) transition-colors">
                 .{type}
-              </button>
+              </Button>
             ))}
           </div>
         </div>

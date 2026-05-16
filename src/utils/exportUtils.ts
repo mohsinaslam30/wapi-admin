@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -14,7 +13,7 @@ const getNestedValue = (obj: any, path: string) => {
   return path.split(".").reduce((acc, part) => acc && acc[part], obj);
 };
 
-export const exportData = ({
+export const exportData = async ({
   data,
   columns,
   filename = "export",
@@ -53,18 +52,33 @@ export const exportData = ({
     link.click();
     document.body.removeChild(link);
   } else if (format === "excel") {
-    const worksheet = XLSX.utils.json_to_sheet(
-      data.map((item) => {
-        const row: any = {};
-        columns.forEach((col) => {
-          row[col.header] = getNestedValue(item, col.key);
-        });
-        return row;
-      })
-    );
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
-    XLSX.writeFile(workbook, `${filename}.xlsx`);
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Data");
+
+    worksheet.columns = columns.map((col) => ({
+      header: col.header,
+      key: col.header,
+      width: 20,
+    }));
+
+    data.forEach((item) => {
+      const row: any = {};
+      columns.forEach((col) => {
+        row[col.header] = getNestedValue(item, col.key);
+      });
+      worksheet.addRow(row);
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${filename}.xlsx`;
+    link.click();
+    URL.revokeObjectURL(url);
   } else if (format === "pdf") {
     const doc = new jsPDF({
       orientation: columns.length > 5 ? "landscape" : "portrait",

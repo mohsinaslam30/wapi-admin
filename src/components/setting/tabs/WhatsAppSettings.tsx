@@ -8,7 +8,13 @@ import { updateSettingField } from "@/src/redux/reducers/settingsSlice";
 import SettingCard from "../shared/SettingCard";
 import { ImageBaseUrl } from "@/src/constants";
 import { Button } from "@/src/elements/ui/button";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, QrCode, UserPlus, ExternalLink, Check } from "lucide-react";
+
+const connectionMethods = [
+  { id: "manual", label: "Manual", description: "Direct number entry" },
+  { id: "qr_scan", label: "QR Scan", description: "Scan to connect" },
+  { id: "embedded_signup", label: "Embedded Signup", description: "Meta onboarding flow" },
+];
 
 const WhatsAppSettings = () => {
   const dispatch = useAppDispatch();
@@ -19,8 +25,46 @@ const WhatsAppSettings = () => {
     dispatch(updateSettingField({ key, value }));
   };
 
+  const toggleConnectionMethod = (id: string) => {
+    const currentMethods = settings.connection_method || [];
+    let newMethods;
+    if (currentMethods.includes(id)) {
+      if (currentMethods.length <= 1) return;
+      newMethods = currentMethods.filter((m) => m !== id);
+    } else {
+      newMethods = [...currentMethods, id];
+    }
+    onChange("connection_method", newMethods);
+  };
+
   return (
     <div className="space-y-5">
+      <SettingCard title="Connection Methods" description="Select which connection methods should be available for users to connect their WhatsApp accounts.">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {connectionMethods.map((method) => {
+            const isSelected = (settings.connection_method || []).includes(method.id);
+            return (
+              <div key={method.id} onClick={() => toggleConnectionMethod(method.id)} className={`relative flex flex-col p-4 rounded-lg border-2 transition-all duration-200 cursor-pointer group ${isSelected ? "border-(--text-green-primary) bg-(--text-green-primary)/5 shadow-sm" : "border-slate-100 dark:border-(--card-border-color) bg-transparent hover:border-slate-200 dark:hover:border-(--card-border-color)"}`}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className={`p-2 rounded-lg ${isSelected ? "bg-(--text-green-primary) text-white" : "bg-slate-100 dark:bg-(--page-body-bg) text-slate-500"}`}>
+                    {method.id === "manual" && <UserPlus className="w-4 h-4" />}
+                    {method.id === "qr_scan" && <QrCode className="w-4 h-4" />}
+                    {method.id === "embedded_signup" && <ExternalLink className="w-4 h-4" />}
+                  </div>
+                  {isSelected && (
+                    <div className="w-5 h-5 rounded-full bg-(--text-green-primary) flex items-center justify-center">
+                      <Check className="w-3 h-3 text-white" />
+                    </div>
+                  )}
+                </div>
+                <h4 className={`text-sm font-bold ${isSelected ? "text-slate-900 dark:text-white" : "text-slate-600 dark:text-slate-400"}`}>{method.label}</h4>
+                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">{method.description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </SettingCard>
+
       <SettingCard
         title="WhatsApp API Credentials"
         description="Configure your Meta WhatsApp Business API credentials."
@@ -96,7 +140,7 @@ const WhatsAppSettings = () => {
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">WhatsApp Webhook URL</Label>
             <Input
               type={storedSettings?.show_whatsapp_config ? "text" : "password"}
-              value={storedSettings?.show_whatsapp_config ? `${ImageBaseUrl ?? ""}${settings.whatsapp_webhook_url ?? ""}` : (settings.whatsapp_webhook_url ? "••••••••" : "")}
+              value={storedSettings?.show_whatsapp_config ? `${ImageBaseUrl ?? ""}/${settings.whatsapp_webhook_url ?? ""}` : (settings.whatsapp_webhook_url ? "••••••••" : "")}
               onChange={(e) => onChange("whatsapp_webhook_url", e.target.value)}
               placeholder="https://yourdomain.com/api/webhook/whatsapp"
               className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3"

@@ -63,12 +63,20 @@ const PlanCard = ({ plan, onDelete, isLoading, isHighlighted }: PlanCardProps) =
 
   const getFeaturesList = () => {
     return numericFeatures
+      .filter((feature) => {
+        if (feature.hasToggle) {
+          if (plan.enabled_features) {
+            return !!plan.enabled_features[feature.id];
+          }
+          return true;
+        }
+        return true;
+      })
       .map((feature) => {
         const value = plan.features[feature.id as keyof PlanFeatures];
         if (value === undefined || value === null) return null;
 
         const label = t(`plan_features_${feature.id}`);
-        // Remove everything after "(" in the label if it exists (e.g. "Contacts (0 = unlimited)")
         const cleanLabel = label.split("(")[0].trim();
         const displayValue = value === 0 ? t("plan_features_unlimited") || "Unlimited" : value;
         return `${displayValue} ${cleanLabel}`;

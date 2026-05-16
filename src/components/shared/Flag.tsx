@@ -1,10 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import React from "react";
 
 interface FlagProps {
-  countryCode: string; 
+  countryCode: string;
   className?: string;
   size?: number;
 }
@@ -15,11 +16,13 @@ export const Flag: React.FC<FlagProps> = ({ countryCode, className, size = 20 })
   const code = countryCode.toLowerCase();
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+     
+    <Image
       src={`https://flagcdn.com/w80/${code}.png`}
-      srcSet={`https://flagcdn.com/w160/${code}.png 2x`}
+      // srcSet={`https://flagcdn.com/w160/${code}.png 2x`}
       width={size}
+      height={25}
+      unoptimized
       alt={`${countryCode} flag`}
       className={cn("inline-block align-middle rounded-xs object-cover overflow-hidden", className)}
       style={{

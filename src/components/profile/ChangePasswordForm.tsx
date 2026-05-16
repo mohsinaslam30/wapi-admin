@@ -69,9 +69,9 @@ const ChangePasswordForm = () => {
               <div className="relative group">
                 <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400 group-focus-within:text-(--text-green-primary) transition-colors" />
                 <Input id="current_password" type={showCurrentPassword ? "text" : "password"} placeholder={t("current_password_placeholder")} className="pl-10 py-5.5 pr-10 dark:bg-(--page-body-bg) bg-(--input-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" {...formik.getFieldProps("current_password")} />
-                <button type="button" onClick={() => setShowCurrentPassword(!showCurrentPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                <Button type="button" onClick={() => setShowCurrentPassword(!showCurrentPassword)} className="absolute right-3 bg-[unset]! p-0! shadow-[unset]! h-[unset]! top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
                   {showCurrentPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
+                </Button>
               </div>
               {formik.touched.current_password && formik.errors.current_password && <p className="text-red-500 text-xs">{formik.errors.current_password}</p>}
             </div>
@@ -81,9 +81,9 @@ const ChangePasswordForm = () => {
               <div className="relative group">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400 group-focus-within:text-(--text-green-primary) transition-colors" />
                 <Input id="new_password" type={showNewPassword ? "text" : "password"} placeholder={t("new_password_placeholder")} className="pl-10 py-5.5 pr-10 dark:bg-(--page-body-bg) bg-(--input-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" {...formik.getFieldProps("new_password")} />
-                <button type="button" onClick={() => setShowNewPassword(!showNewPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                <Button type="button" onClick={() => setShowNewPassword(!showNewPassword)} className="absolute right-3 bg-[unset]! p-0! shadow-[unset]! h-[unset]! top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
                   {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
+                </Button>
               </div>
               {formik.touched.new_password && formik.errors.new_password && <p className="text-red-500 text-xs">{formik.errors.new_password}</p>}
             </div>
@@ -93,9 +93,9 @@ const ChangePasswordForm = () => {
               <div className="relative group">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400 group-focus-within:text-(--text-green-primary) transition-colors" />
                 <Input id="confirm_password" type={showConfirmPassword ? "text" : "password"} placeholder={t("confirm_password_placeholder")} className="pl-10 py-5.5 pr-10 bg-(--input-color) dark:bg-(--page-body-bg) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" {...formik.getFieldProps("confirm_password")} />
-                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                <Button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 bg-[unset]! p-0! shadow-[unset]! h-[unset]! top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
                   {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
+                </Button>
               </div>
               {formik.touched.confirm_password && formik.errors.confirm_password && <p className="text-red-500 text-xs">{formik.errors.confirm_password}</p>}
             </div>

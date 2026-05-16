@@ -29,7 +29,7 @@ const CommonHeader = ({ title, description, onSearch, searchTerm = "", searchPla
           <p className="text-gray-400 text-sm">{description}</p>
         </div>
 
-        <div className="flex items-center gap-3 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap justify-end">
           {extraActions}
           {onAddClick && (
             <Can permission={addPermission}>

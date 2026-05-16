@@ -46,7 +46,7 @@ const TestMailModal = ({ isOpen, onClose, smtpSettings }: TestMailModalProps) =>
       } else {
         toast.error(response.message || t("settings_test_mail_failed"));
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
     } catch (error: any) {
       toast.error(error.data?.message || error.message || t("settings_test_mail_error"));
     }

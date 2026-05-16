@@ -6,6 +6,7 @@ import { Menu } from "lucide-react";
 import { useDispatch } from "react-redux";
 import LeftHeader from "./LeftHeader";
 import RightHeader from "./RightHeader";
+import { Button } from "@/src/elements/ui/button";
 
 const Header = () => {
   const { sidebarToggle, isRTL, sidebarHover } = useAppSelector(state => state.layout);
@@ -27,9 +28,9 @@ const Header = () => {
         ${!isVisuallyCollapsed ? "lg:ps-72" : "lg:ps-24 ps-0"} 
       `}
     >
-      <div className="flex-1 flex items-center justify-between bg-white dark:bg-(--card-color) py-4 px-5 rounded-lg m-5 mt-3 dark:border-(--card-border-color) border">
+      <div className="flex-1 flex items-center justify-between bg-white dark:bg-(--card-color) py-4 px-5 rounded-lg m-5 mt-0 dark:border-(--card-border-color) border">
         <div className="flex items-center gap-2 flex-1">
-          <button
+          <Button
             onClick={handleToggle}
             className={`
               p-2.5 rounded-lg transition-all duration-200
@@ -38,7 +39,7 @@ const Header = () => {
             `}
           >
             <Menu className="w-5 h-5" />
-          </button>
+          </Button>
 
           <LeftHeader />
         </div>

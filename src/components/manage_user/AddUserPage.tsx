@@ -210,7 +210,7 @@ const AddUserPage = ({ id }: AddUserPageProps) => {
                   <Input value={form.country_code} disabled placeholder="+1" className="h-11 bg-(--input-color) rounded-lg p-3 dark:bg-page-body border-(--input-border-color) dark:border-zinc-700 opacity-70 cursor-not-allowed" />
                 </div>
                 <div className="space-y-1.5 flex flex-col">
-                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</Label>
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-[7px] rtl:ml-0 rtl:mr-[7px]">Phone Number</Label>
                   <Input
                     type="number"
                     value={form.phone}
@@ -294,11 +294,11 @@ const AddUserPage = ({ id }: AddUserPageProps) => {
         </div>
       </div>
       <div className="flex flex-col mt-4 sm:flex-row items-center justify-end gap-3 pb-8">
-        <Button variant="outline" onClick={() => router.back()} disabled={isSubmitting} className="w-full sm:w-auto px-4.5 py-5 h-11 rounded-lg border-(--input-border-color) dark:border-(--card-border-color) dark:bg-(--card-color) dark:text-gray-200">
+        <Button variant="outline" onClick={() => router.back()} disabled={isSubmitting} className="w-full sm:w-auto px-4.5 py-5 h-11 rounded-lg border-(--input-border-color) dark:border-(--card-border-color) dark:bg-(--card-color) dark:hover:bg-(--table-hover) dark:text-gray-200">
           Cancel
         </Button>
         <Can permission={isEditMode ? "update.users" : "create.users"}>
-          <Button onClick={handleSubmit} disabled={isSubmitting || !isValid} className="w-full sm:w-auto px-4.5 py-5 h-11 rounded-lg bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white gap-2">
+          <Button onClick={handleSubmit} disabled={isSubmitting || !isValid} className="w-full sm:w-auto px-4.5 py-5 h-11 rounded-lg bg-(--text-green-primary) hover:bg-(--text-green-primary)/90 text-white gap-2 ">
             {isSubmitting ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Save className="w-4 h-4" />}
             {isSubmitting ? (isEditMode ? "Updating..." : "Creating...") : isEditMode ? "Update User" : "Create User"}
           </Button>

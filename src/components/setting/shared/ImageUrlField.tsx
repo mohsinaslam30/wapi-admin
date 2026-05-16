@@ -60,7 +60,7 @@ const ImageUrlField = ({ label, value, onChange, onFileChange, placeholder = "ht
       <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</p>
 
       {/* Hidden file input */}
-      <input ref={fileInputRef} type="file" accept={accept} className="hidden" onChange={handleFileChange} />
+      <Input ref={fileInputRef} type="file" accept={accept} className="hidden" onChange={handleFileChange} />
 
       {/* URL input mode */}
       {mode === "url" && (
@@ -72,7 +72,7 @@ const ImageUrlField = ({ label, value, onChange, onFileChange, placeholder = "ht
           <Button size="sm" onClick={handleConfirmUrl} className="h-10 px-4.5 py-5 bg-primary hover:bg-primary/90 text-white text-xs">
             Apply
           </Button>
-          <Button size="sm" variant="outline" onClick={() => setMode("idle")} className="h-10 px-4.5 py-4 text-xs border-(--inpuy-border-color) dark:bg-page-body dark:border-none dark:hover:bg-(--table-hover)  ">
+          <Button size="sm" variant="outline" onClick={() => setMode("idle")} className="h-10 px-4.5 py-4 text-xs border-(--input-border-color) dark:bg-page-body dark:border-none dark:hover:bg-(--table-hover)  ">
             Cancel
           </Button>
         </div>
@@ -101,15 +101,15 @@ const ImageUrlField = ({ label, value, onChange, onFileChange, placeholder = "ht
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
-            <button title="Edit URL" onClick={handleEdit} className="p-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-(--table-hover) text-gray-500 transition-colors">
+            <Button title="Edit URL" onClick={handleEdit} className="p-1.5! bg-[unset]! h-[unset]! shadow-[unset]! rounded-lg hover:bg-gray-200 dark:hover:bg-(--table-hover) text-gray-500 transition-colors">
               <Pencil className="w-3.5 h-3.5" />
-            </button>
-            <button title="Upload new image" onClick={() => fileInputRef.current?.click()} className="p-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-(--table-hover) text-gray-500 transition-colors">
+            </Button>
+            <Button title="Upload new image" onClick={() => fileInputRef.current?.click()} className="p-1.5! bg-[unset]! h-[unset]! shadow-[unset]! rounded-lg hover:bg-gray-200 dark:hover:bg-(--table-hover) text-gray-500 transition-colors">
               <Upload className="w-3.5 h-3.5" />
-            </button>
-            <button title="Remove" onClick={handleClear} className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-400 hover:text-red-500 transition-colors">
+            </Button>
+            <Button title="Remove" onClick={handleClear} className="p-1.5! bg-[unset]! h-[unset]! shadow-[unset]! rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-400 hover:text-red-500 transition-colors">
               <X className="w-3.5 h-3.5" />
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -117,25 +117,25 @@ const ImageUrlField = ({ label, value, onChange, onFileChange, placeholder = "ht
       {/* Empty state */}
       {mode === "idle" && !hasImage && (
         <div className="flex gap-2">
-          <button
+          <Button
             onClick={() => {
               setTempUrl("");
               setMode("url");
             }}
-            className="flex-1 flex flex-col items-center justify-center gap-1.5 p-3 bg-gray-50 dark:bg-page-body border border-dashed border-gray-300 dark:border-(--card-border-color) rounded-lg hover:border-primary hover:bg-primary/5 transition-all group"
+            className="flex-1 flex flex-col h-[80px] items-center justify-center gap-1.5 p-3 bg-gray-50 dark:bg-page-body border border-dashed border-gray-300 dark:border-(--card-border-color) rounded-lg hover:border-primary hover:bg-primary/5 transition-all group"
           >
             <div className="w-8 h-8 rounded-lg bg-white dark:bg-(--dark-body) border border-(--input-border-color) dark:border-none flex items-center justify-center group-hover:border-primary/30 transition-colors">
               <Link2 className="w-3.5 h-3.5 text-gray-400 group-hover:text-primary transition-colors" />
             </div>
             <span className="text-xs font-medium text-gray-500 dark:text-gray-400 group-hover:text-primary transition-colors">Enter URL</span>
-          </button>
+          </Button>
 
-          <button onClick={() => fileInputRef.current?.click()} className="flex-1 flex flex-col items-center justify-center gap-1.5 p-3 bg-gray-50 dark:bg-page-body border border-dashed border-gray-300 dark:border-(--card-border-color) rounded-lg hover:border-primary hover:bg-primary/5 transition-all group">
+          <Button onClick={() => fileInputRef.current?.click()} className="flex-1 flex flex-col h-[80px] items-center justify-center gap-1.5 p-3 bg-gray-50 dark:bg-page-body border border-dashed border-gray-300 dark:border-(--card-border-color) rounded-lg hover:border-primary hover:bg-primary/5 transition-all group">
             <div className="w-8 h-8 rounded-lg bg-white dark:bg-(--dark-body) border border-(--input-border-color) dark:border-none flex items-center justify-center group-hover:border-primary/30 transition-colors">
               <Upload className="w-3.5 h-3.5 text-gray-400 group-hover:text-primary transition-colors" />
             </div>
             <span className="text-xs font-medium text-gray-500 dark:text-gray-400 group-hover:text-primary transition-colors">Upload File</span>
-          </button>
+          </Button>
         </div>
       )}
     </div>

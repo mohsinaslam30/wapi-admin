@@ -31,51 +31,34 @@ const MaintenanceSettings = ({ isLoading }: { isLoading?: boolean }) => {
 
   return (
     <div className="space-y-5">
+      <SettingCard title="App Loader" description="Set the label for the application loader.">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+          <div className="space-y-1.5 flex flex-col">
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">App Loader Label</Label>
+            <Input value={settings.app_loader ?? ""} onChange={(e) => onChange("app_loader", e.target.value)} placeholder="One and Only" className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3" />
+          </div>
+        </div>
+      </SettingCard>
+
       <SettingCard title="Maintenance Mode" description="Put the application in maintenance mode.">
-        <SettingToggle
-          label="Enable Maintenance Mode"
-          description="When enabled, users will see the maintenance page."
-          checked={settings.maintenance_mode ?? false}
-          onCheckedChange={(v) => onChange("maintenance_mode", v)}
-          disabled={isLoading}
-        />
+        <SettingToggle label="Enable Maintenance Mode" description="When enabled, users will see the maintenance page." checked={settings.maintenance_mode ?? false} onCheckedChange={(v) => onChange("maintenance_mode", v)} disabled={isLoading} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
           <div className="space-y-1.5 flex flex-col">
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Maintenance Title</Label>
-            <Input
-              value={settings.maintenance_title ?? ""}
-              onChange={(e) => onChange("maintenance_title", e.target.value)}
-              placeholder="Under Maintenance"
-              className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3"
-            />
+            <Input value={settings.maintenance_title ?? ""} onChange={(e) => onChange("maintenance_title", e.target.value)} placeholder="Under Maintenance" className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3" />
           </div>
           <div className="space-y-1.5 flex flex-col md:col-span-2">
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Maintenance Message</Label>
-            <Textarea
-              value={settings.maintenance_message ?? ""}
-              onChange={(e) => onChange("maintenance_message", e.target.value)}
-              placeholder="We are performing some maintenance. Please check back later."
-              rows={3}
-              className="bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3 resize-none"
-            />
+            <Textarea value={settings.maintenance_message ?? ""} onChange={(e) => onChange("maintenance_message", e.target.value)} placeholder="We are performing some maintenance. Please check back later." rows={3} className="bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3 resize-none" />
           </div>
           <div className="space-y-1.5 flex flex-col md:col-span-2">
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Allowed IPs (during maintenance)</Label>
-            <SimpleTagInput
-              value={Array.isArray(settings.maintenance_allowed_ips) ? settings.maintenance_allowed_ips : []}
-              onChange={(ips) => onChange("maintenance_allowed_ips", ips)}
-              placeholder="e.g. 192.168.1.1"
-            />
+            <SimpleTagInput value={Array.isArray(settings.maintenance_allowed_ips) ? settings.maintenance_allowed_ips : []} onChange={(ips) => onChange("maintenance_allowed_ips", ips)} placeholder="e.g. 192.168.1.1" />
             <p className="text-xs text-gray-400 dark:text-gray-500">IPs that can bypass maintenance mode and access the application.</p>
           </div>
         </div>
         <div className="pt-2">
-          <ImageUrlField
-            label="Maintenance Page Image"
-            value={settings.maintenance_image_url ?? ""}
-            onChange={(v) => onChange("maintenance_image_url", v)}
-            onFileChange={(file) => onFileChange("maintenance_image_url", file)}
-          />
+          <ImageUrlField label="Maintenance Page Image" value={settings.maintenance_image_url ?? ""} onChange={(v) => onChange("maintenance_image_url", v)} onFileChange={(file) => onFileChange("maintenance_image_url", file)} />
         </div>
       </SettingCard>
 
@@ -83,59 +66,29 @@ const MaintenanceSettings = ({ isLoading }: { isLoading?: boolean }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="space-y-1.5 flex flex-col">
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">404 Page Title</Label>
-            <Input
-              value={settings.page_404_title ?? ""}
-              onChange={(e) => onChange("page_404_title", e.target.value)}
-              placeholder="Page Not Found"
-              className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3"
-            />
+            <Input value={settings.page_404_title ?? ""} onChange={(e) => onChange("page_404_title", e.target.value)} placeholder="Page Not Found" className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3" />
           </div>
           <div className="space-y-1.5 flex flex-col md:col-span-2">
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">404 Page Content</Label>
-            <Input
-              value={settings.page_404_content ?? ""}
-              onChange={(e) => onChange("page_404_content", e.target.value)}
-              placeholder="The page you are looking for does not exist."
-              className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3"
-            />
+            <Input value={settings.page_404_content ?? ""} onChange={(e) => onChange("page_404_content", e.target.value)} placeholder="The page you are looking for does not exist." className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3" />
           </div>
         </div>
         <div className="pt-2">
-          <ImageUrlField
-            label="404 Page Image"
-            value={settings.page_404_image_url ?? ""}
-            onChange={(v) => onChange("page_404_image_url", v)}
-            onFileChange={(file) => onFileChange("page_404_image_url", file)}
-          />
+          <ImageUrlField label="404 Page Image" value={settings.page_404_image_url ?? ""} onChange={(v) => onChange("page_404_image_url", v)} onFileChange={(file) => onFileChange("page_404_image_url", file)} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4">
           <div className="space-y-1.5 flex flex-col">
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">No Internet Title</Label>
-            <Input
-              value={settings.no_internet_title ?? ""}
-              onChange={(e) => onChange("no_internet_title", e.target.value)}
-              placeholder="No Internet Connection"
-              className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3"
-            />
+            <Input value={settings.no_internet_title ?? ""} onChange={(e) => onChange("no_internet_title", e.target.value)} placeholder="No Internet Connection" className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3" />
           </div>
           <div className="space-y-1.5 flex flex-col md:col-span-2">
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">No Internet Content</Label>
-            <Input
-              value={settings.no_internet_content ?? ""}
-              onChange={(e) => onChange("no_internet_content", e.target.value)}
-              placeholder="Please check your internet connection and try again."
-              className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3"
-            />
+            <Input value={settings.no_internet_content ?? ""} onChange={(e) => onChange("no_internet_content", e.target.value)} placeholder="Please check your internet connection and try again." className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) p-3" />
           </div>
         </div>
         <div className="pt-2">
-          <ImageUrlField
-            label="No Internet Page Image"
-            value={settings.no_internet_image_url ?? ""}
-            onChange={(v) => onChange("no_internet_image_url", v)}
-            onFileChange={(file) => onFileChange("no_internet_image_url", file)}
-          />
+          <ImageUrlField label="No Internet Page Image" value={settings.no_internet_image_url ?? ""} onChange={(v) => onChange("no_internet_image_url", v)} onFileChange={(file) => onFileChange("no_internet_image_url", file)} />
         </div>
       </SettingCard>
     </div>

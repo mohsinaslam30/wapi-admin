@@ -87,11 +87,11 @@ export const subscriptionApi = baseApi.enhanceEndpoints({ addTagTypes: ["Subscri
       ],
     }),
 
-    overrideSubscriptionLimits: builder.mutation<{ success: boolean; message: string; data: Subscription }, { userId: string; features: Record<string, unknown> }>({
-      query: ({ userId, features }) => ({
+    overrideSubscriptionLimits: builder.mutation<{ success: boolean; message: string; data: Subscription }, { userId: string; features: Record<string, unknown>; enabled_features?: Record<string, boolean> }>({
+      query: ({ userId, features, enabled_features }) => ({
         url: `/subscription/${userId}/override-limits`,
         method: "PATCH",
-        body: { features },
+        body: { features, enabled_features },
       }),
       invalidatesTags: [
         { type: "User", id: "LIST" },

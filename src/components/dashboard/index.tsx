@@ -13,15 +13,21 @@ import AdminStatCards from "./AdminStatCards";
 import { InquiriesTable, NewUsersTable, SubscriptionsTable } from "./AdminTables";
 import { DashboardDateFilter } from "./DashboardDateFilter";
 import { useTranslation } from "react-i18next";
+import SwitchToTenantCard from "./SwitchToTenantCard";
 
 const Dashboard = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { hasPermission } = usePermissions();
   const [filters, setFilters] = useState<{ dateRange: string; startDate?: string; endDate?: string }>({
-    dateRange: "this_month",
+    dateRange: "this_year",
   });
-  const { data: response, isLoading, isFetching, refetch } = useGetAdminDashboardQuery(filters, {
+  const {
+    data: response,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useGetAdminDashboardQuery(filters, {
     skip: !hasPermission("view.admin_dashboard"),
   });
 
@@ -49,10 +55,13 @@ const Dashboard = () => {
           <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded-xl w-64" />
           <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded-lg w-48" />
         </div>
-        <div className="grid grid-cols-6 gap-6">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-32 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
-          ))}
+        <div className="flex flex-col xl:flex-row gap-6">
+          <div className="xl:w-[350px] 2xl:w-[400px] xl:flex-none min-h-64 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
+          <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="h-40 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
+            ))}
+          </div>
         </div>
         <div className="grid grid-cols-10 gap-8">
           <div className="col-span-6 h-96 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
@@ -90,20 +99,23 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <AdminStatCards
-          counts={counts}
-          showPlans={hasPermission("view.plans")}
-          showSubscriptions={hasPermission("view.subscriptions")}
-        />
+        <div className="flex flex-col xl:flex-row gap-6 xl:items-stretch">
+          <div className="xl:w-[350px] 2xl:w-[400px] xl:flex-none">
+            <SwitchToTenantCard />
+          </div>
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6 content-start">
+            <AdminStatCards counts={counts} itemsOnly showPlans={hasPermission("view.plans")} showSubscriptions={hasPermission("view.subscriptions")} />
+          </div>
+        </div>
 
         <div className="grid grid-cols-2 xl:grid-cols-12 [@media(max-width:768px)]:grid-cols-1 gap-10">
           <div className="xl:col-span-7">
-            <NewUsersTable data={tables.newUsers} />
+            <NewUsersTable data={tables?.newUsers} />
           </div>
 
           {hasPermission("view.plans") && (
             <div className="xl:col-span-5">
-              <PlanRevenueChart planRevenue={charts.planRevenueBreakdown} />
+              <PlanRevenueChart planRevenue={charts?.planRevenueBreakdown} />
             </div>
           )}
         </div>
@@ -121,11 +133,9 @@ const Dashboard = () => {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {hasPermission("view.subscriptions") && (
-            <SubscriptionsTable data={tables.newSubscriptions.filter((s) => s.status === "cancelled")} title="Subscription Cancellations" type="cancelled" />
-          )}
+          {hasPermission("view.subscriptions") && <SubscriptionsTable data={tables?.newSubscriptions?.filter?.((s) => s?.status === "cancelled")} title="Subscription Cancellations" type="cancelled" />}
 
-          <InquiriesTable data={tables.recentInquiries} />
+          <InquiriesTable data={tables?.recentInquiries} />
         </div>
       </div>
     </div>

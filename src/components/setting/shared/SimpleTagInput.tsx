@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/src/elements/ui/button";
+import { Input } from "@/src/elements/ui/input";
 import { TagInputProps } from "@/src/types/setting";
 import { X } from "lucide-react";
 import { KeyboardEvent, useState } from "react";
@@ -34,12 +36,12 @@ const SimpleTagInput = ({ value = [], onChange, placeholder = "Type and press En
         {value.map((tag) => (
           <span key={tag} className="inline-flex items-center gap-1 px-2.5 py-1 bg-(--text-green-primary)/10 text-(--text-green-primary) text-xs font-semibold rounded-md border border-(--text-green-primary)/20 shadow-sm">
             {tag}
-            <button type="button" onClick={() => removeTag(tag)} className="hover:text-red-500 transition-colors ml-0.5">
+            <Button type="button" onClick={() => removeTag(tag)} className="hover:text-red-500 bg-[unset]! p-0! shadow-[unset]! h-[unset]! transition-colors ml-0.5">
               <X className="w-3.5 h-3.5" />
-            </button>
+            </Button>
           </span>
         ))}
-        <input
+        <Input
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}

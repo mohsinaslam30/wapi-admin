@@ -22,7 +22,7 @@ const CreateAIModelPage = () => {
       await createModel(values).unwrap();
       toast.success(t("ai_models_create_success"));
       router.push(ROUTES.AIModels);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
     } catch (error: any) {
       toast.error(error?.data?.message || t("ai_models_create_error"));
     }

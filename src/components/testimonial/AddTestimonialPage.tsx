@@ -26,6 +26,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../constants";
+import Image from "next/image";
 
 interface AddTestimonialPageProps {
   id?: string;
@@ -117,7 +118,7 @@ const AddTestimonialPage = ({ id }: AddTestimonialPageProps) => {
           router.push(ROUTES.ManageTestimonials);
         }, 1000);
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
     } catch (error: any) {
       const errorMessage =
         error?.data?.message ||
@@ -201,7 +202,10 @@ const AddTestimonialPage = ({ id }: AddTestimonialPageProps) => {
                     <div className="shrink-0">
                       {imagePreview ? (
                         <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-gray-200 dark:border-(--card-border-color)">
-                          <img
+                          <Image
+                            width={100}
+                            height={100}
+                            unoptimized
                             src={imagePreview}
                             alt="Avatar"
                             className="w-full h-full object-cover"
@@ -216,14 +220,14 @@ const AddTestimonialPage = ({ id }: AddTestimonialPageProps) => {
 
                     {/* Upload Button */}
                     <div className="flex-1">
-                      <label
+                      <Label
                         htmlFor="user_image"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-(--card-color) dark:border-(--card-border-color) dark:text-amber-50 dark:hover:bg-(--dark-sidebar) border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
                       >
                         <Upload className="w-4 h-4" />
                         Upload Image
-                      </label>
-                      <input
+                      </Label>
+                      <Input
                         id="user_image"
                         type="file"
                         accept="image/*"

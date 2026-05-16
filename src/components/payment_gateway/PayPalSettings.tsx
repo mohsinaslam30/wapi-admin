@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import Can from "../shared/Can";
 import { usePermissions } from "@/src/hooks/usePermissions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/elements/ui/select";
+import { Label } from "@/src/elements/ui/label";
 
 const PayPalSettings = () => {
   const { t } = useTranslation();
@@ -41,15 +42,8 @@ const PayPalSettings = () => {
     }
   }, [PayPalData]);
 
-  const handleToggle = async (enabled: boolean) => {
+  const handleToggle = (enabled: boolean) => {
     setSettings((prev) => ({ ...prev, is_paypal_active: enabled }));
-    try {
-      // Send only is_paypal_active for toggle
-      await updatePayPalSettings({ is_paypal_active: enabled } as any).unwrap();
-      toast.success(enabled ? t("gateway_paypal_enabled") : t("gateway_paypal_disabled"));
-    } catch (error: any) {
-      toast.error(error?.data?.message || (enabled ? t("gateway_paypal_enable_error") : t("gateway_paypal_disable_error")));
-    }
   };
 
   const handleInputChange = (field: string, value: any) => {
@@ -103,29 +97,29 @@ const PayPalSettings = () => {
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="space-y-2 flex flex-col">
-          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             Client ID <span className="text-red-400">*</span>
-          </label>
+          </Label>
           <Input value={settings.paypal_client_id} onChange={(e) => handleInputChange("paypal_client_id", e.target.value)} placeholder="Enter PayPal Client ID" className="h-11 font-mono text-sm bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" />
         </div>
 
         <div className="space-y-2 flex flex-col">
-          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             Secret Key <span className="text-red-400">*</span>
-          </label>
+          </Label>
           <div className="relative">
             <Input value={settings.paypal_secret_key} onChange={(e) => handleInputChange("paypal_secret_key", e.target.value)} type={showSk ? "text" : "password"} placeholder="Enter PayPal Secret Key" className="h-11 pr-10 font-mono text-sm bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" />
-            <button type="button" tabIndex={-1} onClick={() => setShowSk(!showSk)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+            <Button type="button" tabIndex={-1} onClick={() => setShowSk(!showSk)} className="absolute bg-[unset]! h-[unset]! p-0! right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
               {showSk ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
 
       <div className="space-y-2 flex flex-col">
-        <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+        <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
           Environment Mode <span className="text-red-400">*</span>
-        </label>
+        </Label>
         <Select value={settings.paypal_mode} onValueChange={(val) => handleInputChange("paypal_mode", val)}>
           <SelectTrigger className="h-11 bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-none focus:ring-1 focus:ring-(--text-green-primary)">
             <SelectValue placeholder="Select Environment" />
@@ -143,7 +137,7 @@ const PayPalSettings = () => {
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{t("gateway_enable_gateway_desc")}</p>
         </div>
         <div className="relative flex items-center shrink-0 ml-4">
-          <input id="paypal-enable" type="checkbox" checked={settings.is_paypal_active} onChange={(e) => handleToggle(e.target.checked)} disabled={!hasPermission("update.payment_gateways")} className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 accent-(--text-green-primary) cursor-pointer disabled:cursor-not-allowed" />
+          <Input id="paypal-enable" type="checkbox" checked={settings.is_paypal_active} onChange={(e) => handleToggle(e.target.checked)} disabled={!hasPermission("update.payment_gateways")} className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 accent-(--text-green-primary) cursor-pointer disabled:cursor-not-allowed" />
         </div>
       </div>
 

@@ -7,6 +7,7 @@ import { BodySectionProps } from "@/src/types/template";
 import { Plus } from "lucide-react";
 import CharacterCountWrapper from "@/src/shared/CharacterCountWrapper";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/src/elements/ui/button";
 
 export const BodySection = ({ messageBody, handleBodyChange, addVariable, setEditor, variables_example, updateVariable }: BodySectionProps) => {
   const { t } = useTranslation();
@@ -25,10 +26,10 @@ export const BodySection = ({ messageBody, handleBodyChange, addVariable, setEdi
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               </div>
-              <button type="button" onClick={addVariable} className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-white dark:bg-(--dark-sidebar) border border-slate-200 dark:border-(--card-border-color) rounded-lg text-[9px] sm:text-[10px] font-bold text-primary dark:text-primary hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-(--table-hover) transition-all shadow-sm uppercase tracking-wider">
+              <Button type="button" onClick={addVariable} className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-white dark:bg-(--dark-sidebar) border border-slate-200 dark:border-(--card-border-color) rounded-lg text-[9px] sm:text-[10px] font-bold text-primary dark:text-primary hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-(--table-hover) transition-all shadow-sm uppercase tracking-wider">
                 <Plus size={12} />
                 {t("templates_library_add_variable")}
-              </button>
+              </Button>
             </div>
           </div>
         </CharacterCountWrapper>

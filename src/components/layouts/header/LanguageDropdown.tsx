@@ -13,6 +13,7 @@ import { loadTranslations } from '@/src/utils/i18n-loader'
 import { ImageBaseUrl } from '@/src/constants'
 import Image from 'next/image'
 import { toast } from 'sonner'
+import { Button } from '@/src/elements/ui/button'
 
 const LANGUAGE_STORAGE_KEY = 'selected_language'
 
@@ -74,13 +75,13 @@ const LanguageDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button
+        <Button
           disabled={isChanging || isLoadingLanguages}
           className={`
             p-2.5 rounded-lg transition-all duration-200 relative group
             ${darkMode
               ? 'bg-page-body text-slate-400 hover:text-white hover:bg-sidebar-hover-green'
-              : 'bg-white text-slate-500 hover:text-(--text-green-primary) hover:bg-green-50 shadow-sm border border-slate-100'
+              : 'bg-white dark:bg-(--page-body-bg) dark:border-none dark:hover:bg-(--table-hover) text-slate-500 hover:text-(--text-green-primary) hover:bg-green-50 shadow-sm border border-slate-100'
             }
             ${(isChanging || isLoadingLanguages) ? 'opacity-50 cursor-not-allowed' : ''}
           `}
@@ -90,7 +91,7 @@ const LanguageDropdown = () => {
           ) : (
             <Globe className="w-5 h-5" />
           )}
-        </button>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="z-[170] w-56 p-2 rounded-lg dark:bg-(--card-color) dark:border-(--card-border-color) shadow-2xl overflow-y-auto max-h-100">
         {activeLanguages.length > 0 ? (

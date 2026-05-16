@@ -6,6 +6,7 @@ import { CarouselProductSectionProps } from "@/src/types/template";
 import { Plus, ShoppingBag, Trash2 } from "lucide-react";
 import CharacterCountWrapper from "@/src/shared/CharacterCountWrapper";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/src/elements/ui/button";
 
 export const CarouselProductSection = ({ cards, onAddCard, onRemoveCard, onUpdateCard }: CarouselProductSectionProps) => {
   const { t } = useTranslation();
@@ -16,9 +17,9 @@ export const CarouselProductSection = ({ cards, onAddCard, onRemoveCard, onUpdat
           <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight">{t("templates_library_carousel_products_title")}</h3>
           <p className="text-xs text-slate-500 font-medium dark:text-gray-400">{t("templates_library_carousel_products_subtitle")}</p>
         </div>
-        <button type="button" onClick={onAddCard} disabled={cards.length >= 10} className="w-full sm:w-auto h-11 flex items-center justify-center gap-2 px-6 rounded-lg bg-emerald-50 dark:bg-primary/10 text-primary dark:text-primary font-bold hover:bg-emerald-100 transition-all text-xs uppercase tracking-widest border border-emerald-200/50 dark:border-primary/20 disabled:opacity-50">
+        <Button type="button" onClick={onAddCard} disabled={cards.length >= 10} className="w-full sm:w-auto h-11 flex items-center justify-center gap-2 px-6 rounded-lg bg-emerald-50 dark:bg-primary/10 text-primary dark:text-primary dark:hover:bg-(--table-hover)! font-bold hover:bg-emerald-100 transition-all text-sm border border-emerald-200/50 dark:border-primary/20 disabled:opacity-50">
           <Plus size={16} /> {t("templates_library_carousel_add_product_card")}
-        </button>
+        </Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {cards.map((card, idx) => (
@@ -28,12 +29,12 @@ export const CarouselProductSection = ({ cards, onAddCard, onRemoveCard, onUpdat
                 <div className="w-8 h-8 rounded-lg bg-white dark:bg-page-body flex items-center justify-center text-primary shadow-sm">
                   <ShoppingBag size={16} />
                 </div>
-                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">{t("templates_library_carousel_product_card_label", { index: idx + 1 })}</span>
+                <span className="text-sm font-bold text-slate-700 dark:text-slate-300">{t("templates_library_carousel_product_card_label", { index: idx + 1 })}</span>
               </div>
               {cards.length > 2 && (
-                <button type="button" onClick={() => onRemoveCard(card.id)} className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-all opacity-0 group-hover:opacity-100">
+                <Button type="button" onClick={() => onRemoveCard(card.id)} className="p-2! bg-[unset]! text-slate-400 hover:text-rose-500 hover:bg-rose-50! dark:hover:bg-rose-500/10! rounded-lg transition-all opacity-0 group-hover:opacity-100">
                   <Trash2 size={16} />
-                </button>
+                </Button>
               )}
             </div>
             <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-100 dark:bg-page-body border border-(--input-border-color) dark:border-none">
@@ -41,7 +42,7 @@ export const CarouselProductSection = ({ cards, onAddCard, onRemoveCard, onUpdat
                 <ShoppingBag size={18} className="text-slate-400" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-slate-600 dark:text-slate-300">{t("templates_library_carousel_product_header")}</p>
+                <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 break-all whitespace-normal">{t("templates_library_carousel_product_header")}</p>
                 <p className="text-[10px] text-slate-400 dark:text-gray-500">{t("templates_library_carousel_product_header_hint")}</p>
               </div>
             </div>

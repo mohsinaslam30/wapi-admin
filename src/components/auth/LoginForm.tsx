@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/src/elements/ui/card";
 import { Input } from "@/src/elements/ui/input";
 import { useGetIsDemoModeQuery, useLoginMutation, useGetPublicRolesQuery } from "@/src/redux/api/authApi";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/elements/ui/select";
-import { useAppDispatch } from "@/src/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
 import { setCredentials, setLoading } from "@/src/redux/reducers/authSlice";
 import { LoginRequest } from "@/src/types/auth";
 import { Label } from "@radix-ui/react-label";
@@ -16,6 +16,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ROUTES } from "../../constants";
 import { DynamicLogo } from "./common/DynamicLogo";
+import { t } from "i18next";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
@@ -45,6 +46,7 @@ const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
+  const settings = useAppSelector((state) => state.settings.data);
   const [login, { isLoading }] = useLoginMutation();
   const { data: brandingData, isSuccess } = useGetIsDemoModeQuery();
   const { data: rolesData } = useGetPublicRolesQuery();
@@ -79,6 +81,7 @@ const LoginForm = () => {
     if (rolesData?.success && rolesData.data.length > 0 && !role_id) {
       const superAdmin = rolesData.data.find((r) => r.name.toLowerCase() === "super_admin");
       if (superAdmin) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setRoleId(superAdmin._id);
       } else {
         setRoleId(rolesData.data[0]._id);
@@ -215,19 +218,36 @@ const LoginForm = () => {
         </Card>
       </div>
 
-      <footer className="relative z-10 p-8 text-center">
+      <footer className="relative z-10 p-8 text-center">  
         <div className="flex justify-center gap-4 mb-4 flex-wrap">
-          <a href="#" className="text-sm font-bold text-gray-600 transition-colors dark:text-gray-400">
+          <Link 
+            href={`${ROUTES.PublicPage}/privacy-policy`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-sm font-bold text-gray-600 hover:text-emerald-600 transition-colors dark:text-gray-400 dark:hover:text-emerald-500"
+          >
             Privacy Policy
-          </a>
-          <a href="#" className="text-sm font-bold text-gray-600 transition-colors dark:text-gray-400">
+          </Link>
+          <Link 
+            href={`${ROUTES.PublicPage}/terms-and-conditions`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-sm font-bold text-gray-600 hover:text-emerald-600 transition-colors dark:text-gray-400 dark:hover:text-emerald-500"
+          >
             Terms of Service
-          </a>
-          <a href="#" className="text-sm font-bold text-gray-600 transition-colors dark:text-gray-400">
-            Help Center
-          </a>
+          </Link>
+          <Link 
+            href={`${ROUTES.PublicPage}/refund-policy`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-sm font-bold text-gray-600 hover:text-emerald-600 transition-colors dark:text-gray-400 dark:hover:text-emerald-500"
+          >
+            Refund Policy
+          </Link>
         </div>
-        <p className="text-[13px] text-gray-400 font-semibold">© 2026 Wapi CRM. All rights reserved.</p>
+        <p className="text-[13px] text-gray-400 font-semibold">
+          © {new Date().getFullYear()} {settings?.app_name || t('common_app_name')} CRM. All rights reserved.
+        </p>
       </footer>
     </div>
   );

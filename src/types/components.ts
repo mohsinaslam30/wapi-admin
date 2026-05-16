@@ -208,7 +208,17 @@ export interface PlanFeaturesProps {
     facebookAds_campaign: string;
     kanban_funnels: string;
     segments: string;
+    google_account: string;
+    quick_replies: string;
+    workspaces: string;
+    facebook_lead: string;
+    document_file_limit: string;
+    audio_file_limit: string;
+    video_file_limit: string;
+    image_file_limit: string;
+    multiple_file_share_limit: string;
   };
+  enabled_features: Record<string, boolean>;
   onFeatureChange: (field: string, value: string | boolean) => void;
 }
 
@@ -231,6 +241,8 @@ export interface PlanCardProps {
 export interface PlanHeaderProps {
   isLoading?: boolean;
   onFreeTrialClick?: () => void;
+  onSyncClick?: () => void;
+  isSyncing?: boolean;
 }
 
 export interface PlanListProps {
@@ -257,6 +269,9 @@ export interface FeatureNumericInputProps {
   label: string;
   placeholder: string;
   value: string;
+  enabled: boolean;
+  showToggle?: boolean;
+  onEnabledChange: (enabled: boolean) => void;
   onChange: (value: string) => void;
 }
 

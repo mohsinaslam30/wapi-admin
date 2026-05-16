@@ -20,12 +20,7 @@ import { ROUTES } from "../../constants";
 import Can from "../shared/Can";
 import AssignPlanModal from "./AssignPlanModal";
 import OverrideLimitsModal from "./OverrideLimitsModal";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/src/elements/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/src/elements/ui/dropdown-menu";
 
 interface UserListProps {
   users: User[];
@@ -45,25 +40,9 @@ interface UserListProps {
   searchTerm?: string;
 }
 
-const WAPI_FRONT_URL = process.env.NEXT_PUBLIC_WAPI_FRONT_URL || "http://localhost:3000";
+const FRONT_URL = process.env.NEXT_PUBLIC_FRONT_URL || "http://localhost:3000";
 
-const UserList = ({
-  users,
-  page,
-  totalPages,
-  total,
-  limit,
-  isLoading,
-  onPageChange,
-  onLimitChange,
-  onDelete,
-  onBulkDelete,
-  selectedIds,
-  onSelectionChange,
-  onSortChange,
-  columnVisibility,
-  searchTerm,
-}: UserListProps) => {
+const UserList = ({ users, page, totalPages, total, limit, isLoading, onPageChange, onLimitChange, onDelete, onBulkDelete, selectedIds, onSelectionChange, onSortChange, columnVisibility, searchTerm }: UserListProps) => {
   const router = useRouter();
   const { t } = useTranslation();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -100,7 +79,7 @@ const UserList = ({
       const result = await startImpersonation({
         targetUserId: user._id,
       }).unwrap();
-      window.location.href = `${WAPI_FRONT_URL}/auth/impersonate?token=${result.token}`;
+      window.location.href = `${FRONT_URL}/auth/impersonate?token=${result.token}`;
     } catch (err: any) {
       toast.error(err?.data?.message || t("common_error"));
       setImpersonatingId(null);
@@ -154,20 +133,13 @@ const UserList = ({
       sortable: true,
       sortKey: "name",
       accessor: (user) => (
-        <div
-          className="flex items-center gap-2.5 cursor-pointer"
-          onClick={() => router.push(`${ROUTES.ManageUsersAdd}?id=${user._id}`)}
-        >
+        <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => router.push(`${ROUTES.ManageUsersAdd}?id=${user._id}`)}>
           <div className="w-8 h-8 rounded-lg bg-(--light-primary) dark:bg-(--dark-body) flex items-center justify-center shrink-0">
             <UserIcon className="w-4 h-4 text-(--text-green-primary)" />
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
-              {user.name}
-            </p>
-            <p className="text-xs text-gray-400 dark:text-gray-500 truncate">
-              {user.email}
-            </p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{user.name}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{user.email}</p>
           </div>
         </div>
       ),
@@ -179,15 +151,8 @@ const UserList = ({
       sortable: true,
       sortKey: "role_id",
       accessor: (user) => {
-        const roleName =
-          typeof user.role_id === "object"
-            ? user.role_id?.name
-            : user.role || "—";
-        return (
-          <Badge className="bg-blue-50 text-blue-600 border-none hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 capitalize">
-            {roleName}
-          </Badge>
-        );
+        const roleName = typeof user.role_id === "object" ? user.role_id?.name : user.role || "—";
+        return <Badge className="bg-blue-50 text-blue-600 border-none hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 capitalize">{roleName}</Badge>;
       },
     },
     {
@@ -198,11 +163,7 @@ const UserList = ({
       copyField: "phone",
       sortable: true,
       sortKey: "phone",
-      accessor: (user) => (
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          {user.phone || "—"}
-        </span>
-      ),
+      accessor: (user) => <span className="text-sm text-gray-600 dark:text-gray-400">{user.phone || "—"}</span>,
     },
     {
       id: "status",
@@ -210,16 +171,7 @@ const UserList = ({
       className: "[@media(max-width:1620px)]:min-w-[125px]",
       sortable: true,
       sortKey: "status",
-      accessor: (user) => (
-        <Badge
-          className={`border-none text-xs font-medium ${user.status
-            ? "bg-(--light-primary) hover:bg-(--light-primary) text-primary dark:bg-emerald-900/20 dark:text-primary"
-            : "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400"
-            }`}
-        >
-          {user.status ? t("common_active") : t("common_inactive")}
-        </Badge>
-      ),
+      accessor: (user) => <Badge className={`border-none text-xs font-medium ${user.status ? "bg-(--light-primary) hover:bg-(--light-primary) text-primary dark:bg-emerald-900/20 dark:text-primary" : "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400"}`}>{user.status ? t("common_active") : t("common_inactive")}</Badge>,
     },
     {
       id: "plan",
@@ -228,17 +180,11 @@ const UserList = ({
       accessor: (user) =>
         user.current_plan ? (
           <div className="min-w-0">
-            <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 truncate">
-              {user.current_plan.name}
-            </p>
-            <p className="text-xs text-gray-400 dark:text-gray-500 capitalize">
-              {user.current_plan.billing_cycle}
-            </p>
+            <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 truncate">{user.current_plan.name}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 capitalize">{user.current_plan.billing_cycle}</p>
           </div>
         ) : (
-          <span className="text-xs text-gray-400 dark:text-gray-500">
-            {t("common_no_plan", { defaultValue: "No plan" })}
-          </span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">{t("common_no_plan", { defaultValue: "No plan" })}</span>
         ),
     },
     {
@@ -247,13 +193,7 @@ const UserList = ({
       className: "[@media(max-width:1620px)]:min-w-[180px]",
       sortable: true,
       sortKey: "created_at",
-      accessor: (user) => (
-        <span className="text-sm text-gray-500 dark:text-gray-400">
-          {user.created_at
-            ? format(new Date(user.created_at), "MMMM d, yyyy")
-            : "—"}
-        </span>
-      ),
+      accessor: (user) => <span className="text-sm text-gray-500 dark:text-gray-400">{user.created_at ? format(new Date(user.created_at), "MMMM d, yyyy") : "—"}</span>,
     },
   ];
 
@@ -264,8 +204,10 @@ const UserList = ({
 
   const renderActions = (user: User) => {
     const roleName = (typeof user.role_id === "object" ? user.role_id?.name : user.role) || "—";
-    const isUserOrAgent = roleName.toLowerCase() === "user" || roleName.toLowerCase() === "agent";
-    const isSuperAdmin = roleName.toLowerCase() === "super_admin";
+    const roleLower = roleName.toLowerCase();
+    const isUserOrAgent = roleLower === "user" || roleLower === "agent";
+    const isAgent = roleLower === "agent";
+    const isSuperAdmin = roleLower === "super_admin";
     const isBeingImpersonated = impersonatingId === user._id;
     const hasActivePlan = !!user.current_plan;
 
@@ -283,13 +225,7 @@ const UserList = ({
         {/* Primary Actions: Edit & Delete */}
         {canEdit && (
           <Can permission="update.users">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => router.push(`${ROUTES.ManageUsersAdd}?id=${user._id}`)}
-              className="w-10 h-10 border-none text-primary hover:text-primary hover:bg-primary/10 rounded-lg dark:hover:bg-primary/20 transition-all shadow-xs dark:bg-page-body"
-              title={t("common_edit")}
-            >
+            <Button variant="ghost" size="icon" onClick={() => router.push(`${ROUTES.ManageUsersAdd}?id=${user._id}`)} className="w-10 h-10 border-none text-primary hover:text-primary hover:bg-primary/10 rounded-lg dark:hover:bg-primary/20 transition-all shadow-xs dark:bg-page-body" title={t("common_edit")}>
               <Edit2 className="w-4 h-4" />
             </Button>
           </Can>
@@ -297,13 +233,7 @@ const UserList = ({
 
         {canDeleteUser && (
           <Can permission="delete.users">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => openDeleteConfirmModal(user)}
-              className="w-10 h-10 border-none text-red-600 hover:text-red-600 dark:text-red-500 hover:bg-red-50 rounded-lg transition-all dark:hover:bg-red-900/20 dark:bg-page-body shadow-xs"
-              title={t("common_delete")}
-            >
+            <Button variant="ghost" size="icon" onClick={() => openDeleteConfirmModal(user)} className="w-10 h-10 border-none text-red-600 hover:text-red-600 dark:text-red-500 hover:bg-red-50 rounded-lg transition-all dark:hover:bg-red-900/20 dark:bg-page-body shadow-xs" title={t("common_delete")}>
               <Trash2 className="w-4 h-4" />
             </Button>
           </Can>
@@ -313,16 +243,12 @@ const UserList = ({
         {isUserOrAgent && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="w-10 h-10 border-none text-gray-500 hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-all shadow-xs dark:bg-page-body"
-              >
+              <Button variant="ghost" size="icon" className="w-10 h-10 border-none text-gray-500 hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-(--table-hover) rounded-lg transition-all shadow-xs dark:bg-page-body">
                 <MoreVertical className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              {canAssignPlan && (
+            <DropdownMenuContent align="end" className="w-60">
+              {canAssignPlan && !isAgent && (
                 <Can permission="create.subscriptions">
                   <DropdownMenuItem onClick={() => handleOpenAssignModal(user)}>
                     <CreditCard className="w-4 h-4 mr-2 text-blue-500" />
@@ -330,7 +256,7 @@ const UserList = ({
                   </DropdownMenuItem>
                 </Can>
               )}
-              {canOverrideLimits && (
+              {canOverrideLimits && !isAgent && (
                 <Can permission="update.subscriptions">
                   <DropdownMenuItem onClick={() => openOverrideModal(user)}>
                     <ShieldAlert className="w-4 h-4 mr-2 text-amber-500" />
@@ -349,7 +275,7 @@ const UserList = ({
               {canImpersonate && (
                 <DropdownMenuItem onClick={() => handleImpersonate(user)}>
                   <UserCheck className={`w-4 h-4 mr-2 text-amber-600 ${isBeingImpersonated ? "animate-pulse" : ""}`} />
-                  <span>{t("common_impersonate", { defaultValue: "Start Impersonation" })}</span>
+                  <span>{t("common_impersonate", { defaultValue: "Login With Tenant (Impersonate)" })}</span>
                 </DropdownMenuItem>
               )}
               {canSendReset && (
@@ -402,40 +328,13 @@ const UserList = ({
       <OverrideLimitsModal isOpen={isOverrideModalOpen} onClose={() => setIsOverrideModalOpen(false)} user={selectedUser} />
 
       {/* Reset Limits Confirm Modal */}
-      <ConfirmModal
-        isOpen={isResetLimitsConfirmOpen}
-        onClose={() => setIsResetLimitsConfirmOpen(false)}
-        onConfirm={handleResetLimits}
-        title={t("subscription_reset_limits_title")}
-        subtitle={t("subscription_reset_limits_subtitle", { name: selectedUser?.name })}
-        confirmText={t("common_reset")}
-        isLoading={isResettingLimits}
-        variant="danger"
-      />
+      <ConfirmModal isOpen={isResetLimitsConfirmOpen} onClose={() => setIsResetLimitsConfirmOpen(false)} onConfirm={handleResetLimits} title={t("subscription_reset_limits_title")} subtitle={t("subscription_reset_limits_subtitle", { name: selectedUser?.name })} confirmText={t("common_reset")} isLoading={isResettingLimits} variant="danger" />
 
       {/* Send Reset Password Link Confirm Modal */}
-      <ConfirmModal
-        isOpen={isResetConfirmModalOpen}
-        onClose={() => setIsResetConfirmModalOpen(false)}
-        onConfirm={handleSendResetLink}
-        title={t("common_send_reset_link", { defaultValue: "Send Reset Password Link" })}
-        subtitle={t("common_reset_password_subtitle", { defaultValue: `Are you sure you want to send a reset password link to ${selectedUser?.email}?`, email: selectedUser?.email })}
-        confirmText={t("common_send_link", { defaultValue: "Send Link" })}
-        isLoading={isSendingReset}
-        variant="success"
-      />
+      <ConfirmModal isOpen={isResetConfirmModalOpen} onClose={() => setIsResetConfirmModalOpen(false)} onConfirm={handleSendResetLink} title={t("common_send_reset_link", { defaultValue: "Send Reset Password Link" })} subtitle={t("common_reset_password_subtitle", { defaultValue: `Are you sure you want to send a reset password link to ${selectedUser?.email}?`, email: selectedUser?.email })} confirmText={t("common_send_link", { defaultValue: "Send Link" })} isLoading={isSendingReset} variant="success" />
 
       {/* Delete User Confirm Modal */}
-      <ConfirmModal
-        isOpen={isDeleteConfirmOpen}
-        onClose={() => setIsDeleteConfirmOpen(false)}
-        onConfirm={handleConfirmDelete}
-        title={t("common_delete_user", { defaultValue: "Delete User" })}
-        subtitle={t("common_delete_user_subtitle", { defaultValue: `Are you sure you want to delete ${selectedUser?.name}? This action cannot be undone.`, name: selectedUser?.name })}
-        confirmText={t("common_delete")}
-        isLoading={isLoading}
-        variant="danger"
-      />
+      <ConfirmModal isOpen={isDeleteConfirmOpen} onClose={() => setIsDeleteConfirmOpen(false)} onConfirm={handleConfirmDelete} title={t("common_delete_user", { defaultValue: "Delete User" })} subtitle={t("common_delete_user_subtitle", { defaultValue: `Are you sure you want to delete ${selectedUser?.name}? This action cannot be undone.`, name: selectedUser?.name })} confirmText={t("common_delete")} isLoading={isLoading} variant="danger" />
     </>
   );
 };

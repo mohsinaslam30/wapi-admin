@@ -10,6 +10,7 @@ import { Eye, EyeOff, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Can from "../shared/Can";
 import { usePermissions } from "@/src/hooks/usePermissions";
+import { Label } from "@/src/elements/ui/label";
 
 const RazorpaySettings = () => {
   const { t } = useTranslation();
@@ -41,15 +42,8 @@ const RazorpaySettings = () => {
     }
   }, [RazorpayData]);
 
-  const handleToggle = async (enabled: boolean) => {
+  const handleToggle = (enabled: boolean) => {
     setSettings((prev) => ({ ...prev, is_razorpay_active: enabled }));
-    try {
-      // Send only is_razorpay_active for toggle
-      await updateRazorpaySettings({ is_razorpay_active: enabled } as any).unwrap();
-      toast.success(enabled ? t("gateway_razorpay_enabled") : t("gateway_razorpay_disabled"));
-    } catch (error: any) {
-      toast.error(error?.data?.message || (enabled ? t("gateway_razorpay_enable_error") : t("gateway_razorpay_disable_error")));
-    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -103,32 +97,32 @@ const RazorpaySettings = () => {
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="space-y-2 flex flex-col">
-          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             Key ID <span className="text-red-400">*</span>
-          </label>
+          </Label>
           <Input value={settings.razorpay_key_id} onChange={(e) => handleInputChange("razorpay_key_id", e.target.value)} placeholder="rzp_test_..." className="h-11 font-mono text-sm bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" />
         </div>
 
         <div className="space-y-2 flex flex-col">
-          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             Key Secret <span className="text-red-400">*</span>
-          </label>
+          </Label>
           <div className="relative">
             <Input value={settings.razorpay_key_secret} onChange={(e) => handleInputChange("razorpay_key_secret", e.target.value)} type={showSecret ? "text" : "password"} placeholder="Enter Key Secret" className="h-11 pr-10 font-mono text-sm bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" />
-            <button type="button" tabIndex={-1} onClick={() => setShowSecret(!showSecret)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+            <Button type="button" tabIndex={-1} onClick={() => setShowSecret(!showSecret)} className="absolute bg-[unset]! h-[unset]! p-0! right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
               {showSecret ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
 
       <div className="space-y-2 flex flex-col">
-        <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Webhook Secret</label>
+        <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Webhook Secret</Label>
         <div className="relative max-w-full">
           <Input value={settings.razorpay_webhook_secret} onChange={(e) => handleInputChange("razorpay_webhook_secret", e.target.value)} type={showWebhook ? "text" : "password"} placeholder="Enter Webhook Secret" className="h-11 pr-10 font-mono text-sm bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" />
-          <button type="button" tabIndex={-1} onClick={() => setShowWebhook(!showWebhook)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+          <Button type="button" tabIndex={-1} onClick={() => setShowWebhook(!showWebhook)} className="absolute bg-[unset]! h-[unset]! p-0! right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
             {showWebhook ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          </button>
+          </Button>
         </div>
         <p className="text-xs text-slate-400 dark:text-slate-500">Used to validate incoming Razorpay webhook events</p>
       </div>
@@ -139,7 +133,7 @@ const RazorpaySettings = () => {
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{t("gateway_enable_gateway_desc")}</p>
         </div>
         <div className="relative flex items-center shrink-0 ml-4">
-          <input id="razorpay-enable" type="checkbox" checked={settings.is_razorpay_active} onChange={(e) => handleToggle(e.target.checked)} disabled={!hasPermission("update.payment_gateways")} className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 accent-(--text-green-primary) cursor-pointer disabled:cursor-not-allowed" />
+          <Input id="razorpay-enable" type="checkbox" checked={settings.is_razorpay_active} onChange={(e) => handleToggle(e.target.checked)} disabled={!hasPermission("update.payment_gateways")} className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 accent-(--text-green-primary) cursor-pointer disabled:cursor-not-allowed" />
         </div>
       </div>
 

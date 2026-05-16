@@ -10,6 +10,7 @@ import { useRef } from "react";
 import { toast } from "sonner";
 
 import CharacterCountWrapper from "@/src/shared/CharacterCountWrapper";
+import { Button } from "@/src/elements/ui/button";
 
 export const CarouselMediaSection = ({ buttonTemplates, cards, onAddButtonTemplate, onRemoveButtonTemplate, onAddCard, onRemoveCard, onUpdateCard, onUpdateCardButtonValue }: CarouselMediaSectionProps) => {
   const { t } = useTranslation();
@@ -40,20 +41,20 @@ export const CarouselMediaSection = ({ buttonTemplates, cards, onAddButtonTempla
                   <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{btn.type === "url" ? t("templates_library_form_carousel_url_button") : t("templates_library_form_carousel_quick_reply")}</span>
                 </div>
               </div>
-              <button type="button" onClick={() => onRemoveButtonTemplate(btn.id)} className="p-2 text-slate-300 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-all">
+              <Button type="button" onClick={() => onRemoveButtonTemplate(btn.id)} className="p-2! bg-[unset]! text-slate-300 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-all">
                 <X size={14} />
-              </button>
+              </Button>
             </div>
           ))}
         </div>
         {buttonTemplates.length < 3 && (
           <div className="flex flex-col sm:flex-row gap-2">
-            <button type="button" onClick={() => onAddButtonTemplate("url")} className="flex-1 h-10 flex items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-slate-200 dark:border-(--card-border-color) text-slate-500 hover:border-primary hover:bg-emerald-50/20 dark:hover:bg-(--table-hover) transition-all text-xs font-bold">
+            <Button type="button" onClick={() => onAddButtonTemplate("url")} className="flex-1 h-10 flex items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-slate-200 dark:border-(--card-border-color) text-slate-500 hover:border-primary hover:bg-emerald-50/20 dark:hover:bg-(--table-hover) bg-[unset]! transition-all text-xs font-bold">
               <Link size={13} /> {t("templates_library_form_carousel_add_url_btn")}
-            </button>
-            <button type="button" onClick={() => onAddButtonTemplate("quick_reply")} className="flex-1 h-10 flex items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-slate-200 dark:border-(--card-border-color) text-slate-500 hover:border-primary hover:bg-emerald-50/20 dark:hover:bg-(--table-hover) transition-all text-xs font-bold">
+            </Button>
+            <Button type="button" onClick={() => onAddButtonTemplate("quick_reply")} className="flex-1 h-10 flex items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-slate-200 dark:border-(--card-border-color) text-slate-500 hover:border-primary hover:bg-emerald-50/20 dark:hover:bg-(--table-hover) bg-[unset]! transition-all text-xs font-bold">
               <MessageSquareReply size={13} /> {t("templates_library_form_carousel_add_quick_reply_btn")}
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -65,9 +66,9 @@ export const CarouselMediaSection = ({ buttonTemplates, cards, onAddButtonTempla
             <h3 className="text-base font-bold text-slate-800 dark:text-slate-200 tracking-tight">{t("templates_library_form_carousel_media_cards")}</h3>
             <p className="text-xs text-slate-500 font-medium dark:text-gray-400 mt-0.5">{t("templates_library_form_carousel_media_cards_desc")}</p>
           </div>
-          <button type="button" onClick={onAddCard} disabled={cards.length >= 10} className="w-full sm:w-auto h-11 flex items-center justify-center gap-2 px-6 rounded-lg bg-primary hover:bg-emerald-700 disabled:opacity-40 text-white text-xs font-bold transition-all">
+          <Button type="button" onClick={onAddCard} disabled={cards.length >= 10} className="w-full sm:w-auto h-11 flex items-center justify-center gap-2 px-6 rounded-lg bg-primary hover:bg-emerald-700 disabled:opacity-40 text-white text-xs font-bold transition-all">
             <Plus size={14} /> {t("templates_library_form_carousel_add_media_card")}
-          </button>
+          </Button>
         </div>
         <div className="space-y-5">
           {cards.map((card, idx) => (
@@ -80,14 +81,14 @@ export const CarouselMediaSection = ({ buttonTemplates, cards, onAddButtonTempla
                   <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">{t("templates_library_form_carousel_media_card_label", { index: idx + 1 })}</span>
                 </div>
                 {cards.length > 2 && (
-                  <button type="button" onClick={() => onRemoveCard(card.id)} className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-all opacity-0 group-hover:opacity-100">
+                  <Button type="button" onClick={() => onRemoveCard(card.id)} className="p-2! bg-[unset]! text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-all opacity-0 group-hover:opacity-100">
                     <Trash2 size={16} />
-                  </button>
+                  </Button>
                 )}
               </div>
               <div className="space-y-2 flex flex-col">
                 <Label className="text-xs font-bold text-slate-600 dark:text-gray-400">{t("templates_library_form_carousel_card_image")}</Label>
-                <input
+                <Input
                   type="file"
                   accept="image/*"
                   className="hidden"
@@ -107,9 +108,9 @@ export const CarouselMediaSection = ({ buttonTemplates, cards, onAddButtonTempla
                         <p className="text-[10px] text-primary font-bold uppercase">{(card.file.size / (1024 * 1024)).toFixed(2)} MB</p>
                       </div>
                     </div>
-                    <button type="button" onClick={() => onUpdateCard(card.id, { file: null })} className="p-1.5 text-slate-400 hover:text-rose-500 rounded-lg transition-all">
+                    <Button type="button" onClick={() => onUpdateCard(card.id, { file: null })} className="p-1.5! bg-[unset]! h-[unset]! text-slate-400 hover:text-rose-500 rounded-lg transition-all">
                       <X size={16} />
-                    </button>
+                    </Button>
                   </div>
                 ) : (
                   <div onClick={() => fileRefs.current[card.id]?.click()} className="border-2 border-dashed border-slate-200 dark:border-(--card-border-color) rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:bg-emerald-50/20 dark:hover:bg-(--table-hover) transition-all">

@@ -4,35 +4,29 @@ import { useAppSelector } from "@/src/redux/hooks";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Loading = () => {
-  const { data } = useAppSelector((state) => state.settings);
+  const { data, isSettingsLoaded } = useAppSelector((state) => state.settings);
+
+  if (!isSettingsLoaded) {
+    return (
+      <div className="fixed inset-0 z-100 bg-white dark:bg-dark-body flex items-center justify-center font-sans">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-light-loader-bg dark:bg-dark-body flex items-center justify-center font-sans overflow-hidden">
+    <div className="fixed inset-0 z-9999 bg-light-loader-bg dark:bg-dark-body flex items-center justify-center font-sans overflow-hidden">
       <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col items-center gap-8"
-        >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }} className="flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-1">
-            <motion.h1
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-              className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white"
-            >
+            <motion.h1 initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }} className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
               {data.app_name}
               <span className="text-primary italic">.</span>
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
-              className="text-[10px] uppercase tracking-[0.4em] font-bold text-slate-400 dark:text-slate-500 pl-1"
-            >
-              One and only {data.app_name}
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 1 }} className="text-[10px] uppercase tracking-[0.4em] font-bold text-slate-400 dark:text-slate-500 pl-1">
+              {data.app_loader || "One and only"} {data.app_name}
             </motion.p>
           </div>
 

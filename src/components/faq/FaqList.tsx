@@ -6,7 +6,7 @@ import { FaqListProps } from "@/src/types/components";
 import { ColumnDef } from "@/src/types/shared";
 import { Faq } from "@/src/types/store";
 import { format } from "date-fns";
-import { Edit, Edit2 } from "lucide-react";
+import { Edit2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../constants";

@@ -19,16 +19,20 @@ import LimitsSettings from "./tabs/LimitsSettings";
 import MaintenanceSettings from "./tabs/MaintenanceSettings";
 import WhatsAppSettings from "./tabs/WhatsAppSettings";
 import AWSSettings from "./tabs/AWSSettings";
-import { BarChart2, Globe, Mail, MessageSquare, Palette, RefreshCw, Save, Wrench, Cloud } from "lucide-react";
+import OTPSettings from "./tabs/OTPSettings";
+import FacebookLeadSettings from "./tabs/FacebookLeadSettings";
+import { BarChart2, Globe, Mail, MessageSquare, Palette, RefreshCw, Save, Wrench, Cloud, ShieldCheck, Facebook } from "lucide-react";
 
 const tabs = [
   { id: "general", label: "General", icon: Globe, description: "App info & preferences" },
   { id: "branding", label: "Branding", icon: Palette, description: "Logos & icons" },
   { id: "whatsapp", label: "WhatsApp", icon: MessageSquare, description: "API credentials" },
+  { id: "facebook_lead", label: "Facebook Lead", icon: Facebook, description: "Lead webhook configuration" },
   { id: "email", label: "Email", icon: Mail, description: "SMTP configuration" },
   { id: "google", label: "Google", icon: Globe, description: "Google API credentials" },
   { id: "aws", label: "AWS", icon: Cloud, description: "AWS S3 configuration" },
   { id: "limits", label: "Limits", icon: BarChart2, description: "File & group limits" },
+  { id: "otp", label: "OTP Delivery", icon: ShieldCheck, description: "OTP delivery methods" },
   { id: "maintenance", label: "Maintenance", icon: Wrench, description: "Maintenance & error pages" },
 ] as const;
 
@@ -137,6 +141,10 @@ const SettingInner = () => {
         return <GoogleSettings />;
       case "aws":
         return <AWSSettings />;
+      case "otp":
+        return <OTPSettings />;
+      case "facebook_lead":
+        return <FacebookLeadSettings />;
       case "maintenance":
         return <MaintenanceSettings isLoading={isUpdating} />;
     }
@@ -151,15 +159,15 @@ const SettingInner = () => {
       <div className="min-[1400px]:hidden mb-4 bg-white dark:bg-(--card-color) rounded-lg border border-gray-100 dark:border-(--card-border-color) shadow-sm">
         <div className="overflow-x-auto table-custom-scrollbar">
           <div className="flex gap-1 p-2 min-w-max">
-            {tabs.map(({ id, label, icon: Icon }) => {
+            {tabs.map(({ id, icon: Icon }) => {
               const isActive = activeTab === id;
               return (
-                <button key={id} onClick={() => setActiveTab(id)} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap ${isActive ? "bg-(--text-green-primary)/10 text-(--text-green-primary)" : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-(--table-hover) hover:text-gray-900 dark:hover:text-gray-100"}`}>
+                <Button key={id} onClick={() => setActiveTab(id)} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap ${isActive ? "bg-(--text-green-primary)/10 hover:bg-(--primary)/10 text-(--text-green-primary)" : "text-gray-600 bg-[unset]! shadow-none! dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-(--table-hover) hover:text-gray-900 dark:hover:text-gray-100"}`}>
                   <div className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 transition-colors ${isActive ? "bg-(--text-green-primary)/15 text-(--text-green-primary)" : "bg-gray-100 dark:bg-(--dark-body) text-gray-500 dark:text-white"}`}>
                     <Icon className="w-3.5 h-3.5" />
                   </div>
                   <span>{t(`settings_tabs_${id}`)}</span>
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -170,10 +178,10 @@ const SettingInner = () => {
         <aside className="hidden min-[1400px]:block w-64 xl:w-72 shrink-0">
           <div className="sticky top-35 bg-white dark:bg-(--card-color) rounded-xl border border-gray-100 dark:border-(--card-border-color) shadow-sm overflow-hidden">
             <div className="p-3 space-y-2.5">
-              {tabs.map(({ id, label, icon: Icon, description }) => {
+              {tabs.map(({ id, icon: Icon }) => {
                 const isActive = activeTab === id;
                 return (
-                  <button key={id} onClick={() => setActiveTab(id)} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-150 group ${isActive ? "bg-(--text-green-primary)/10 text-(--text-green-primary)" : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-(--table-hover) hover:text-gray-900 dark:hover:text-gray-100"}`}>
+                  <Button key={id} onClick={() => setActiveTab(id)} className={`w-full flex items-center gap-3 h-14 px-3 py-2.5 rounded-lg text-left transition-all duration-150 group ${isActive ? "bg-(--text-green-primary)/10! hover:bg-(--text-green-primary)/10! text-(--text-green-primary)" : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-(--table-hover) bg-[unset]! shadow-[unset]! hover:text-gray-900 dark:hover:text-gray-100"}`}>
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${isActive ? "bg-(--text-green-primary)/15 text-(--text-green-primary)" : "bg-gray-100 dark:bg-(--dark-body) text-gray-500 dark:text-white group-hover:bg-gray-200 dark:group-hover:bg-(--card-color)"}`}>
                       <Icon className="w-4 h-4" />
                     </div>
@@ -182,7 +190,7 @@ const SettingInner = () => {
                       <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{t(`settings_tabs_${id}_desc`)}</p>
                     </div>
                     {isActive && <div className="w-1 h-4 rounded-full bg-(--text-green-primary) shrink-0" />}
-                  </button>
+                  </Button>
                 );
               })}
             </div>

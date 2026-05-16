@@ -116,9 +116,9 @@ const TestimonialsForm = ({ data, onChange }: TestimonialsFormProps) => {
               .filter((t) => selectedTestimonials.some((st: any) => getObjId(st) === t._id))
               .map((testimonial) => (
                 <div key={testimonial._id} className="p-4 sm:p-6 bg-white dark:bg-page-body border border-gray-100 dark:border-(--card-border-color) rounded-lg  shadow-sm dark:border-none transition-all duration-300 relative group animate-in fade-in zoom-in-95 duration-500">
-                  <button onClick={() => toggleTestimonial(testimonial._id)} className="absolute -top-1 -right-1 w-8 h-8 bg-white dark:bg-(--card-color) text-gray-400 hover:text-red-500 rounded-full border border-gray-50 dark:border-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-xl z-20 hover:scale-110 active:scale-95">
+                  <Button onClick={() => toggleTestimonial(testimonial._id)} className="absolute -top-1 -right-1 w-8 h-8 bg-white dark:bg-(--card-color) text-gray-400 hover:text-red-500 rounded-full border border-gray-50 hover:bg-red-50! dark:hover:bg-red-900/20! dark:border-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-xl z-20 hover:scale-110 active:scale-95">
                     <X className="w-4 h-4" />
-                  </button>
+                  </Button>
 
                   <div className="flex items-center gap-3 md:gap-4 mb-5">
                     <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-[1.2rem] bg-primary/3 dark:bg-primary/[0.01] border border-primary/10 flex items-center justify-center shrink-0">

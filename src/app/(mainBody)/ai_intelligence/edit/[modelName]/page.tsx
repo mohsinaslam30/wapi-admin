@@ -26,7 +26,7 @@ const EditAIModelPage = () => {
       await updateModel({ id: modelName, data: values }).unwrap();
       toast.success(t("ai_models_update_success"));
       router.push(ROUTES.AIModels);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
     } catch (error: any) {
       toast.error(error?.data?.message || t("ai_models_update_error"));
     }

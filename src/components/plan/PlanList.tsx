@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import PlanCard from "./PlanCard";
+import PlanSkeleton from "./PlanSkeleton";
 import { PlanListProps } from "@/src/types/components";
 import {
   Carousel,
@@ -45,6 +46,20 @@ const PlanList = ({ plans, onDelete, isLoading }: PlanListProps) => {
     [api],
   );
 
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex flex-col py-10 px-2 h-full w-full">
+              <PlanSkeleton />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (plans.length === 0) {
     return (
       <div className="dark:bg-(--card-color) bg-white rounded-lg border border-gray-200 shadow-sm p-20 text-center dark:border-(--card-border-color)">
@@ -54,7 +69,7 @@ const PlanList = ({ plans, onDelete, isLoading }: PlanListProps) => {
   }
 
   return (
-    <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 [@media(max-width:395px)]:px-0">
+    <div className="w-full max-w-8xl mx-auto px-4 [@media(max-width:395px)]:px-0">
       <Carousel
         setApi={setApi}
         opts={{
@@ -71,7 +86,7 @@ const PlanList = ({ plans, onDelete, isLoading }: PlanListProps) => {
           {plans.map((plan, index) => (
             <CarouselItem
               key={plan._id || index}
-              className={`pl-4 cursor-pointer flex basis-full sm:basis-1/2 ${
+              className={`pl-4 pt-0! cursor-pointer flex basis-full sm:basis-1/2 ${
                 plans.length === 2
                   ? "lg:basis-1/2 lg:max-w-[420px]"
                   : plans.length === 3

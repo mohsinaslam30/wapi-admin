@@ -178,24 +178,24 @@ const SubscriptionPlansTable = ({ subscriptions, page, totalPages, total, onPage
         {isManualOrAdmin && isPending ? (
           <>
             <Can permission="update.subscriptions">
-              <Button variant="ghost" size="icon" className="w-10 h-10 text-primary hover:text-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-lg transition-all" onClick={() => handleApprove(sub._id)} title={t("common_approve")}>
+              <Button variant="ghost" size="icon" className="w-10 h-10 border-none text-primary hover:text-primary hover:bg-primary/10 rounded-lg dark:hover:bg-primary/20 transition-all shadow-xs dark:bg-page-body" onClick={() => handleApprove(sub._id)} title={t("common_approve")}>
                 <Check className="w-5 h-5" />
               </Button>
             </Can>
             <Can permission="update.subscriptions">
-              <Button variant="ghost" size="icon" className="w-10 h-10 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all" onClick={() => handleReject(sub._id)} title={t("common_reject")}>
+              <Button variant="ghost" size="icon" className="w-10 h-10 border-none text-red-500 hover:text-red-600 hover:bg-red-500/10 rounded-lg dark:hover:bg-red-500/20 transition-all shadow-xs dark:bg-page-body" onClick={() => handleReject(sub._id)} title={t("common_reject")}>
                 <X className="w-5 h-5" />
               </Button>
             </Can>
           </>
         ) : canCancel ? (
           <Can permission="update.subscriptions">
-            <Button variant="ghost" size="icon" className="w-10 h-10 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all" onClick={() => setCancelSub(sub)} title={t("common_cancel") || "Cancel Subscription"}>
+            <Button variant="ghost" size="icon" className="w-10 h-10 border-none text-red-500 hover:text-red-600 hover:bg-red-500/10 rounded-lg dark:hover:bg-red-500/20 transition-all shadow-xs dark:bg-page-body" onClick={() => setCancelSub(sub)} title={t("common_cancel") || "Cancel Subscription"}>
               <XCircle className="w-5 h-5" />
             </Button>
           </Can>
         ) : (
-          "-"
+          <span className="text-gray-500 dark:text-gray-600 text-center">-</span>
         )}
       </div>
     );

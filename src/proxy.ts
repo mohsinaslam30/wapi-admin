@@ -5,20 +5,17 @@ export function proxy(request: NextRequest) {
   const token = request.cookies.get("authToken")?.value;
   const isLoginPage = request.nextUrl.pathname === "/auth/login";
   const isApiRoute = request.nextUrl.pathname.startsWith("/api/");
-  
+
+  const isPublicPage = request.nextUrl.pathname.startsWith("/page/");
+
   // Allow access to forgot password flow pages without authentication
-  const isForgotPasswordFlow = [
-    "/auth/forgot-password",
-    "/auth/verify-otp",
-    "/auth/reset-password",
-    "/auth/restore-session",
-  ].includes(request.nextUrl.pathname);
+  const isForgotPasswordFlow = ["/auth/forgot-password", "/auth/verify-otp", "/auth/reset-password", "/auth/restore-session"].includes(request.nextUrl.pathname);
 
   if (isApiRoute) {
     return NextResponse.next();
   }
 
-  if (!token && !isLoginPage && !isForgotPasswordFlow) {
+  if (!token && !isLoginPage && !isForgotPasswordFlow && !isPublicPage) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 

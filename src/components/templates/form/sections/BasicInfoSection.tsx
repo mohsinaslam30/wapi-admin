@@ -9,6 +9,7 @@ import { SECTOR_LABELS, SECTOR_TEMPLATE_CATEGORIES, SECTORS, SectorKey } from "@
 import { BasicInfoSectionProps, MarketingTypeOption } from "@/src/types/template";
 import CharacterCountWrapper from "@/src/shared/CharacterCountWrapper";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/src/elements/ui/button";
 
 const LANGUAGES = [
   { label: "English (US)", value: "en_US" },
@@ -123,13 +124,13 @@ export const BasicInfoSection = ({ language, setLanguage, category, setCategory,
 "
         >
           {CATEGORIES.map((cat) => (
-            <button key={cat.value} type="button" onClick={() => setCategory(cat.value)} className={`flex items-center gap-3 p-4 rounded-lg border transition-all group ${category === cat.value ? "border-primary bg-emerald-50/50 text-primary dark:bg-emerald-500/10" : "border-slate-100 bg-slate-50/30 dark:bg-(--table-hover) dark:border-(--table-hover) text-slate-500 hover:border-primary dark:hover:border-(--card-border-color)"}`}>
+            <Button key={cat.value} type="button" onClick={() => setCategory(cat.value)} className={`flex h-[69px] items-center gap-3 p-4 justify-start rounded-lg border transition-all group ${category === cat.value ? "border-primary bg-emerald-50/50 hover:bg-emerald-50/50 text-primary dark:bg-emerald-500/10 dark:hover:bg-emerald-500/10" : "border-slate-100 bg-slate-50/30 hover:bg-slate-50/30 dark:bg-(--table-hover) dark:hover:bg-(--table-hover) dark:border-(--table-hover) text-slate-500 hover:border-primary dark:hover:border-(--card-border-color)"}`}>
               <div className={`p-2 rounded-lg transition-colors ${category === cat.value ? "bg-emerald-100 dark:bg-(--dark-sidebar)" : "bg-white dark:bg-(--dark-body) dark:text-amber-50 group-hover:bg-emerald-50 dark:group-hover:bg-(--card-color)"}`}>{cat.icon}</div>
               <div className="flex flex-col items-start -translate-y-px">
                 <span className="font-bold text-sm tracking-tight dark:text-gray-300">{cat.label}</span>
                 <span className="text-[10px] opacity-70 font-medium uppercase tracking-wider dark:text-gray-400">{t("templates_library_select_category")}</span>
               </div>
-            </button>
+            </Button>
           ))}
         </div>
         <p className="text-[11px] text-slate-400">{t("templates_library_basic_info_whatsapp_category_hint")}</p>
@@ -146,8 +147,8 @@ export const BasicInfoSection = ({ language, setLanguage, category, setCategory,
             {MARKETING_TYPES.map((type) => {
               const isActive = marketingType === type.value;
               return (
-                <button key={type.value} type="button" onClick={() => setMarketingType(type.value)} className={`flex items-center gap-3 px-4 py-3 rounded-lg border transition-all text-left group ${isActive ? "border-primary bg-emerald-50/60 dark:bg-emerald-500/10" : "border-slate-100 dark:border-(--card-border-color) bg-slate-50/30 dark:bg-(--table-hover) hover:border-primary/30 dark:hover:border-(--card-border-color)"}`}>
-                  <div className={`p-2 rounded-lg shrink-0 transition-colors ${isActive ? "bg-emerald-100 dark:bg-emerald-500/20 text-primary" : "bg-white dark:bg-(--dark-body) text-slate-400 group-hover:bg-emerald-50 dark:group-hover:bg-(--card-color)"}`}>{type.icon}</div>
+                <Button key={type.value} type="button" onClick={() => setMarketingType(type.value)} className={`flex h-[58px] justify-start items-center gap-3 px-4 py-3 rounded-lg border transition-all text-left group ${isActive ? "border-primary bg-emerald-50/60 hover:bg-emerald-50/60 dark:bg-emerald-500/10! dark:hover:bg-emerald-500/10!" : "border-slate-100 dark:border-(--card-border-color) bg-slate-50/30! dark:bg-(--table-hover)! hover:border-primary/30 dark:hover:border-(--card-border-color)"}`}>
+                  <div className={`p-2 rounded-lg shrink-0 transition-colors ${isActive ? "bg-emerald-100! dark:bg-emerald-500/20! text-primary" : "bg-white! dark:bg-(--dark-body)! text-slate-400 group-hover:bg-emerald-50! dark:group-hover:bg-(--card-color)!"}`}>{type.icon}</div>
                   <div className="flex flex-col min-w-0">
                     <span className={`font-bold text-[13px] tracking-tight leading-tight ${isActive ? "text-primary" : "text-slate-700 dark:text-gray-300"}`}>{type.label}</span>
                     <span className="text-[10px] text-slate-400 dark:text-gray-500 leading-tight truncate">{type.description}</span>
@@ -159,7 +160,7 @@ export const BasicInfoSection = ({ language, setLanguage, category, setCategory,
                       </svg>
                     </div>
                   )}
-                </button>
+                </Button>
               );
             })}
           </div>

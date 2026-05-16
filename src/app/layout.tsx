@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "wapi",
+  title: "WhatsApp CRM",
   description: "One solution...",
 };
 

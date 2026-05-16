@@ -110,12 +110,12 @@ const HeroForm = ({ data, onChange }: HeroFormProps) => {
         >
           {data.floating_images.map((img, index) => (
             <div key={index} className="group relative p-4 bg-gray-50/50 dark:bg-page-body border border-gray-100 dark:border-(--card-border-color) rounded-xl hover:bg-white dark:hover:bg-(--dark-body) transition-all duration-300 shadow-sm hover:shadow-md">
-              <button
+              <Button
                 onClick={() => removeFloatingImage(index)}
-                className="absolute top-3 right-3 w-8 h-8 bg-white dark:bg-(--card-color) text-gray-400 hover:text-red-500 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-sm border border-gray-100 dark:border-(--card-border-color) hover:border-red-100 dark:hover:border-red-900/30 z-10 hover:scale-110"
+                className="absolute -top-4 right-0 w-8 h-8 bg-white hover:bg-red-50 dark:bg-(--card-color) text-gray-400 hover:text-red-500 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-sm border border-gray-100 dark:border-(--card-border-color) hover:border-red-100 dark:hover:border-red-900/30 z-10 hover:scale-110"
               >
                 <Trash2 className="w-4 h-4" />
-              </button>
+              </Button>
 
               <div className="space-y-4">
                 <ImageSelector label="" value={img.url} onChange={(url) => handleFloatingImageChange(index, "url", url)} className="space-y-0!" />

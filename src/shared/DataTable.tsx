@@ -3,6 +3,7 @@
 
 import { Button } from "@/src/elements/ui/button";
 import { Checkbox } from "@/src/elements/ui/checkbox";
+import { Skeleton } from "@/src/elements/ui/skeleton";
 import ConfirmModal from "@/src/shared/ConfirmModal";
 import { ChevronDown, ChevronUp, ChevronsUpDown, Copy, Trash2 } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
@@ -13,6 +14,7 @@ import { toast } from "sonner";
 import Can from "../components/shared/Can";
 import { DataTableProps } from "../types/shared";
 import { useTranslation } from "react-i18next";
+import { Input } from "../elements/ui/input";
 
 const DataTable = <T,>({ data, columns, page = 1, total = 0, onPageChange, onLimitChange, tableClassName, pagination = true, limit, onDelete, onBulkDelete, isLoading = false, emptyMessage = "No items found.", itemLabel = "items", itemLabelSingular, itemsPerPage, getRowId = (row: T) => (row as any)?._id, renderActions, onSelectionChange, selectionClassName = "", actionClassName = "", columnClassNames = [], selectedIds: controlledSelectedIds, onSortChange, deletePermission, actionPermissions = [], canDelete, searchTerm, isFilterActive }: DataTableProps<T>) => {
   const { hasPermission, hasAnyPermission } = usePermissions();
@@ -102,7 +104,7 @@ const DataTable = <T,>({ data, columns, page = 1, total = 0, onPageChange, onLim
     if (checked) {
       setSelectedIds([...selectedIds, id]);
     } else {
-      setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id));
+      setSelectedIds(selectedIds?.filter((selectedId) => selectedId !== id));
     }
   };
 
@@ -119,9 +121,9 @@ const DataTable = <T,>({ data, columns, page = 1, total = 0, onPageChange, onLim
     }
   }, [internalSelectedIds, onSelectionChange, controlledSelectedIds]);
 
-  const currentSelections = data.filter((item) => selectedIds.includes(getRowId(item)));
-  const allSelected = currentSelections.length === data.length && data.length > 0;
-  const isIndeterminate = currentSelections.length > 0 && currentSelections.length < data.length;
+  const currentSelections = data?.filter?.((item) => selectedIds?.includes?.(getRowId(item)));
+  const allSelected = currentSelections?.length === data?.length && data?.length > 0;
+  const isIndeterminate = currentSelections?.length > 0 && currentSelections?.length < data?.length;
 
   useEffect(() => {
     if (headerCheckboxRef.current) {
@@ -130,17 +132,15 @@ const DataTable = <T,>({ data, columns, page = 1, total = 0, onPageChange, onLim
   }, [isIndeterminate]);
 
   const { t } = useTranslation();
-  if (data.length === 0) {
+  if (data.length === 0 && !isLoading) {
     return (
       <div className="bg-white dark:bg-(--card-color) dark:border-(--card-border-color) p-11.25 sm:p-20 text-center rounded-lg">
         <p className="text-gray-400">
-          {isLoading
-            ? t("common_loading")
-            : searchTerm
-              ? t("common_search_not_found", { query: searchTerm })
-              : isFilterActive
-                ? t("common_filter_not_found")
-                : emptyMessage}
+          {searchTerm
+            ? t("common_search_not_found", { query: searchTerm })
+            : isFilterActive
+              ? t("common_filter_not_found")
+              : emptyMessage}
         </p>
       </div>
     );
@@ -159,7 +159,7 @@ const DataTable = <T,>({ data, columns, page = 1, total = 0, onPageChange, onLim
             <tr>
               {hasDeleteActions && (
                 <th className={`w-12 px-6 py-3 top-1 relative ${selectionClassName}`}>
-                  <input type="checkbox" className="relative w-4 h-4 rounded appearance-none checked:bg-(--text-green-primary) checked:before:content-['✓'] checked:before:absolute checked:before:-top-1.25 checked:before:text-white checked:before:right-0 border indeterminate:before:content-[''] indeterminate:before:absolute indeterminate:before:top-1/2 indeterminate:before:left-1/2 indeterminate:before:w-2 indeterminate:before:h-0.5 indeterminate:before:-translate-x-1/2 indeterminate:before:-translate-y-1/2 indeterminate:before:bg-white border-gray-300 text-green-500 focus:ring-green-500 dark:border-(--card-border-color) indeterminate:bg-(--text-green-primary)" checked={allSelected} onChange={(e) => handleSelectAll(e.target.checked)} ref={headerCheckboxRef} />
+                  <Input type="checkbox" className="relative w-4 h-4 rounded appearance-none checked:bg-(--text-green-primary) checked:before:content-['✓'] checked:before:absolute checked:before:-top-1.25 checked:before:text-white checked:before:right-0 border indeterminate:before:content-[''] indeterminate:before:absolute indeterminate:before:top-1/2 indeterminate:before:left-1/2 indeterminate:before:w-2 indeterminate:before:h-0.5 indeterminate:before:-translate-x-1/2 indeterminate:before:-translate-y-1/2 indeterminate:before:bg-white border-gray-300 text-green-500 focus:ring-green-500 dark:border-(--card-border-color) indeterminate:bg-(--text-green-primary)" checked={allSelected} onChange={(e) => handleSelectAll(e.target.checked)} ref={headerCheckboxRef} />
                 </th>
               )}
               {columns.map((column, index) => {
@@ -178,52 +178,76 @@ const DataTable = <T,>({ data, columns, page = 1, total = 0, onPageChange, onLim
             </tr>
           </thead>
           <tbody className="dark:bg-(--card-color) bg-white divide-y divide-gray-200">
-            {data.map((row, index) => {
-              const rowId = getRowId(row);
-              return (
-                <tr key={index} className={`hover:bg-gray-50 dark:hover:bg-(--table-hover) dark:bg-(--card-color) transition-colors dark:border-(--card-border-color) ${selectedIds.includes(rowId) ? "bg-(--input-color) dark:bg-(--table-hover)" : ""}`}>
+            {isLoading && data.length === 0 ? (
+              Array.from({ length: limit || 5 }).map((_, rowIndex) => (
+                <tr key={`skeleton-row-${rowIndex}`} className="animate-pulse">
                   {hasDeleteActions && (
                     <td className={`px-6 py-4 ${selectionClassName}`}>
-                      <Checkbox checked={selectedIds.includes(rowId)} onCheckedChange={(checked) => handleSelectOne(rowId, checked === true)} />
+                      <Skeleton className="w-4 h-4 rounded" />
                     </td>
                   )}
-                  {columns.map((column, colIndex) => {
-                    const getNestedValue = (obj: T, path: string) => {
-                      return path.split("_").reduce((acc, part) => (acc as any)?.[part], obj as any);
-                    };
-
-                    const valueToCopy = column.copyField ? String(getNestedValue(row, column.copyField as string) ?? "") : column.accessorKey ? String((row as any)[column.accessorKey] ?? "") : "";
-
-                    return (
-                      <td key={colIndex} className={`px-6 py-4 group/row ${column.className || ""} ${columnClassNames[colIndex] || ""}`}>
-                        <div className="flex items-center gap-2 max-w-xs sm:max-w-md">
-                          <div className="whitespace-normal overflow-hidden text-sm break-all font-medium">{column.cell ? column.cell(row) : column.accessor ? column.accessor(row) : column.accessorKey ? String((row as any)[column.accessorKey] ?? "") : null}</div>
-                          {column.copyable && (
-                            <button onClick={(e) => !is_demo_mode && handleCopy(e, valueToCopy)} disabled={is_demo_mode} className={`p-1.5 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-md transition-all text-gray-400 hover:text-primary opacity-0 group-hover/row:opacity-100 shrink-0 ${is_demo_mode ? "cursor-not-allowed" : ""}`} title={is_demo_mode ? "Copying restricted in demo mode" : "Copy to clipboard"}>
-                              <Copy size={13} />
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    );
-                  })}
+                  {columns.map((_, colIndex) => (
+                    <td key={`skeleton-col-${colIndex}`} className="px-6 py-4">
+                      <Skeleton className={`h-4 ${colIndex === 0 ? "w-2/3" : "w-1/2"}`} />
+                    </td>
+                  ))}
                   {showActionsColumn && (
                     <td className={`px-6 py-4 ${actionClassName}`}>
-                      <div className="flex items-center gap-2">
-                        {renderActions && renderActions(row)}
-                        {onDelete && (!canDelete || canDelete(row)) && (
-                          <Can permission={deletePermission}>
-                            <Button variant="ghost" size="icon" onClick={() => handleDeleteClick(rowId)} className="w-10 h-10 border-none text-red-600 hover:text-red-600 dark:text-red-500 hover:bg-red-50 rounded-lg transition-all dark:hover:bg-red-900/20 dark:bg-(--page-body-bg) shadow-xs" disabled={isLoading} title="Delete">
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </Can>
-                        )}
+                      <div className="flex gap-2">
+                        <Skeleton className="w-10 h-10 rounded-lg" />
                       </div>
                     </td>
                   )}
                 </tr>
-              );
-            })}
+              ))
+            ) : (
+              data.map((row, index) => {
+                const rowId = getRowId(row);
+                return (
+                  <tr key={index} className={`hover:bg-gray-50 dark:hover:bg-(--table-hover) dark:bg-(--card-color) transition-colors dark:border-(--card-border-color) ${selectedIds.includes(rowId) ? "bg-(--input-color) dark:bg-(--table-hover)" : ""}`}>
+                    {hasDeleteActions && (
+                      <td className={`px-6 py-4 ${selectionClassName}`}>
+                        <Checkbox checked={selectedIds.includes(rowId)} onCheckedChange={(checked) => handleSelectOne(rowId, checked === true)} />
+                      </td>
+                    )}
+                    {columns.map((column, colIndex) => {
+                      const getNestedValue = (obj: T, path: string) => {
+                        return path.split("_").reduce((acc, part) => (acc as any)?.[part], obj as any);
+                      };
+
+                      const valueToCopy = column.copyField ? String(getNestedValue(row, column.copyField as string) ?? "") : column.accessorKey ? String((row as any)[column.accessorKey] ?? "") : "";
+
+                      return (
+                        <td key={colIndex} className={`px-6 py-4 group/row ${column.className || ""} ${columnClassNames[colIndex] || ""}`}>
+                          <div className="flex items-center gap-2 max-w-xs sm:max-w-md">
+                            <div className="whitespace-normal overflow-hidden text-sm break-all font-medium">{column.cell ? column.cell(row) : column.accessor ? column.accessor(row) : column.accessorKey ? String((row as any)[column.accessorKey] ?? "") : null}</div>
+                            {column.copyable && (
+                              <Button onClick={(e) => !is_demo_mode && handleCopy(e, valueToCopy)} disabled={is_demo_mode} className={`p-1.5! hover:bg-emerald-50! bg-[unset]! h-[unset]! shadow-none dark:hover:bg-emerald-900/20 rounded-md transition-all dark:hover:bg-(--table-hover)! text-gray-400 hover:text-primary opacity-0 group-hover/row:opacity-100 shrink-0 ${is_demo_mode ? "cursor-not-allowed" : ""}`} title={is_demo_mode ? "Copying restricted in demo mode" : "Copy to clipboard"}>
+                                <Copy size={13} />
+                              </Button>
+                            )}
+                          </div>
+                        </td>
+                      );
+                    })}
+                    {showActionsColumn && (
+                      <td className={`px-6 py-4 ${actionClassName}`}>
+                        <div className="flex items-center gap-2">
+                          {renderActions && renderActions(row)}
+                          {onDelete && (!canDelete || canDelete(row)) && (
+                            <Can permission={deletePermission}>
+                              <Button variant="ghost" size="icon" onClick={() => handleDeleteClick(rowId)} className="w-10 h-10 border-none text-red-600 hover:text-red-600 dark:text-red-500 hover:bg-red-50 rounded-lg transition-all dark:hover:bg-red-900/20 dark:bg-(--page-body-bg) shadow-xs" disabled={isLoading} title="Delete">
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </Can>
+                          )}
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>

@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
   } catch (error: any) {
     console.error("Error in test AI models:", error);
     return NextResponse.json({ success: false, error: "Failed to test AI models", message: error?.message || "An unexpected error occurred" }, { status: 500 });

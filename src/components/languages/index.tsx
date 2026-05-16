@@ -8,6 +8,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import LanguageHeader from "./LanguageHeader";
 import LanguageList from "./LanguageList";
+import { Button } from "@/src/elements/ui/button";
 
 const LanguageContainer = () => {
   const [inputValue, setInputValue] = useState("");
@@ -87,12 +88,9 @@ const LanguageContainer = () => {
           <span>Failed to load languages. The server might be restarting.</span>
           {error && <span className="text-xs opacity-60">{(error as any)?.data?.error || (error as any)?.message}</span>}
         </div>
-        <button 
-          onClick={() => refetch()} 
-          className="px-6 py-2 bg-(--text-green-primary) text-white rounded-lg hover:opacity-90 transition-all font-medium"
-        >
+        <Button onClick={() => refetch()} className="px-6 py-2 bg-(--text-green-primary) text-white rounded-lg hover:opacity-90 transition-all font-medium">
           Retry Connection
-        </button>
+        </Button>
       </div>
     );
   }

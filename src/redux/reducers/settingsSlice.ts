@@ -6,6 +6,7 @@ interface SettingsState {
   errors: Record<string, string>;
   isDirty: boolean;
   pageTitle: string;
+  isSettingsLoaded: boolean;
 }
 
 const initialState: SettingsState = {
@@ -13,6 +14,7 @@ const initialState: SettingsState = {
   errors: {},
   isDirty: false,
   pageTitle: "",
+  isSettingsLoaded: false,
 };
 
 const settingsSlice = createSlice({
@@ -23,6 +25,7 @@ const settingsSlice = createSlice({
       state.data = action.payload;
       state.isDirty = false;
       state.errors = {};
+      state.isSettingsLoaded = true;
     },
     updateSettingField: (state, action: PayloadAction<{ key: keyof AppSettings; value: AppSettings[keyof AppSettings] | string }>) => {
       state.data = { ...state.data, [action.payload.key]: action.payload.value };

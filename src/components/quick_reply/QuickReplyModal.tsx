@@ -94,12 +94,12 @@ const QuickReplyModal = ({
               onCheckedChange={(checked) => setIsAdminReply(checked === true)}
             />
             <div className="grid gap-1.5 leading-none">
-              <label
+              <Label
                 htmlFor="is_admin_reply"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 {t("quick_reply_admin_reply")}
-              </label>
+              </Label>
               <p className="text-sm text-muted-foreground">
                 {t("quick_reply_admin_reply_description")}
               </p>

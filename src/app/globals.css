@@ -1,7 +1,54 @@
 @import "tailwindcss";
+@import "ckeditor5/ckeditor5.css";
 
 @plugin "tailwindcss-animate";
 @import "tw-animate-css";
+
+/* CKEditor Custom Styles */
+.ck-content {
+  min-height: var(--ck-min-height, 160px) !important;
+  max-height: 400px;
+  padding: 12px 16px !important;
+  font-size: 14px;
+  line-height: 1.6;
+  border: none !important;
+}
+
+.ck.ck-toolbar {
+  border: none !important;
+  background: transparent !important;
+}
+
+.dark .ck-content {
+  background-color: var(--card-color) !important;
+  color: rgb(226 232 240) !important;
+}
+
+.dark .ck.ck-toolbar {
+  background-color: var(--card-color) !important;
+  border-color: var(--card-border-color) !important;
+}
+
+.dark .ck.ck-toolbar .ck-button {
+  color: rgb(226 232 240) !important;
+}
+
+.dark .ck.ck-toolbar .ck-button:hover {
+  background-color: var(--dark-sidebar) !important;
+}
+
+.dark .ck.ck-toolbar .ck-button.ck-on {
+  background-color: var(--dark-sidebar) !important;
+  color: var(--text-green-primary) !important;
+}
+
+.dark .ck.ck-toolbar .ck-toolbar__separator {
+  background-color: var(--card-border-color) !important;
+}
+
+.dark .ck.ck-balloon-panel {
+  background: var(--card-color) !important;
+}
 
 /* @custom-variant dark (&:is(.dark *)); */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -330,4 +377,103 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield !important;
   appearance: textfield !important;
+}
+/* CKEditor Content & Guide Tables */
+.ck-content table {
+  width: 100%;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 2rem 0 !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 20px -10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark .ck-content table {
+  border-color: var(--card-border-color) !important;
+  box-shadow: none !important;
+}
+
+.ck-content table th {
+  background-color: #f8fafc !important;
+  padding: 14px 20px !important;
+  text-align: left !important;
+  font-weight: 800 !important;
+  color: #1e293b !important;
+  border-bottom: 2px solid var(--gray-200) !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+.dark .ck-content table th {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  color: #f8fafc !important;
+  border-bottom-color: var(--card-border-color) !important;
+}
+
+.ck-content table td {
+  padding: 14px 20px !important;
+  border-bottom: 1px solid var(--gray-100) !important;
+  color: #475569 !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.6 !important;
+  vertical-align: top !important;
+}
+
+.dark .ck-content table td {
+  border-bottom-color: var(--card-border-color) !important;
+  color: #94a3b8 !important;
+}
+
+.ck-content table tr:last-child td {
+  border-bottom: none !important;
+}
+
+.ck-content table tr:nth-child(even) {
+  background-color: #fcfdfe !important;
+}
+
+.dark .ck-content table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.01) !important;
+}
+
+.ck-content table tr:hover td {
+  background-color: #f1f5f9 !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.dark .ck-content table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Premium list styling in ck-content */
+.ck-content ul {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin: 1.5rem 0 !important;
+}
+
+.ck-content ul li {
+  position: relative !important;
+  padding-left: 1.75rem !important;
+  margin-bottom: 0.75rem !important;
+  color: #475569 !important;
+}
+
+.dark .ck-content ul li {
+  color: #94a3b8 !important;
+}
+
+.ck-content ul li::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0.6rem !important;
+  width: 0.5rem !important;
+  height: 0.5rem !important;
+  background-color: var(--primary) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary), transparent 85%) !important;
 }

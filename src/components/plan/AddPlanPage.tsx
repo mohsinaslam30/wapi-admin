@@ -13,6 +13,8 @@ import PlanBasicInfo from "./PlanBasicInfo";
 import PlanFeatures from "./PlanFeatures";
 import PlanPricing from "./PlanPricing";
 import PlanStatus from "./PlanStatus";
+import { BookOpen } from "lucide-react";
+import PlanGuideModal from "./PlanGuideModal";
 
 interface AddPlansPageProps {
   id?: string;
@@ -31,6 +33,7 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
 
   const isLoading = isCreating || isUpdating || isLoadingPlan;
   const initializedRef = useRef(false);
+  const [guideModalOpen, setGuideModalOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -68,7 +71,17 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
       facebookAds_campaign: "",
       kanban_funnels: "",
       segments: "",
+      google_account: "",
+      quick_replies: "",
+      workspaces: "",
+      facebook_lead: "",
+      document_file_limit: "",
+      audio_file_limit: "",
+      video_file_limit: "",
+      image_file_limit: "",
+      multiple_file_share_limit: "",
     },
+    enabled_features: {} as Record<string, boolean>,
   });
 
   useEffect(() => {
@@ -112,7 +125,17 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
             facebookAds_campaign: plan.features?.facebookAds_campaign != null ? plan.features.facebookAds_campaign.toString() : "",
             kanban_funnels: plan.features?.kanban_funnels != null ? plan.features.kanban_funnels.toString() : "",
             segments: plan.features?.segments != null ? plan.features.segments.toString() : "",
+            google_account: plan.features?.google_account != null ? plan.features.google_account.toString() : "",
+            quick_replies: plan.features?.quick_replies != null ? plan.features.quick_replies.toString() : "",
+            workspaces: plan.features?.workspaces != null ? plan.features.workspaces.toString() : "",
+            facebook_lead: plan.features?.facebook_lead != null ? plan.features.facebook_lead.toString() : "",
+            document_file_limit: plan.features?.document_file_limit != null ? plan.features.document_file_limit.toString() : "",
+            audio_file_limit: plan.features?.audio_file_limit != null ? plan.features.audio_file_limit.toString() : "",
+            video_file_limit: plan.features?.video_file_limit != null ? plan.features.video_file_limit.toString() : "",
+            image_file_limit: plan.features?.image_file_limit != null ? plan.features.image_file_limit.toString() : "",
+            multiple_file_share_limit: plan.features?.multiple_file_share_limit != null ? plan.features.multiple_file_share_limit.toString() : "",
           },
+          enabled_features: plan.enabled_features || {},
           taxes: plan.taxes ? plan.taxes.map((t: any) => (typeof t === "string" ? t : t._id)) : [],
         });
       }, 0);
@@ -150,13 +173,24 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
   };
 
   const handleFeatureChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      features: {
-        ...prev.features,
-        [field]: value,
-      },
-    }));
+    if (field.startsWith("enabled_")) {
+      const featureId = field.replace("enabled_", "");
+      setFormData((prev) => ({
+        ...prev,
+        enabled_features: {
+          ...prev.enabled_features,
+          [featureId]: value as boolean,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        features: {
+          ...prev.features,
+          [field]: value,
+        },
+      }));
+    }
   };
 
   const handleSubmit = async () => {
@@ -204,7 +238,17 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
           facebookAds_campaign: formData.features.facebookAds_campaign ? parseInt(formData.features.facebookAds_campaign) : undefined,
           kanban_funnels: formData.features.kanban_funnels ? parseInt(formData.features.kanban_funnels) : undefined,
           segments: formData.features.segments ? parseInt(formData.features.segments) : undefined,
+          google_account: formData.features.google_account ? parseInt(formData.features.google_account) : undefined,
+          quick_replies: formData.features.quick_replies ? parseInt(formData.features.quick_replies) : undefined,
+          workspaces: formData.features.workspaces ? parseInt(formData.features.workspaces) : undefined,
+          facebook_lead: formData.features.facebook_lead ? parseInt(formData.features.facebook_lead) : undefined,
+          document_file_limit: formData.features.document_file_limit ? parseInt(formData.features.document_file_limit) : undefined,
+          audio_file_limit: formData.features.audio_file_limit ? parseInt(formData.features.audio_file_limit) : undefined,
+          video_file_limit: formData.features.video_file_limit ? parseInt(formData.features.video_file_limit) : undefined,
+          image_file_limit: formData.features.image_file_limit ? parseInt(formData.features.image_file_limit) : undefined,
+          multiple_file_share_limit: formData.features.multiple_file_share_limit ? parseInt(formData.features.multiple_file_share_limit) : undefined,
         },
+        enabled_features: formData.enabled_features,
       };
 
       if (isEditMode && planId) {
@@ -244,7 +288,7 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
     <div className="min-h-screen ">
       <div>
         {/* Header */}
-        <div className="sticky top-[100px] z-[50] -mx-4 pt-0! sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-light-body-bg dark:bg-(--dark-body) shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] py-4 mb-5 sm:mb-2 flex flex-col sm:flex-row sm:items-center gap-4 transition-all">
+        <div className="sticky top-25 z-50 -mx-4 pt-0! sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-light-body-bg dark:bg-(--dark-body) shadow-[0_-55px_0px_0px_var(--light-body-bg)] dark:shadow-[0_-55px_0px_0px_var(--dark-body)] py-4 mb-5 sm:mb-2 flex flex-col sm:flex-row sm:items-center gap-4 transition-all">
           <Button
             variant="ghost"
             size="icon"
@@ -261,10 +305,20 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
               {isEditMode ? t("plan_edit_subtitle") : t("plan_add_subtitle")}
             </p>
           </div>
+          <div className="flex items-center gap-3 sm:ml-auto">
+            <Button
+              variant="outline"
+              onClick={() => setGuideModalOpen(true)}
+              className="h-11 px-5 gap-2 bg-white dark:bg-(--card-color) border-slate-200 dark:border-(--card-border-color) text-slate-700 dark:text-gray-300 dark:hover:bg-(--table-hover) rounded-lg font-bold transition-all shadow-sm hover:bg-slate-50"
+            >
+              <BookOpen size={18} className="text-primary" />
+              <span>Guide</span>
+            </Button>
+          </div>
         </div>
 
         {/* Form Content */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+        <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6 items-start">
           <div className="space-y-6">
             <PlanBasicInfo
               formData={{
@@ -295,10 +349,22 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
               }}
               onFieldChange={handleStatusChange}
             />
+
+            <PlanFeatures
+              features={formData.features}
+              enabled_features={formData.enabled_features}
+              onFeatureChange={handleFeatureChange}
+              mode="boolean"
+            />
           </div>
 
           <div className="space-y-6">
-            <PlanFeatures features={formData.features} onFeatureChange={handleFeatureChange} />
+            <PlanFeatures
+              features={formData.features}
+              enabled_features={formData.enabled_features}
+              onFeatureChange={handleFeatureChange}
+              mode="numeric"
+            />
           </div>
         </div>
 
@@ -313,6 +379,7 @@ const AddPlanPageContent = ({ id }: AddPlansPageProps) => {
           </Button>
         </div>
       </div>
+      <PlanGuideModal isOpen={guideModalOpen} onClose={() => setGuideModalOpen(false)} />
     </div>
   );
 };

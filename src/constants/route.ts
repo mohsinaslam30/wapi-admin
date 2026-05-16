@@ -8,6 +8,9 @@ export const ROUTES = {
   // Main Body Routes
   Dashboard: "/dashboard",
 
+  // Public Pages
+  PublicPage: "/page",
+
   // Membership & Billing
   ManagePlans: "/plan_management",
   ManagePlansAdd: "/plan_management/add",
@@ -35,6 +38,9 @@ export const ROUTES = {
   ManagePagesAdd: "/page_management/add",
   ManagePagesEdit: "/page_management/edit",
   ManageLanding: "/landing_page_setup",
+  ManageAuthPage: "/auth_page_setup",
+  TenantGuideSetup: "/tenant_guide_setup",
+
   TemplatesLibrary: "/template_management",
   TemplatesLibraryAdd: "/template_management/add",
   TemplatesLibraryEdit: "/template_management/edit",
@@ -46,9 +52,9 @@ export const ROUTES = {
   Currencies: "/currency_options",
   Taxes: "/tax_configuration",
   ContactInquiries: "/customer_inquiries",
+  EmailTemplates: "/email_templates",
 };
 
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 export const ImagePath: string = "/assets/images";
 export const ImageBaseUrl = process.env.NEXT_PUBLIC_STORAGE_URL;

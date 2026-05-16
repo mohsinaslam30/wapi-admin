@@ -11,6 +11,9 @@ import { Button } from "@/src/elements/ui/button";
 import { Switch } from "@/src/elements/ui/switch";
 import { useCreateTaxMutation, useGetTaxByIdQuery, useUpdateTaxMutation } from "@/src/redux/api/taxApi";
 import { ROUTES } from "@/src/constants";
+import { Label } from "@/src/elements/ui/label";
+import { Input } from "@/src/elements/ui/input";
+import { Textarea } from "@/src/elements/ui/textarea";
 
 interface TaxFormProps {
   id?: string;
@@ -164,10 +167,10 @@ const TaxForm = ({ id }: TaxFormProps) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 {/* Name */}
                 <div className="space-y-2 md:col-span-2 flex flex-col">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     {t("tax_name_label") || "Tax Name"} <span className="text-red-500">*</span>
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     name="name"
                     value={formData.name || ""}
                     onChange={handleInputChange}
@@ -179,9 +182,9 @@ const TaxForm = ({ id }: TaxFormProps) => {
 
                 {/* Type */}
                 <div className="space-y-2 flex flex-col">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     {t("tax_type_label") || "Tax Type"} <span className="text-red-500">*</span>
-                  </label>
+                  </Label>
                   <div className="relative">
                     <select
                       name="type"
@@ -202,14 +205,14 @@ const TaxForm = ({ id }: TaxFormProps) => {
 
                 {/* Rate */}
                 <div className="space-y-2 flex flex-col">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     {formData.type === "percentage"
                       ? t("tax_rate_percentage_label") || "Tax Percentage"
                       : t("tax_rate_fixed_label") || "Tax Amount"}{" "}
                     <span className="text-red-500">*</span>
-                  </label>
+                  </Label>
                   <div className="relative">
-                    <input
+                    <Input
                       name="rate"
                       type="text"
                       value={formData.rate ?? ""}
@@ -226,10 +229,10 @@ const TaxForm = ({ id }: TaxFormProps) => {
 
                 {/* Description */}
                 <div className="space-y-2 md:col-span-2 flex flex-col">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     {t("tax_description_label") || "Description"}
-                  </label>
-                  <textarea
+                  </Label>
+                  <Textarea
                     name="description"
                     value={formData.description || ""}
                     onChange={handleInputChange}

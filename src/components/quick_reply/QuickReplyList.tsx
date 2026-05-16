@@ -64,23 +64,23 @@ const QuickReplyList = ({
       copyable: true,
       copyField: "content",
       accessor: (qr) => (
-        <div className="flex items-start gap-2">
+        <div className="flex items-center gap-2">
           {onToggleFavorite && (
-            <button
+            <Button
               onClick={(e) => {
                 e.stopPropagation();
                 onToggleFavorite(qr._id);
               }}
-              className={`mt-1 transition-colors ${qr.is_favorite
+              className={` transition-colors p-0! h-[unset]! ${qr.is_favorite
                 ? "text-amber-400 hover:text-amber-500"
-                : "text-slate-300 hover:text-slate-400"
+                : "text-slate-300 bg-[unset]! shadow-[unset]! hover:text-slate-400"
                 }`}
             >
               <Star
                 size={16}
                 className={qr.is_favorite ? "text-amber-400 fill-amber-400" : "text-slate-300 fill-none"}
               />
-            </button>
+            </Button>
           )}
           <span
             className="text-slate-700 dark:text-slate-200 line-clamp-3 whitespace-pre-wrap transition-colors"

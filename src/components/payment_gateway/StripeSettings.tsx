@@ -10,6 +10,7 @@ import { Eye, EyeOff, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Can from "../shared/Can";
 import { usePermissions } from "@/src/hooks/usePermissions";
+import { Label } from "@/src/elements/ui/label";
 
 const StripeSettings = () => {
   const { t } = useTranslation();
@@ -39,15 +40,8 @@ const StripeSettings = () => {
     }
   }, [StripeData]);
 
-  const handleToggle = async (enabled: boolean) => {
+  const handleToggle = (enabled: boolean) => {
     setSettings((prev) => ({ ...prev, is_stripe_active: enabled }));
-    try {
-      // Send only is_stripe_active for toggle
-      await updateStripeSettings({ is_stripe_active: enabled } as any).unwrap();
-      toast.success(enabled ? t("gateway_stripe_enabled") : t("gateway_stripe_disabled"));
-    } catch (error: any) {
-      toast.error(error?.data?.message || (enabled ? t("gateway_stripe_enable_error") : t("gateway_stripe_disable_error")));
-    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -97,26 +91,26 @@ const StripeSettings = () => {
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="space-y-2 flex flex-col">
-          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             Publishable Key <span className="text-red-400">*</span>
-          </label>
+          </Label>
           <div className="relative">
             <Input value={settings.stripe_publishable_key} onChange={(e) => handleInputChange("stripe_publishable_key", e.target.value)} type={showPk ? "text" : "password"} placeholder="pk_test_..." className="h-11 pr-10 font-mono text-sm bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" />
-            <button type="button" tabIndex={-1} onClick={() => setShowPk(!showPk)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+            <Button type="button" tabIndex={-1} onClick={() => setShowPk(!showPk)} className="absolute bg-[unset]! h-[unset]! p-0! right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
               {showPk ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
+            </Button>
           </div>
         </div>
 
         <div className="space-y-2 flex flex-col">
-          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             Secret Key <span className="text-red-400">*</span>
-          </label>
+          </Label>
           <div className="relative">
             <Input value={settings.stripe_secret_key} onChange={(e) => handleInputChange("stripe_secret_key", e.target.value)} type={showSk ? "text" : "password"} placeholder="sk_test_..." className="h-11 pr-10 font-mono text-sm bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-none focus-visible:ring-1 focus-visible:ring-(--text-green-primary)" />
-            <button type="button" tabIndex={-1} onClick={() => setShowSk(!showSk)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+            <Button type="button" tabIndex={-1} onClick={() => setShowSk(!showSk)} className="absolute bg-[unset]! h-[unset]! p-0! right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
               {showSk ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -127,7 +121,7 @@ const StripeSettings = () => {
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{t("gateway_enable_gateway_desc")}</p>
         </div>
         <div className="relative flex items-center shrink-0 ml-4">
-          <input id="stripe-enable" type="checkbox" checked={settings.is_stripe_active} onChange={(e) => handleToggle(e.target.checked)} disabled={!hasPermission("update.payment_gateways")} className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 accent-(--text-green-primary) cursor-pointer disabled:cursor-not-allowed" />
+          <Input id="stripe-enable" type="checkbox" checked={settings.is_stripe_active} onChange={(e) => handleToggle(e.target.checked)} disabled={!hasPermission("update.payment_gateways")} className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 accent-(--text-green-primary) cursor-pointer disabled:cursor-not-allowed" />
         </div>
       </div>
 

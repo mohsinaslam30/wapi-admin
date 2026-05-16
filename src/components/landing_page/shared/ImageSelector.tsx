@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ImageIcon, Pencil, Upload, Image as ImageLucide } from "lucide-react";
 import MediaUploadModal from "./MediaUploadModal";
 import Images from "@/src/shared/Image";
+import { Label } from "@/src/elements/ui/label";
 
 interface ImageSelectorProps {
   label: string;
@@ -18,7 +19,7 @@ const ImageSelector = ({ label, value, onChange, placeholder = "Select Image", c
 
   return (
     <div className={`space-y-2 ${className}`}>
-      {label && <label className="text-[13px] font-bold text-gray-700 dark:text-gray-300 ml-1 mb-1.5 block">{label}</label>}
+      {label && <Label className="text-[13px] font-bold text-gray-700 dark:text-gray-300 ml-1 mb-1.5 block">{label}</Label>}
 
       <div
         onClick={() => setIsModalOpen(true)}

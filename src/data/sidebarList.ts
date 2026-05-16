@@ -1,4 +1,4 @@
-import { Award, ShieldCheck, CreditCard, Currency, Diamond, DiamondPlus, FileText, Form, Globe, HandCoins, HelpCircle, Home, Languages, LayoutDashboard, LayoutTemplate, Link, MailWarning, Receipt, Settings, ShoppingCart, Sparkles, ThumbsUp, Users, MessageSquare } from "lucide-react";
+import { Award, BookOpen, CreditCard, Currency, Diamond, DiamondPlus, FileText, Form, Globe, HandCoins, HelpCircle, Home, Languages, LayoutDashboard, LayoutTemplate, Link, MailOpen, MailWarning, MessageSquare, Receipt, Settings, ShieldCheck, ShieldUser, ShoppingCart, Signpost, Sparkles, ThumbsUp, Users } from "lucide-react";
 import { ROUTES } from "../constants";
 
 export interface MenuItem {
@@ -128,10 +128,28 @@ export const sidebarMenuData: MenuSection[] = [
         permission: "update.landing_page",
       },
       {
+        icon: "ShieldUser",
+        label: "nav_auth_page_setup",
+        path: ROUTES.ManageAuthPage,
+        permission: "view.auth_page_setup",
+      },
+      {
         icon: "LayoutTemplate",
         label: "nav_message_presets",
         path: ROUTES.TemplatesLibrary,
         permission: "view.admin-template",
+      },
+      {
+        icon: "Signpost",
+        label: "nav_tenant_guide_setup",
+        path: ROUTES.TenantGuideSetup,
+        permission: "view.guide",
+      },
+      {
+        icon: "MailOpen",
+        label: "nav_email_templates",
+        path: ROUTES.EmailTemplates,
+        permission: "view.guide",
       },
     ],
   },
@@ -210,4 +228,8 @@ export const iconMap = {
   DiamondPlus,
   ShieldCheck,
   MessageSquare,
+  ShieldUser,
+  BookOpen,
+  Signpost,
+  MailOpen,
 };

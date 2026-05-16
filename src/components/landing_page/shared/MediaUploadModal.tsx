@@ -7,6 +7,8 @@ import { Button } from "@/src/elements/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/src/elements/ui/dialog";
 import { toast } from "sonner";
 import { useUploadLandingImageMutation } from "@/src/redux/api/landingPageApi";
+import Image from "next/image";
+import { Input } from "@/src/elements/ui/input";
 
 interface MediaUploadModalProps {
   isOpen: boolean;
@@ -48,7 +50,7 @@ const MediaUploadModal = ({ isOpen, onClose, onSelect, title = "Upload Media" }:
         setFile(null);
         setPreview(null);
       }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to upload image");
     }
@@ -56,7 +58,7 @@ const MediaUploadModal = ({ isOpen, onClose, onSelect, title = "Upload Media" }:
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md p-0! overflow-hidden border-none rounded-xl dark:bg-(--card-color)">
+      <DialogContent className="sm:max-w-md! max-w-[calc(100%-2rem)]! p-0 overflow-hidden border-none rounded-xl dark:bg-(--card-color)">
         <DialogHeader className="px-6 py-4 border-b dark:border-(--card-border-color) bg-gray-50 dark:bg-(--dark-body)">
           <DialogTitle className="text-lg font-bold flex items-center gap-2">
             <ImageIcon className="w-5 h-5 text-primary" />
@@ -64,15 +66,15 @@ const MediaUploadModal = ({ isOpen, onClose, onSelect, title = "Upload Media" }:
           </DialogTitle>
         </DialogHeader>
 
-        <div className="p-8">
+        <div className="sm:p-8 p-4">
           <div
             onClick={() => fileInputRef.current?.click()}
             className={`
-              relative cursor-pointer border-2 border-dashed rounded-xl p-10 flex flex-col items-center justify-center gap-4 transition-all
+              relative cursor-pointer border-2 border-dashed rounded-lg sm:p-6 p-4 flex flex-col items-center justify-center gap-4 transition-all
               ${preview ? "border-primary bg-primary/5" : "border-gray-200 dark:border-(--card-border-color) hover:border-primary hover:bg-primary/5"}
             `}
           >
-            <input
+            <Input
               type="file"
               ref={fileInputRef}
               onChange={handleFileChange}
@@ -82,18 +84,18 @@ const MediaUploadModal = ({ isOpen, onClose, onSelect, title = "Upload Media" }:
 
             {preview ? (
               <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-100 dark:border-none shadow-sm">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={preview} alt="Preview" className="w-full h-full object-contain" />
-                <button
+                { }
+                <Image width={100} height={100} unoptimized src={preview} alt="Preview" className="w-full h-full object-contain" />
+                <Button
                   onClick={(e) => {
                     e.stopPropagation();
                     setFile(null);
                     setPreview(null);
                   }}
-                  className="absolute top-2 right-2 p-1.5 bg-white/90 dark:bg-black/60 backdrop-blur-sm rounded-full text-red-500 hover:bg-white transition-colors"
+                  className="absolute h-[unset]! top-2 right-2 p-1.5! bg-white/90 dark:bg-black/60 backdrop-blur-sm rounded-full text-red-500 hover:bg-white transition-colors"
                 >
                   <X className="w-4 h-4" />
-                </button>
+                </Button>
               </div>
             ) : (
               <>
@@ -113,7 +115,7 @@ const MediaUploadModal = ({ isOpen, onClose, onSelect, title = "Upload Media" }:
           <Button
             variant="outline"
             onClick={onClose}
-            className="flex-1 border-gray-200 dark:bg-(--card-color) dark:border-(--card-border-color)"
+            className="flex-1 border-gray-200 dark:hover:bg-(--table-hover) dark:bg-(--card-color) dark:border-(--card-border-color)"
           >
             Cancel
           </Button>

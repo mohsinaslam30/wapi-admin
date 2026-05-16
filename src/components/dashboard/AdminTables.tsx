@@ -18,7 +18,7 @@ export const NewUsersTable = ({ data }: { data: DashboardTableData["newUsers"] }
   const columns: ColumnDef<any>[] = [
     {
       header: "Member Profile",
-      className: "[@media(max-width:1480px)]:min-w-[240px]",
+      className: "[@media(max-width:1766px)]:min-w-[285px]",
       cell: (row) => (
         <div className="flex items-center gap-3 py-1">
           <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary to-primary flex items-center justify-center text-[10px] font-black text-white shadow-sm ring-2 ring-white/10 shrink-0 capitalize">{row.name.charAt(0)}</div>
@@ -31,7 +31,7 @@ export const NewUsersTable = ({ data }: { data: DashboardTableData["newUsers"] }
     },
     {
       header: "Verification",
-      className: "[@media(max-width:1480px)]:min-w-[190px]",
+      className: "[@media(max-width:1766px)]:min-w-[220px]",
       cell: (row) => (
         <div className="flex items-center gap-2">
           <Globe size={12} className="text-slate-300" />
@@ -44,7 +44,7 @@ export const NewUsersTable = ({ data }: { data: DashboardTableData["newUsers"] }
     },
     {
       header: "Access Level",
-      className: "[@media(max-width:1480px)]:min-w-[180px]",
+      className: "[@media(max-width:1766px)]:min-w-[190px]",
       cell: (row) => (
         <div className="flex items-center gap-2">
           <Badge variant="outline" className={`text-[10px] font-medium px-2.5 py-1 rounded-md border-0 ring-1 ring-inset ${row.planName === "No Plan" ? "bg-slate-500/10 text-slate-500 ring-slate-500/20" : "bg-primary/10 text-primary ring-primary/30"}`}>
@@ -56,7 +56,7 @@ export const NewUsersTable = ({ data }: { data: DashboardTableData["newUsers"] }
     },
     {
       header: "Joined",
-      className: "[@media(max-width:1480px)]:min-w-[145px]",
+      className: "[@media(max-width:1766px)]:min-w-[190px]",
       cell: (row) => <span className="text-[12px] font-medium text-slate-500 tabular-nums bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-md border border-slate-200/50 dark:border-white/5">{format(new Date(row.created_at), "MMMM dd, yyyy")}</span>,
     },
   ];
@@ -74,7 +74,7 @@ export const NewUsersTable = ({ data }: { data: DashboardTableData["newUsers"] }
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-0">
+      <CardContent className="p-4">
         <DataTable data={data.slice(0, 5)} columns={columns} emptyMessage="No new users found." itemsPerPage={5} pagination={false} tableClassName="border-none! shadow-none!" />
       </CardContent>
     </Card>
@@ -124,7 +124,7 @@ export const SubscriptionsTable = ({ data, title, type }: { data: DashboardTable
     },
     {
       header: "Expiry/Renewal",
-      className: "[@media(max-width:1920pxpx)]:min-w-[153px]",
+      className: "[@media(max-width:1920px)]:min-w-[153px]",
       cell: (row) => (
         <div className="flex items-center gap-2.5">
           <span className="text-[12px] font-black text-slate-500 dark:text-gray-400 tabular-nums uppercase">{format(new Date(row.current_period_end), "MMM dd")}</span>
@@ -150,7 +150,7 @@ export const SubscriptionsTable = ({ data, title, type }: { data: DashboardTable
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-0">
+      <CardContent className="p-4">
         <DataTable data={data.slice(0, 5)} columns={columns} emptyMessage={`No ${type} subscriptions found.`} itemsPerPage={5} pagination={false} tableClassName="border-none! shadow-none!" />
       </CardContent>
     </Card>
@@ -203,7 +203,7 @@ export const InquiriesTable = ({ data }: { data: DashboardTableData["recentInqui
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-0">
+      <CardContent className="p-4">
         <DataTable data={data.slice(0, 5)} columns={columns} emptyMessage="No latest inquiries found." itemsPerPage={5} pagination={false} tableClassName="border-none! shadow-none!" />
       </CardContent>
     </Card>

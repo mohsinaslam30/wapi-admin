@@ -59,7 +59,7 @@ const TestimonialList = ({ testimonials, onDelete, onBulkDelete, onUpdateStatus,
             </div>
           )}
           <div>
-            <p className="text-sm font-semibold text-gray-900 dark:text-amber-50">{testimonial.user_name}</p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-amber-50 break-all whitespace-normal line-clamp-2">{testimonial.user_name}</p>
             <p className="text-xs text-gray-500">{testimonial.user_post}</p>
           </div>
         </div>

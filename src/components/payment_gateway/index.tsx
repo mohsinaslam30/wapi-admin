@@ -5,6 +5,7 @@ import StripeForm from "./StripeSettings";
 import RazorpayForm from "./RazorpaySettings";
 import PayPalForm from "./PayPalSettings";
 import PaymentGatewayHeader from "./PaymentGatewayHeader";
+import { Button } from "@/src/elements/ui/button";
 
 type GatewayId = "stripe" | "razorpay" | "paypal";
 
@@ -57,17 +58,17 @@ const PaymentGatewayContainer = () => {
       <PaymentGatewayHeader onRefresh={handleRefresh} isLoading={false} isFetching={false} />
 
       <div className="bg-white dark:bg-(--card-color) border border-(--input-border-color) dark:border-(--card-border-color) rounded-lg shadow-sm overflow-hidden">
-        <div className="px-6 pt-6 pb-5 border-b border-(--input-border-color) dark:border-(--card-border-color)">
+        <div className="sm:px-6 px-4 pt-6 pb-5 border-b border-(--input-border-color) dark:border-(--card-border-color)">
           <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Payment Provider</p>
           <div className="flex flex-wrap gap-3">
             {gateways.map((gw) => {
               const isActive = activeGateway === gw.id;
               return (
-                <button key={gw.id} onClick={() => setActiveGateway(gw.id)} className={`flex items-center gap-2.5 px-4 py-2.5 rounded-lg border text-sm font-semibold transition-all duration-200 cursor-pointer ${isActive ? "border-(--text-green-primary) bg-(--text-green-primary)/5 text-slate-800 dark:text-slate-100 shadow-sm" : "border-(--input-border-color) dark:border-(--card-border-color) text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-(--card-border-color) bg-transparent"}`}>
+                <Button key={gw.id} onClick={() => setActiveGateway(gw.id)} className={`flex items-center gap-2.5 px-4 py-2.5 rounded-lg border text-sm font-semibold transition-all duration-200 cursor-pointer ${isActive ? "border-(--text-green-primary) bg-(--text-green-primary)/5 hover:bg-(--text-green-primary)/5 text-slate-800 dark:text-slate-100 shadow-sm" : "border-(--input-border-color) dark:border-(--card-border-color) text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-(--card-border-color) hover:bg-[unset]! bg-transparent"}`}>
                   {gw.icon}
                   <span>{gw.name}</span>
                   {isActive && <span className="ml-1 w-2 h-2 rounded-full bg-(--text-green-primary) inline-block" />}
-                </button>
+                </Button>
               );
             })}
           </div>

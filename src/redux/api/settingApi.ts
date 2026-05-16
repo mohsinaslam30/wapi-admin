@@ -5,6 +5,7 @@ export interface AppSettings {
   _id?: string;
   // General
   app_name: string;
+  app_loader: string;
   app_description: string;
   app_email: string;
   support_email: string;
@@ -91,6 +92,16 @@ export interface AppSettings {
   aws_region: string | null;
   aws_s3_bucket: string | null;
   is_aws_s3_enabled: boolean;
+  connection_method: string[];
+  otp_delivery_method: string;
+  whatsapp_otp_template_id: string | null;
+  whatsapp_otp_variable_mapping: Record<string, string>;
+  is_waba_connected?: boolean;
+  admin_waba_id?: string;
+  admin_waba_mongodb_id?: string;
+  // Facebook Lead Webhook
+  facebook_lead_webhook_url: string | null;
+  facebook_lead_webhook_verify_token: string | null;
 }
 
 export interface TestMailPayload {

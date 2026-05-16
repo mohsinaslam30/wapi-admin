@@ -67,6 +67,14 @@ export const planApi = baseApi.enhanceEndpoints({ addTagTypes: ["Plan"] }).injec
       }),
       invalidatesTags: [{ type: 'Plan', id: 'LIST' }],
     }),
+    
+    syncPlans: builder.mutation<{ success: boolean; message: string }, void>({
+      query: () => ({
+        url: '/plan/sync',
+        method: 'POST',
+      }),
+      invalidatesTags: [{ type: 'Plan', id: 'LIST' }],
+    }),
 
   }),
 });
@@ -77,4 +85,5 @@ export const {
   useCreatePlanMutation,
   useUpdatePlanMutation,
   useDeletePlanMutation,
+  useSyncPlansMutation,
 } = planApi;

@@ -4,20 +4,27 @@ import { useLogoutMutation } from "@/src/redux/api/authApi";
 import { useAppSelector } from "@/src/redux/hooks";
 import { logout } from "@/src/redux/reducers/authSlice";
 import { setRTL } from "@/src/redux/reducers/layoutSlice";
-import { Moon, PilcrowLeft, PilcrowRight, Sun } from "lucide-react";
+import { ROUTES } from "@/src/constants";
+import { Button } from "@/src/elements/ui/button";
+import { ShieldCheck, Moon, PilcrowLeft, PilcrowRight, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import ConfirmModal from "../../../shared/ConfirmModal";
 import LanguageDropdown from "./LanguageDropdown";
-import { ROUTES } from "@/src/constants";
+import { useSwitchToTenant } from "@/src/hooks/useSwitchToTenant";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/elements/ui/tooltip";
+import { useTranslation } from "react-i18next";
 
 const RightHeader = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { theme, setTheme } = useTheme();
   const themeBtnRef = useRef<HTMLButtonElement>(null);
+  const { handleSwitch, isLoading: isSwitching } = useSwitchToTenant();
 
   const [mounted, setMounted] = useState(false);
   const [logoutApi] = useLogoutMutation();
@@ -73,24 +80,47 @@ const RightHeader = () => {
     <div className="flex items-center gap-3">
       <LanguageDropdown />
 
-      <button
+      <Button
         onClick={() => dispatch(setRTL())}
         className="p-2.5 rounded-lg transition-all duration-200
           dark:bg-page-body dark:text-slate-400 dark:hover:text-white dark:hover:bg-(--dark-sidebar)
-          bg-white text-slate-500 hover:text-(--text-green-primary) hover:bg-green-50 shadow-sm dark:border-none"
+          bg-white text-slate-500 hover:text-(--text-green-primary) hover:bg-green-50 shadow-sm border border-slate-100 dark:border-none"
       >
         {!isRTL ? <PilcrowRight className="w-5 h-5" /> : <PilcrowLeft className="w-5 h-5" />}
-      </button>
+      </Button>
 
-      <button
+      {pathname !== ROUTES.Dashboard && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={handleSwitch}
+              disabled={isSwitching}
+              className="p-2.5 rounded-lg transition-all duration-200
+                dark:bg-page-body dark:text-slate-400 dark:hover:text-white dark:hover:bg-(--dark-sidebar)
+                bg-white text-slate-500 hover:text-(--text-green-primary) hover:bg-green-50 shadow-sm border border-slate-100 dark:border-none"
+            >
+              {isSwitching ? (
+                <span className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+              ) : (
+                <ShieldCheck className="w-5 h-5" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" sideOffset={8} className="z-200">
+            <p>{t("admin_self_tenant", { defaultValue: "Admin Self Tenant" })}</p>
+          </TooltipContent>
+        </Tooltip>
+      )}
+
+      <Button
         ref={themeBtnRef}
         onClick={handleThemeToggle}
         className="p-2.5 rounded-lg transition-all duration-200
           dark:bg-page-body dark:text-slate-400 dark:hover:text-white dark:hover:bg-(--dark-sidebar)
-          bg-white text-slate-500 hover:text-(--text-green-primary) hover:bg-green-50 shadow-sm dark:border-none"
+          bg-white text-slate-500 hover:text-(--text-green-primary) hover:bg-green-50 shadow-sm border border-slate-100 dark:border-none"
       >
         {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-      </button>
+      </Button>
 
       <ConfirmModal
         isOpen={showLogoutModal}

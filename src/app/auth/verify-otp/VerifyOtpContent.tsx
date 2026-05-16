@@ -137,7 +137,7 @@ const VerifyOtpContent = () => {
                   onChange={(e) => handleChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
                   onPaste={index === 0 ? handlePaste : undefined}
-                  className="w-full h-full py-[8px] px-0 sm:py-[8px] sm:px-[12px] sm:w-12 sm:h-14 text-center text-xl font-bold border-slate-200 dark:border-[var(--card-border-color)] focus:border-[var(--text-green-primary)] focus:ring-[var(--text-green-primary)] dark:bg-page-body"
+                  className="w-full h-full py-[8px] px-0 sm:py-[8px] sm:px-[12px] sm:w-12 sm:h-12 w-9 h-9 text-center text-xl font-bold border-slate-200 dark:border-[var(--card-border-color)] focus:border-[var(--text-green-primary)] focus:ring-[var(--text-green-primary)] dark:bg-page-body"
                   disabled={isLoading}
                 />
               ))}

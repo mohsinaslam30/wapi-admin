@@ -65,11 +65,11 @@ const FooterForm = ({ data, onChange }: FooterFormProps) => {
           <div className="space-y-4">
             {data.cta_buttons.map((btn, index) => (
               <div key={index} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center group bg-gray-50/50 dark:bg-(--dark-body) p-3 rounded-lg border border-gray-100 dark:border-none shadow-sm transition-all hover:border-primary/20 relative">
-                <Input value={btn.text} onChange={(e) => handleCtaButtonChange(index, "text", e.target.value)} placeholder="Label" className="w-full sm:flex-1 h-10 text-[13px] bg-(--input-color) border-(--input-border-color) dark:border-(--card-border-color) rounded-lg dark:bg-(--page-body-bg) px-4 pr-10 sm:pr-4" />
+                <Input value={btn.text} onChange={(e) => handleCtaButtonChange(index, "text", e.target.value)} placeholder="Label" className="w-full sm:flex-1 h-10 text-[13px] bg-(--input-color) border-(--input-border-color) dark:border-(--card-border-color) rounded-lg dark:bg-page-body px-4 pr-10 sm:pr-4" />
                 <Input value={btn.link} onChange={(e) => handleCtaButtonChange(index, "link", e.target.value)} placeholder="/destination" className="w-full sm:flex-2 h-10 text-[13px] bg-(--input-color) border-(--input-border-color) dark:border-(--card-border-color) rounded-lg dark:bg-(--page-body-bg) px-4" />
-                <button onClick={() => removeCtaButton(index)} className="absolute top-4 right-4 sm:relative sm:top-0 sm:right-0 w-8 h-8 sm:w-10 sm:h-10 shrink-0 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg dark:hover:bg-red-900/20 flex items-center justify-center transition-all bg-white/80 dark:bg-zinc-800/10 sm:bg-transparent shadow-sm sm:shadow-none sm:opacity-0 sm:group-hover:opacity-100">
+                <Button onClick={() => removeCtaButton(index)} className="absolute top-4 right-4 sm:relative sm:top-0 sm:right-0 w-8 h-8 sm:w-10 sm:h-10 shrink-0 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg dark:hover:bg-red-900/20 flex items-center justify-center transition-all bg-white/80 dark:bg-zinc-800/10 sm:bg-transparent shadow-sm sm:shadow-none sm:opacity-0 sm:group-hover:opacity-100">
                   <Trash2 className="w-4 h-4" />
-                </button>
+                </Button>
               </div>
             ))}
             {data.cta_buttons.length === 0 && (
@@ -133,7 +133,7 @@ const FooterForm = ({ data, onChange }: FooterFormProps) => {
 
           <div className="space-y-2.5 flex flex-col">
             <Label className="text-[13px] font-bold text-gray-700 dark:text-gray-300">Copyright Disclaimer</Label>
-            <Input value={data.copy_rights_text} onChange={(e) => handleChange("copy_rights_text", e.target.value)} placeholder="e.g. © 2024 WAPI Global. All rights reserved." className="bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-(--card-border-color) h-12 text-[14px] rounded-lg px-5" />
+            <Input value={data.copy_rights_text} onChange={(e) => handleChange("copy_rights_text", e.target.value)} placeholder="e.g. © 2024 WhatsApp CRM Global. All rights reserved." className="bg-(--input-color) dark:bg-page-body border-(--input-border-color) dark:border-(--card-border-color) h-12 text-[14px] rounded-lg px-5" />
           </div>
         </div>
       </div>

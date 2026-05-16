@@ -24,15 +24,15 @@ export const TemplatePreviewBubble = ({ templateType, headerText, bodyText, foot
     <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 pt-6 bg-[url('/assets/images/1.png')] bg-cover bg-center bg-no-repeat custom-scrollbar">
       <div className="mx-auto w-fit px-2 py-0.5 bg-sky-100/80 rounded text-[9px] uppercase font-bold text-sky-700 shadow-sm border border-sky-200/50 shrink-0 mb-2">{t("templates_library_preview_today")}</div>
 
-      <div className="bg-white dark:bg-(--card-color) rounded-lg shadow-sm overflow-hidden max-w-[95%] border dark:border-(--card-border-color) border-(--input-border-color) shrink-0">
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden max-w-[95%] border border-(--input-border-color) shrink-0">
         {isLimitedTimeOffer && (
-          <div className="bg-white p-3 border-b border-(--input-border-color) dark:bg-(--card-color) dark:border-(--card-border-color)">
+          <div className="bg-white p-3 border-b border-(--input-border-color) ">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-(--dark-body) flex items-center justify-center text-primary shrink-0">
+              <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-primary shrink-0">
                 <Gift size={20} />
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="text-sm font-bold text-slate-900 truncate dark:text-gray-300">{offerText || t("templates_library_marketing_type_limited_time_offer")}</h4>
+                <h4 className="text-sm font-bold text-slate-900 truncate ">{offerText || t("templates_library_marketing_type_limited_time_offer")}</h4>
                 <p className="text-[11px] text-slate-500 dark:text-gray-400">{t("templates_library_preview_offer_ends_soon")}</p>
                 {buttons?.find((b: any) => b.type === "copy_code")?.text && <p className="text-[11px] text-slate-400 mt-0.5 font-medium uppercase tracking-wider">{t("templates_library_preview_code_label", { code: buttons.find((b: any) => b.type === "copy_code").text })}</p>}
               </div>
@@ -40,36 +40,36 @@ export const TemplatePreviewBubble = ({ templateType, headerText, bodyText, foot
           </div>
         )}
         {isCatalog && (
-          <div className="border-b border-(--input-border-color) dark:border-(--card-border-color)">
+          <div className="border-b border-(--input-border-color) ">
             <div className="flex items-center gap-2.5 p-3">
-              <div className="w-10 h-10 rounded-lg bg-(--light-primary) border border-(--input-border-color) dark:bg-(--dark-body) dark:border-none flex items-center justify-center shrink-0 overflow-hidden">
+              <div className="w-10 h-10 rounded-lg bg-(--light-primary) border border-(--input-border-color) flex items-center justify-center shrink-0 overflow-hidden">
                 <ShoppingBag size={22} className="text-primary" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[12px] font-bold text-slate-800 leading-tight truncate dark:text-gray-300">{t("templates_library_preview_catalog_title")}</p>
-                <p className="text-[12px] font-bold text-slate-800 dark:text-gray-300 leading-tight">{t("templates_library_preview_catalog_subtitle")}</p>
-                <p className="text-[10px] text-slate-400 dark:text-gray-300 mt-0.5 leading-snug">{t("templates_library_preview_catalog_desc")}</p>
+                <p className="text-[12px] font-bold text-slate-800 leading-tight truncate ">{t("templates_library_preview_catalog_title")}</p>
+                <p className="text-[12px] font-bold text-slate-800  leading-tight">{t("templates_library_preview_catalog_subtitle")}</p>
+                <p className="text-[10px] text-slate-400  mt-0.5 leading-snug">{t("templates_library_preview_catalog_desc")}</p>
               </div>
             </div>
           </div>
         )}
         {isAuthentication && (
-          <div className="p-3 flex items-center gap-2.5 border-b border-(--input-border-color) dark:border-(--card-border-color) bg-green-50 dark:bg-(--card-color)">
-            <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-(--dark-body) flex items-center justify-center shrink-0">
+          <div className="p-3 flex items-center gap-2.5 border-b border-(--input-border-color) bg-green-50 ">
+            <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
               <ShieldCheck size={15} className="text-primary" />
             </div>
             <div>
-              <p className="text-[12px] font-bold text-slate-800 leading-tight dark:text-gray-400">{t("templates_library_preview_otp_title")}</p>
-              <p className="text-[10px] text-slate-500 dark:text-gray-500">{t("templates_library_preview_otp_subtitle")}</p>
+              <p className="text-[12px] font-bold text-slate-800 leading-tight ">{t("templates_library_preview_otp_title")}</p>
+              <p className="text-[10px] text-slate-500 ">{t("templates_library_preview_otp_subtitle")}</p>
             </div>
           </div>
         )}
         {isCallPermission && (
-          <div className="p-3 flex items-center gap-2.5 border-b border-(--input-border-color) dark:border-(--card-border-color)">
-            <div className="w-8 h-8 rounded-full bg-(--light-primary) dark:bg-(--dark-body) flex items-center justify-center shrink-0">
+          <div className="p-3 flex items-center gap-2.5 border-b border-(--input-border-color) ">
+            <div className="w-8 h-8 rounded-full bg-(--light-primary) flex items-center justify-center shrink-0">
               <Phone size={15} className="text-primary" />
             </div>
-            <p className="text-[12px] font-bold text-slate-800 dark:text-gray-300">{t("templates_library_preview_call_permission_title")}</p>
+            <p className="text-[12px] font-bold text-slate-800">{t("templates_library_preview_call_permission_title")}</p>
           </div>
         )}
         {!isSpecial && (fileUrl || templateType === "location") && templateType !== "text" && templateType !== "none" && (
@@ -91,12 +91,12 @@ export const TemplatePreviewBubble = ({ templateType, headerText, bodyText, foot
             </div>
           </div>
         )}
-        {!isSpecial && headerText && <div className="p-3 font-bold text-sm text-slate-900 dark:text-gray-300 border-b dark:border-(--card-border-color) border-(--input-border-color) wrap-break-word">{headerText}</div>}
+        {!isSpecial && headerText && <div className="p-3 font-bold text-sm text-slate-900 border-b border-(--input-border-color) wrap-break-word">{headerText}</div>}
 
         <div className="p-3 space-y-2">
-          <div className="text-sm text-slate-800 leading-relaxed dark:text-gray-400 whitespace-pre-wrap wrap-break-word">{bodyText}</div>
-          {isAuthentication && authData?.add_security_recommendation && <div className="text-[11px] text-slate-500 italic dark:text-gray-400">{t("templates_library_preview_security_recommendation")}</div>}
-          {isAuthentication && authData?.code_expiration_minutes && <div className="text-[11px] text-slate-400 dark:text-gray-400">⏱ {t("templates_library_auth_expiry_hint_preview", { minutes: authData.code_expiration_minutes, defaultValue: `Code expires in ${authData.code_expiration_minutes} minutes.` })}</div>}
+          <div className="text-sm text-slate-800 leading-relaxed whitespace-pre-wrap wrap-break-word">{bodyText}</div>
+          {isAuthentication && authData?.add_security_recommendation && <div className="text-[11px] text-slate-500 italic ">{t("templates_library_preview_security_recommendation")}</div>}
+          {isAuthentication && authData?.code_expiration_minutes && <div className="text-[11px] text-slate-400 ">⏱ {t("templates_library_auth_expiry_hint_preview", { minutes: authData.code_expiration_minutes, defaultValue: `Code expires in ${authData.code_expiration_minutes} minutes.` })}</div>}
           {!isSpecial && footerText && <div className="text-[11px] text-slate-400 font-medium">{footerText}</div>}
           {isAuthentication && footerText && <div className="text-[11px] text-slate-400 font-medium">{footerText}</div>}
           <div className="text-[10px] text-slate-400 text-right mt-1">{t("templates_library_preview_static_time")}</div>
@@ -116,7 +116,7 @@ export const TemplatePreviewBubble = ({ templateType, headerText, bodyText, foot
           </div>
         )}
         {isAuthentication && (
-          <div className="border-t border-(--input-border-color) dark:bg-(--card-color) bg-white/50 dark:border-(--card-border-color)">
+          <div className="border-t border-(--input-border-color) bg-white/50">
             <div className="w-full py-2.5 px-4 text-[12px] font-bold text-sky-500 flex items-center justify-center gap-1.5">
               <Copy size={12} />
               {authData?.otp_buttons?.[0]?.copy_button_text || "Copy Code"}
@@ -124,7 +124,7 @@ export const TemplatePreviewBubble = ({ templateType, headerText, bodyText, foot
           </div>
         )}
         {isCatalog && (
-          <div className="border-t border-(--input-border-color) dark:bg-(--card-color) bg-white/50 dark:border-(--card-border-color)">
+          <div className="border-t border-(--input-border-color) bg-white/50">
             <div className="w-full py-2.5 px-4 text-[12px] font-bold text-sky-500 flex items-center justify-center gap-1.5">
               <BookOpen size={12} />
               {buttons?.find((b: any) => b.type === "catalog")?.text || "View catalog"}
@@ -132,7 +132,7 @@ export const TemplatePreviewBubble = ({ templateType, headerText, bodyText, foot
           </div>
         )}
         {isCallPermission && (
-          <div className="border-t border-(--input-border-color) bg-white/50 dark:bg-(--card-color) dark:border-(--card-border-color)">
+          <div className="border-t border-(--input-border-color) bg-white/50 ">
             <div className="w-full py-2.5 px-4 text-[12px] font-bold text-sky-500 flex items-center justify-center gap-1.5">
               {t("templates_library_preview_choose_preference", { defaultValue: "Choose preference" })}
               <svg viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3">
@@ -146,12 +146,12 @@ export const TemplatePreviewBubble = ({ templateType, headerText, bodyText, foot
       {isCarouselProduct && productCards.length > 0 && (
         <div {...productScroll} className="mt-2 flex gap-2 overflow-x-auto custom-scrollbar pb-1 max-w-[95%] cursor-grab active:cursor-grabbing select-none">
           {productCards.map((card: any, idx: number) => (
-            <div key={card.id || idx} className="shrink-0 w-full bg-white dark:bg-(--card-color) rounded-lg shadow-sm border border-(--input-border-color) overflow-hidden pointer-events-none">
-              <div className="h-40 bg-slate-100 dark:bg-(--card-color) flex items-center justify-center">
+            <div key={card.id || idx} className="shrink-0 w-full bg-white rounded-lg shadow-sm border border-(--input-border-color) overflow-hidden pointer-events-none">
+              <div className="h-40 bg-slate-100  flex items-center justify-center">
                 <ShoppingBag size={24} className="text-slate-300" />
               </div>
               <div className="p-2 space-y-1.5">
-                <p className="text-[11px] font-medium text-slate-700 truncate dark:text-gray-300">Product {idx + 1}</p>
+                <p className="text-[11px] font-medium text-slate-700 truncate ">Product {idx + 1}</p>
                 <div className="w-full py-2 text-[10px] font-bold text-sky-500 text-center dark:border-(--card-border-color) border-t border-(--input-border-color)">{card.button_text || "View"}</div>
               </div>
             </div>
@@ -164,9 +164,9 @@ export const TemplatePreviewBubble = ({ templateType, headerText, bodyText, foot
           {mediaCards.map((card: any, idx: number) => {
             const cardUrl = card.file ? URL.createObjectURL(card.file) : card.media_url || null;
             return (
-              <div key={card.id || idx} className="shrink-0 w-full bg-white rounded-lg shadow-sm border border-(--input-border-color) overflow-hidden pointer-events-none dark:bg-(--card-color)">
-                <div className="h-40 bg-slate-100 dark:text-gray-300 dark:bg-(--card-color) flex items-center justify-center overflow-hidden relative">{cardUrl ? <Image src={cardUrl} alt="Card" className="w-full h-full object-cover" width={144} height={80} unoptimized /> : <ImageIcon size={20} className="text-slate-300" />}</div>
-                <div className="p-2 text-[11px] text-slate-600 leading-snug line-clamp-2 dark:text-gray-300">{card.body_text || "No body text yet"}</div>
+              <div key={card.id || idx} className="shrink-0 w-full bg-white rounded-lg shadow-sm border border-(--input-border-color) overflow-hidden pointer-events-none">
+                <div className="h-40 bg-slate-100  flex items-center justify-center overflow-hidden relative">{cardUrl ? <Image src={cardUrl} alt="Card" className="w-full h-full object-cover" width={144} height={80} unoptimized /> : <ImageIcon size={20} className="text-slate-300" />}</div>
+                <div className="p-2 text-[11px] text-slate-600 leading-snug line-clamp-2 ">{card.body_text || "No body text yet"}</div>
                 {(card.buttonValues || []).length > 0 && (
                   <div className="border-t border-(--input-border-color)">
                     {(card.buttonValues || []).map((btn: any, bIdx: number) => (

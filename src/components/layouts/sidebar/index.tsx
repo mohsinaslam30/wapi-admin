@@ -26,6 +26,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/src/elements/ui/toolt
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { Button } from "@/src/elements/ui/button";
 
 const NavItem: React.FC<NavItemProps> = ({
   icon,
@@ -41,15 +42,15 @@ const NavItem: React.FC<NavItemProps> = ({
   const isLeafNode = !hasSubmenu;
 
   const activeClasses = isLeafNode
-    ? "bg-gradient-to-r from-(--text-green-primary) to-sidebar-hover-green text-white shadow-lg shadow-(--text-green-primary)/25"
-    : "bg-green-50 dark:bg-sidebar-hover-green/50 text-(--text-green-primary)";
+    ? "bg-gradient-to-r from-(--text-green-primary) to-sidebar-hover-green text-white h-[44px] shadow-lg shadow-(--text-green-primary)/25"
+    : "bg-green-50  h-[44px] hover:bg-green-50! shadow-unset dark:hover:bg-sidebar-hover-green/50! dark:bg-sidebar-hover-green/50 text-(--text-green-primary)";
 
   const inactiveClasses =
-    "hover:bg-slate-100 dark:hover:bg-sidebar-hover-green/30 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
+    "hover:bg-slate-100 bg-[unset]! dark:hover:bg-sidebar-hover-green/30 text-slate-500 dark:text-slate-400 shadow-[unset] hover:text-slate-900 dark:hover:text-slate-200";
 
   return (
     <div className="group/navitem">
-      <button
+      <Button
         onClick={onClick}
         className={`
           w-full flex items-center justify-between transition-all duration-200 relative overflow-hidden rounded-lg
@@ -77,7 +78,7 @@ const NavItem: React.FC<NavItemProps> = ({
             className={`w-4 h-4 transition-transform duration-200 relative z-10 ${isSubmenuOpen ? "rotate-180" : ""}`}
           />
         )}
-      </button>
+      </Button>
     </div>
   );
 };
@@ -86,18 +87,18 @@ const SubNavItem: React.FC<SubNavItemProps> = ({ label, active, onClick }) => {
   const { t } = useTranslation();
 
   return (
-    <button
+    <Button
       onClick={onClick}
       className={`
-        w-full flex items-center gap-3 p-2.5 rounded-lg text-sm transition-all mb-1
-        ${active ? "bg-linear-to-r from-(--text-green-primary) to-sidebar-hover-green text-white shadow-md shadow-(--text-green-primary)/20 font-medium" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-sidebar-hover-green/30"}
+        w-full justify-start flex items-center gap-3 p-2.5 rounded-lg text-sm transition-all mb-1
+        ${active ? "bg-linear-to-r from-(--text-green-primary) to-sidebar-hover-green text-white h-[40px] shadow-md shadow-(--text-green-primary)/20 font-medium" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 bg-[unset] shadow-[unset] dark:hover:bg-sidebar-hover-green/30"}
       `}
     >
       <div
         className={`w-1.5 h-1.5 rounded-full shrink-0 ${active ? "bg-white" : "bg-slate-300 dark:bg-(--dark-sidebar)"}`}
       />
       <span className="truncate text-start">{t(label)}</span>
-    </button>
+    </Button>
   );
 };
 
@@ -340,7 +341,7 @@ export default function Sidebar() {
     <>
       {isMobile && isMobileSidebarOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/40 dark:bg-(--dark-body) z-[160] transition-opacity animate-in fade-in"
+          className="fixed inset-0 bg-black/40 dark:bg-black/60 z-[160] transition-opacity animate-in fade-in"
           onClick={() => dispatch(closeMobileSidebar())}
         />
       )}
@@ -383,12 +384,12 @@ export default function Sidebar() {
                 </div>
 
                 {isMobile && (
-                  <button
-                    className="text-slate-400 hover:text-red-500 transition-colors"
+                  <Button
+                    className="text-slate-400 bg-[unset]! p-2! hover:bg-red-500/10 dark:hover:bg-red-900/20 shadow-none hover:text-red-500 transition-colors"
                     onClick={() => dispatch(closeMobileSidebar())}
                   >
                     <X size={20} />
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>
@@ -540,7 +541,7 @@ export default function Sidebar() {
               ) : (
                 <div
                   onClick={() => handleNavigation("/manage_profile")}
-                  className="p-3 rounded-lg flex items-center gap-3 transition-all duration-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-sidebar-hover-green/30"
+                  className="p-3 rounded-lg flex items-center gap-3 transition-all duration-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-(--table-hover)"
                 >
                   <div
                     className="w-10 h-10 shrink-0 rounded-lg bg-linear-to-tr from-(--text-green-primary) to-sidebar-hover-green flex items-center justify-center text-white font-bold border border-white dark:border-(--card-border-color) shadow-sm"
@@ -555,15 +556,15 @@ export default function Sidebar() {
                       {user?.user?.email || "Super Admin"}
                     </p>
                   </div>
-                  <button
+                  <Button
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowLogoutModal(true);
                     }}
-                    className="p-2 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors text-slate-400 dark:hover:bg-red-900/20"
+                    className="p-2! shadow-unset hover:bg-red-50 hover:text-red-500 rounded-lg bg-[unset]! transition-colors text-slate-400 dark:hover:bg-red-900/20"
                   >
                     <LogOut className="w-5 h-5" />
-                  </button>
+                  </Button>
                 </div>
               )}
             </div>

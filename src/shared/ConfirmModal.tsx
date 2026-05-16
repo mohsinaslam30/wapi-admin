@@ -76,10 +76,10 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={!isLoading ? onClose : undefined}>
-      <AlertDialogContent className="sm:max-w-md max-w-[calc(100%-2rem)] rounded-lg">
+      <AlertDialogContent className="sm:max-w-md max-w-[calc(100%-2rem)] rounded-lg sm:p-6 p-4">
         <AlertDialogHeader className="text-center space-y-4 relative">
           {showIcon && (
-            <div className="flex justify-center absolute -top-14.25 left-[42%]">
+            <div className="flex justify-center absolute -top-14.25 sm:left-[42%] left-[37%]">
               <div className={`${config.iconBgColor} rounded-full p-3 w-16 h-16 flex items-center justify-center`}>
                 <IconComponent className={`${config.iconColor} w-12 h-12`} />
               </div>

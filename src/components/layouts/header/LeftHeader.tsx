@@ -6,6 +6,7 @@ import {
   SubMenuItem,
 } from "@/src/data/sidebarList";
 import { Button } from "@/src/elements/ui/button";
+import { Input } from "@/src/elements/ui/input";
 import { Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -146,7 +147,7 @@ const LeftHeader = () => {
     >
       <div className="relative w-full">
         <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10" />
-        <input
+        <Input
           ref={inputRef}
           type="text"
           placeholder={t("common_search_placeholder")}
@@ -163,12 +164,12 @@ const LeftHeader = () => {
             `}
         />
         {searchQuery && (
-          <button
+          <Button
             onClick={handleClose}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-500 transition-colors"
           >
             <X size={14} />
-          </button>
+          </Button>
         )}
       </div>
 

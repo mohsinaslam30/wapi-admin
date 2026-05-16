@@ -119,9 +119,9 @@ const FaqForm = ({ data, onChange }: FaqFormProps) => {
                     </div>
                     <span className="text-[14px] md:text-[15px] font-bold text-gray-800 dark:text-gray-200 truncate">{faq.title}</span>
                   </div>
-                  <button onClick={() => toggleFaq(faq._id)} className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-all duration-300 md:opacity-0 group-hover:opacity-100 absolute right-3 md:relative md:right-0 bg-white/80 dark:bg-zinc-800/10 md:bg-transparent shadow-sm md:shadow-none">
+                  <Button onClick={() => toggleFaq(faq._id)} className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-all duration-300 md:opacity-0 group-hover:opacity-100 absolute right-3 md:relative md:right-0 bg-white/80 dark:bg-zinc-800/10 md:bg-transparent shadow-sm md:shadow-none">
                     <X className="w-4 h-4 md:w-5 md:h-5 text-red-500" />
-                  </button>
+                  </Button>
                 </div>
               ))}
 

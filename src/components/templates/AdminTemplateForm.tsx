@@ -17,6 +17,7 @@ import { INTERACTIVE_ACTIONS, TEMPLATE_TYPES } from "@/src/data/templates";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/src/elements/ui/dialog";
+import { Button } from "@/src/elements/ui/button";
 
 export const AdminTemplateForm = ({ templateId }: AdminTemplateFormProps) => {
   const { t } = useTranslation();
@@ -30,9 +31,9 @@ export const AdminTemplateForm = ({ templateId }: AdminTemplateFormProps) => {
       {/* Top Header Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 sm:px-6 py-4 rounded-lg border-b border-slate-200 dark:border-(--card-border-color) bg-white dark:bg-(--card-color) sticky top-0 z-30 gap-4 sm:gap-0">
         <div className="flex items-center gap-2 sm:gap-4">
-          <button type="button" onClick={() => router.back()} className="p-2 hover:bg-slate-100 dark:hover:bg-(--table-hover) rounded-lg transition-colors text-slate-500">
+          <Button type="button" onClick={() => router.back()} className="p-2! bg-[unset]! hover:bg-slate-100 dark:hover:bg-(--table-hover) rounded-lg transition-colors text-slate-500">
             <ArrowLeft size={20} />
-          </button>
+          </Button>
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-(--light-primary) dark:bg-primary/20 flex items-center justify-center text-primary">
               <LayoutTemplate size={16} className="text-primary" />
@@ -45,19 +46,19 @@ export const AdminTemplateForm = ({ templateId }: AdminTemplateFormProps) => {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto flex-col sm:flex-row">
-          <button type="button" onClick={() => setIsPreviewOpen(true)} className="lg:hidden flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 dark:border-(--card-border-color) text-slate-600 dark:text-slate-300 rounded-lg text-sm font-bold transition-all hover:bg-slate-50 dark:hover:bg-(--table-hover)">
+          <Button type="button" onClick={() => setIsPreviewOpen(true)} className="lg:hidden flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 border h-[44px] border-slate-200 dark:border-(--card-border-color) text-white rounded-lg text-sm font-bold transition-all hover:bg-slate-50 dark:hover:bg-(--table-hover)">
             <Eye size={16} />
             <span>{t("templates_library_live_preview")}</span>
-          </button>
-          <button type="submit" disabled={isCreating} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 h-11 py-2.5 bg-primary hover:bg-primary disabled:opacity-60 text-white rounded-lg text-sm font-bold transition-all shadow-sm shadow-primary/30">
+          </Button>
+          <Button type="submit" disabled={isCreating} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 h-11 py-2.5 bg-primary hover:bg-primary disabled:opacity-60 text-white rounded-lg text-sm font-bold transition-all shadow-sm shadow-primary/30">
             {isCreating ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
             {isCreating ? t("templates_library_saving") : t("templates_library_save_template")}
-          </button>
+          </Button>
         </div>
       </div>
 
       <div className="flex flex-1 flex-col lg:flex-row gap-6 py-4 sm:py-6 overflow-y-auto min-h-0 custom-scrollbar">
-        <div className="flex-1 space-y-10 min-w-0 pb-20">
+        <div className="flex-1 space-y-10 min-w-0 ">
           <BasicInfoSection
             key={isInitialized ? "initialized" : "initial"}
             language={formData.language}
