@@ -1,0 +1,172 @@
+]633;E;echo "Read the README.txt first to understand how to use changelog.txt and/or changed-files";95f79e52-e02f-44cc-aad1-81e50230d580]633;CRead the README.txt first to understand how to use changelog.txt and/or changed-files
+
+M = modified ( replace file in your project )
+A = added    ( add     file in your project )
+D = deleted  ( delete  file in your project )
+R = renamed  ( rename  file in your project )
+
+37 Added | 5 Deleted | 105 Modified | 16 Renamed
+---
+M	package.json
+M	src/app/(mainBody)/ai_intelligence/create/page.tsx
+M	src/app/(mainBody)/ai_intelligence/edit/[modelName]/page.tsx
+M	src/app/(mainBody)/customer_inquiries/page.tsx
+M	src/app/(mainBody)/dashboard/page.tsx
+M	src/app/(mainBody)/faq_management/add/page.tsx
+M	src/app/(mainBody)/manage_profile/page.tsx
+M	src/app/(mainBody)/page_management/add/page.tsx
+M	src/app/(mainBody)/page_management/edit/[id]/page.tsx
+M	src/app/(mainBody)/page_management/page.tsx
+M	src/app/(mainBody)/payment_history/page.tsx
+M	src/app/(mainBody)/permissions_control/add/page.tsx
+M	src/app/(mainBody)/permissions_control/edit/[id]/page.tsx
+M	src/app/(mainBody)/tax_configuration/edit/[id]/page.tsx
+M	src/app/(mainBody)/template_management/[id]/edit/page.tsx
+M	src/app/(mainBody)/testimonial_management/edit/[id]/page.tsx
+M	src/app/ThemeProvider.tsx
+M	src/app/auth/forgot-password/page.tsx
+M	src/app/auth/reset-password/page.tsx
+M	src/app/auth/restore-session/page.tsx
+M	src/app/auth/verify-otp/page.tsx
+M	src/app/page/[slug]/page.tsx
+A	src/components/ai_models/CreateAIModel.tsx
+A	src/components/ai_models/EditAIModel.tsx
+R100	src/components/ai_models/AIModelForm.tsx	src/components/ai_models/components/AIModelForm.tsx
+R099	src/components/ai_models/AIModelsList.tsx	src/components/ai_models/components/AIModelsList.tsx
+R100	src/components/ai_models/TestModelModal.tsx	src/components/ai_models/components/TestModelModal.tsx
+M	src/components/ai_models/index.tsx
+A	src/components/auth/ForgotPassword.tsx
+M	src/components/auth/LoginForm.tsx
+R098	src/app/auth/reset-password/ResetPasswordContent.tsx	src/components/auth/ResetPassword.tsx
+A	src/components/auth/RestoreSession.tsx
+R099	src/app/auth/verify-otp/VerifyOtpContent.tsx	src/components/auth/VerifyOtp.tsx
+M	src/components/auth/common/DynamicLogo.tsx
+D	src/components/auth_page_setup/AuthPageForms.tsx
+M	src/components/auth_page_setup/AuthPageSetupContainer.tsx
+A	src/components/auth_page_setup/components/ForgotPasswordPageForm.tsx
+A	src/components/auth_page_setup/components/LoginPageForm.tsx
+A	src/components/auth_page_setup/components/OtpPageForm.tsx
+A	src/components/auth_page_setup/components/RegisterPageForm.tsx
+A	src/components/auth_page_setup/components/ResetPasswordPageForm.tsx
+A	src/components/auth_page_setup/components/SidePanelForm.tsx
+A	src/components/auth_page_setup/components/index.ts
+M	src/components/currencies/CurrencyForm.tsx
+M	src/components/currencies/CurrencyList.tsx
+M	src/components/currencies/index.tsx
+M	src/components/dashboard/AdminStatCards.tsx
+D	src/components/dashboard/AdminTables.tsx
+M	src/components/dashboard/DashboardDateFilter.tsx
+A	src/components/dashboard/adminCharts/PlanRevenueChart.tsx
+R056	src/components/dashboard/AdminCharts.tsx	src/components/dashboard/adminCharts/RevenueTimelineChart.tsx
+A	src/components/dashboard/adminCharts/index.ts
+A	src/components/dashboard/adminTables/InquiriesTable.tsx
+A	src/components/dashboard/adminTables/NewUsersTable.tsx
+A	src/components/dashboard/adminTables/SubscriptionsTable.tsx
+A	src/components/dashboard/adminTables/index.ts
+M	src/components/dashboard/index.tsx
+M	src/components/email_templates/EmailTemplateHeader.tsx
+M	src/components/email_templates/EmailTemplateList.tsx
+M	src/components/email_templates/edit/EmailPreview.tsx
+M	src/components/email_templates/edit/EmailTemplateEditContainer.tsx
+M	src/components/email_templates/edit/EmailTemplateForm.tsx
+M	src/components/faq/AddFaqPage.tsx
+M	src/components/faq/FilterModal.tsx
+M	src/components/inquiry/index.tsx
+M	src/components/landing_page/LandingPageContainer.tsx
+M	src/components/landing_page/sections/BrandingForm.tsx
+M	src/components/landing_page/sections/ColorConfigForm.tsx
+M	src/components/landing_page/sections/ContactForm.tsx
+M	src/components/landing_page/sections/FaqForm.tsx
+M	src/components/landing_page/sections/FeaturesForm.tsx
+M	src/components/landing_page/sections/FooterForm.tsx
+M	src/components/landing_page/sections/HeaderForm.tsx
+D	src/components/landing_page/sections/HeaderFormConstants.ts
+M	src/components/landing_page/sections/HeaderFormUtils.ts
+M	src/components/landing_page/sections/HeroForm.tsx
+M	src/components/landing_page/sections/MenuEditSettings.tsx
+M	src/components/landing_page/sections/PlatformForm.tsx
+M	src/components/landing_page/sections/PricingForm.tsx
+M	src/components/landing_page/sections/TestimonialsForm.tsx
+M	src/components/landing_page/shared/ImageSelector.tsx
+M	src/components/landing_page/shared/MediaUploadModal.tsx
+M	src/components/languages/AddLanguagePage.tsx
+M	src/components/languages/LanguageList.tsx
+M	src/components/languages/TranslationManagement.tsx
+M	src/components/languages/index.tsx
+M	src/components/layouts/header/LeftHeader.tsx
+M	src/components/manage_user/AddUserPage.tsx
+M	src/components/manage_user/AssignPlanModal.tsx
+M	src/components/manage_user/OverrideLimitsModal.tsx
+M	src/components/manage_user/UserList.tsx
+A	src/components/pages/AddPage.tsx
+A	src/components/pages/EditPage.tsx
+D	src/components/pages/PageList.tsx
+R053	src/components/pages/FilterModal.tsx	src/components/pages/components/FilterModal.tsx
+R070	src/components/pages/PageForm.tsx	src/components/pages/components/PageForm.tsx
+A	src/components/pages/components/PageList.tsx
+R083	src/components/pages/PublicPage.tsx	src/components/pages/components/PublicPage.tsx
+R098	src/components/pages/index.tsx	src/components/pages/components/index.tsx
+M	src/components/pages/forms/ChannelPageDynamicForm.tsx
+M	src/components/pages/forms/MetaImageForm.tsx
+M	src/components/pages/forms/PageContentForm.tsx
+M	src/components/pages/forms/PageMediaUploadField.tsx
+M	src/components/pages/forms/SEOSettingsForm.tsx
+M	src/components/pages/forms/VisibilitySettingsForm.tsx
+M	src/components/pages/forms/sections/AICallingForm.tsx
+M	src/components/pages/forms/sections/AppointmentBookingForm.tsx
+M	src/components/pages/forms/sections/AutomationForm.tsx
+M	src/components/pages/forms/sections/BroadcastBulkMessagesForm.tsx
+M	src/components/pages/forms/sections/CatalogForm.tsx
+M	src/components/pages/forms/sections/CtwaForm.tsx
+M	src/components/pages/forms/sections/FacebookForm.tsx
+M	src/components/pages/forms/sections/InstagramForm.tsx
+M	src/components/pages/forms/sections/SharedInboxForm.tsx
+M	src/components/pages/forms/sections/TelegramForm.tsx
+M	src/components/pages/forms/sections/WhatsAppForm.tsx
+M	src/components/pages/forms/sections/WhatsAppFormsForm.tsx
+D	src/components/pages/forms/sections/types.ts
+A	src/components/profile/ManageProfile.tsx
+R100	src/components/profile/ChangePasswordForm.tsx	src/components/profile/components/ChangePasswordForm.tsx
+R099	src/components/profile/ProfileForm.tsx	src/components/profile/components/ProfileForm.tsx
+M	src/components/providers/DynamicSettingsProvider.tsx
+A	src/components/roles/AddRole.tsx
+A	src/components/roles/EditRole.tsx
+R100	src/components/roles/PermissionPicker.tsx	src/components/roles/components/PermissionPicker.tsx
+R100	src/components/roles/RoleForm.tsx	src/components/roles/components/RoleForm.tsx
+R100	src/components/roles/RoleHeader.tsx	src/components/roles/components/RoleHeader.tsx
+R099	src/components/roles/RoleList.tsx	src/components/roles/components/RoleList.tsx
+M	src/components/roles/index.tsx
+M	src/components/setting/tabs/WidgetSettings.tsx
+M	src/components/subscription_plans/SubscriptionPlansTable.tsx
+M	src/components/templates/AdminTemplateForm.tsx
+M	src/components/templates/form/sections/BasicInfoSection.tsx
+A	src/data/authPageSetup.ts
+A	src/data/currencies.tsx
+A	src/data/dashboard.ts
+A	src/data/faq.ts
+A	src/data/landingPage.ts
+A	src/data/language.ts
+A	src/data/user.ts
+M	src/redux/api/currencyApi.ts
+M	src/redux/api/languageApi.ts
+M	src/redux/api/pageApi.ts
+M	src/shared/CkEditorInner.tsx
+M	src/shared/DataTable.tsx
+M	src/types/auth.ts
+M	src/types/authPageSetup.ts
+A	src/types/currencies.ts
+M	src/types/dashboard.ts
+M	src/types/emailTemplate.ts
+A	src/types/faq.ts
+M	src/types/landingPage.ts
+M	src/types/landingPageForms.ts
+A	src/types/language.ts
+M	src/types/layout.ts
+A	src/types/pageManagement.ts
+A	src/types/pages.ts
+M	src/types/store.ts
+A	src/types/taxConfiguration.ts
+M	src/types/template.ts
+A	src/types/theme.ts
+M	src/types/user.ts
+M	src/utils/image.ts
